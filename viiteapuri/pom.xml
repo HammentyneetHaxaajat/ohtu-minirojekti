@@ -15,7 +15,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         
@@ -61,14 +61,14 @@
                         <totalLineRate>85</totalLineRate>
                         <packageLineRate>85</packageLineRate>
                         <packageBranchRate>85</packageBranchRate>
-                        <regexes>
-                            <!--Esimerkki:-->
-                            <!--<regex>
+<!--                        <regexes>
+                            Esimerkki:
+                            <regex>
                                 <pattern>com.example.reallyimportant.*</pattern>
                                 <branchRate>90</branchRate>
                                 <lineRate>80</lineRate>                          
-                            </regex>-->
-                        </regexes>
+                            </regex>
+                        </regexes>-->
                     </check>
                 </configuration>
                 <executions>
@@ -76,7 +76,7 @@
                         <goals>
                             <goal>clean</goal>
                             <!--Poista kommentti rivitarkastuksen automatisoimiseen-->
-                            <!--<goal>check</goal>-->
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
