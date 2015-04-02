@@ -1,0 +1,109 @@
+public Enum Tyyppi {
+    private Set<String> pakolliset;
+    private Set<String> valinnaiset;
+
+    private Tyyppi () {
+
+    }
+}
+
+public class Viite {
+
+    private Tyyppi tyyppi;
+    private String nimi;
+    private HashMap<String, String> attribuutit;
+
+    public Viite (Tyyppi tyyppi) {
+        this.tyyppi = tyyppi;
+        this.attribuutit = new HashMap<>();
+    }
+
+    public void setNimi (String nimi) {
+        this.nimi = nimi;
+    }
+    
+    public void set (String avain, String arvo) {
+        this.attribuutit.put(avain, new Attribuutti(avain, arvo));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(@ + tyyppi + “{“ + this.nimi + “,\n”);
+        
+
+        for (Attribuutti attr: this.attribuutit.values()) {
+            builder.append(attr);
+        }
+
+        return builder.toString() + ‘}’;
+    }
+
+}
+
+public class Attribuutti {
+    private String avain;
+    private String arvo;
+
+    public Attribuutti (String avain, String arvo) {
+        this.avain = avain;
+        this.arvo = arvo;
+}
+
+    @Override
+    public String toString() {
+        return avain + “ = {“ + arvo + “},\n”;
+}
+}
+
+
+public class ViiteValidaattori {
+    private Tyyppi tyyppi;
+
+    public ViiteValidaattori (Tyyppi tyyppi) {
+        this.tyyppi = tyyppi;
+    }
+    
+    public boolean validoi (String nimi, String arvo) {
+    
+    }
+}
+
+public class ViitteenLuoja {
+
+
+    public Viite luoViite() {
+
+        System.out.print(“Syötä tyypin nimi’: “);
+
+        Tyyppi tyyppi;
+        if else if else if…    // tyypin asettaminen
+
+        Viite viite = new Viite (tyyppi);
+        System.out.print(“Syötä viitteelle nimi’: “);
+        / … /
+
+        for (int i = 0; i < viitteen_attribuuttien_lkm; i++) {
+            // palautaSeuraavaArvoIndeksin_i_perusteella
+        }
+    }
+
+
+public String seuraavaArvo (Tyyppi tyyppi, String nimi) {
+
+        ViiteValidaattori daattori = new ViiteValidaattori(tyyppi);
+    
+while (true) {
+            System.out.print(“Syötä arvo ‘authorille’: “);        // kysele
+            String arvo = scanner.nextLine();
+
+daattori.validoi(“author”, arvo);
+return arvo;
+            
+catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+}
+}
+
