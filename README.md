@@ -2,7 +2,7 @@
 
 ##Linkit
 
-[Definiton of Done] (https://github.com/HammentyneetHaxaajat/ohtu-minirojekti/blob/master/dokumentaatio/Dokumentaatio.pdf)
+[Definiton of Done] (https://github.com/HammentyneetHaxaajat/ohtu-minirojekti/blob/master/dokumentaatio/Dokumentaatio.pdf)<sup>PDF</sup>
 
 [Backlog] (https://waffle.io/HammentyneetHaxaajat/ohtu-minirojekti)
 

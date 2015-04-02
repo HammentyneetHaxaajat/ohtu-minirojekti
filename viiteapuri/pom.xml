@@ -61,14 +61,14 @@
                         <totalLineRate>85</totalLineRate>
                         <packageLineRate>85</packageLineRate>
                         <packageBranchRate>85</packageBranchRate>
-<!--                        <regexes>
-                            Esimerkki:
+                        <regexes>
+<!--                            Esimerkki:
                             <regex>
                                 <pattern>com.example.reallyimportant.*</pattern>
                                 <branchRate>90</branchRate>
                                 <lineRate>80</lineRate>                          
-                            </regex>
-                        </regexes>-->
+                            </regex>-->
+                        </regexes>
                     </check>
                 </configuration>
                 <executions>
@@ -76,7 +76,7 @@
                         <goals>
                             <goal>clean</goal>
                             <!--Poista kommentti rivitarkastuksen automatisoimiseen-->
-                            <goal>check</goal>
+<!--                            <goal>check</goal>-->
                         </goals>
                     </execution>
                 </executions>
