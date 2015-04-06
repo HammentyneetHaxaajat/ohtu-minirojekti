@@ -59,7 +59,7 @@ public class Viite {
      * @return
      */
     public String listaus() {
-        return attribuutit.values().stream().map(a -> a.getTyyppi().name() + ": " + a.getArvo()).collect(Collectors.joining("\n", "nimi: " + this.nimi + "\tyyppi: " + this.tyyppi.name() + "\n", "\n"));
+        return attribuutit.values().stream().map(a -> a.getTyyppi().name() + ": " + a.getArvo()).collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
     }
 
     /**

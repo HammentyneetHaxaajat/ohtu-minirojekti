@@ -34,7 +34,7 @@ public class ViiteKasittelija {
     }
     
     public String viitteetListauksena(){
-        return viitteet.values().stream().map(s -> s.listaus()).collect(Collectors.joining("\n"));
+        return viitteet.values().stream().map(s -> s.listaus()).collect(Collectors.joining("----------------------------------------\n", "--------------------Listataan viitteet--------------------\n", "--------------------END--------------------\n"));
     }
 
 }

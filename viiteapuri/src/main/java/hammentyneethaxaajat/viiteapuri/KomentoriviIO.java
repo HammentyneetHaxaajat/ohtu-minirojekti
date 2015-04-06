@@ -17,16 +17,6 @@ public class KomentoriviIO implements IO {
     }
 
     /**
-     * Tulostaa parametrina saadun Stringin komentoriville.
-     *
-     * @param teksti Tulostettava teksti.
-     */
-    @Override
-    public void tulosta(String teksti) {
-        System.out.print(teksti);
-    }
-
-    /**
      * Palauttaa seuraavan komentoriville syötettävän rivin.
      *
      * @return Komentoriville syötetty rivi.
@@ -37,7 +27,7 @@ public class KomentoriviIO implements IO {
     }
 
     @Override
-    public void tulostaRivi(String teksti) {
-        System.out.println(teksti);
+    public void tulosta(String teksti) {
+        System.out.print(teksti);
     }
 }
