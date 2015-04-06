@@ -10,7 +10,15 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+//        Parametritettu muoto, jos sellaisesta tykkää...
+//        ViiteKasittelija vk = new ViiteKasittelija();
+//        Validaattori v = new Validaattori();
+//        IO io = new KomentoriviIO();
+//        new Tekstikayttoliittyma(vk, v, io).run();
+        
+        
+        new Tekstikayttoliittyma().run();
     }
-    
+
 }
