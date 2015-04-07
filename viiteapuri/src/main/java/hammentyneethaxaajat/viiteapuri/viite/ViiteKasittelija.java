@@ -1,5 +1,6 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.viite;
 
+import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;

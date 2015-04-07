@@ -1,5 +1,8 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.validaattori;
 
+import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import java.util.Arrays;
 
 /**

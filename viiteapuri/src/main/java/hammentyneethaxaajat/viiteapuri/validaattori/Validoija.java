@@ -1,5 +1,5 @@
 
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.validaattori;
 
 /**
  *

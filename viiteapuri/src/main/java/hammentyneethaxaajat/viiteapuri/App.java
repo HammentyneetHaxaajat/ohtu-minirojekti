@@ -1,5 +1,11 @@
 package hammentyneethaxaajat.viiteapuri;
 
+import hammentyneethaxaajat.viiteapuri.UI.Tekstikayttoliittyma;
+import hammentyneethaxaajat.viiteapuri.validaattori.Validaattori;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
+import hammentyneethaxaajat.viiteapuri.IO.KomentoriviIO;
+import hammentyneethaxaajat.viiteapuri.IO.IO;
+
 /**
  *
  * @author Hämmentyneet Haxaajat

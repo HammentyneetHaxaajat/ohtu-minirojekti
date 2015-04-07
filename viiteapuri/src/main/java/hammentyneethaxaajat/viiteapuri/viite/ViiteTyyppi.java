@@ -1,4 +1,4 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.viite;
 
 import java.util.Arrays;
 import java.util.Set;

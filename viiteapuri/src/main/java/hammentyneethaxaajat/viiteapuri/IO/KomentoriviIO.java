@@ -1,5 +1,6 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.IO;
 
+import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Scanner;
 
 /**

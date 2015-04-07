@@ -1,5 +1,10 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.UI;
 
+import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
+import hammentyneethaxaajat.viiteapuri.viite.Viite;
+import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;

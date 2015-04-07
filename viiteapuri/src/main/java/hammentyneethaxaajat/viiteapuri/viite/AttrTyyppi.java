@@ -1,4 +1,4 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.viite;
 
 /**
  * Atribuutin tyyppi, joka määrittää kyseiselle atribuutille hyväksyttävän

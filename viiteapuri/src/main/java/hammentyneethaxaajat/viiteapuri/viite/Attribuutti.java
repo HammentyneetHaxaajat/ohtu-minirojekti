@@ -1,4 +1,6 @@
-package hammentyneethaxaajat.viiteapuri;
+package hammentyneethaxaajat.viiteapuri.viite;
+
+import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
 
 /**
  *  Olio jota käytetään viitteen kenntien arvojen tallettamiseen.
