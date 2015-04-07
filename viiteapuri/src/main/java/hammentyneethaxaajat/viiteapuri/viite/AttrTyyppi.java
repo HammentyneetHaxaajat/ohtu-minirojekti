@@ -6,9 +6,13 @@ package hammentyneethaxaajat.viiteapuri.viite;
  */
 public enum AttrTyyppi {
 
-    //TODO Määritä kullekin näistä Regex syntaksi.
-    author(""), title(""), editor(""), publisher(""), year("[0-9]{4}"), volume(""),
-    number(""), series(""), address(""), edition(""), month(""), note(""), key("");
+    author("(\\p{L}|\\s|\\{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"), 
+    editor("(\\p{L}|\\d|\\s|\\p{Punct})*"), publisher("(\\p{L}|\\d|\\s|\\p{Punct})*"), 
+    year("[\\d]{4}"), volume("(\\p{L}|\\d|\\s|\\p{Punct})*"), 
+    number("(\\p{L}|\\d|\\s|\\p{Punct})*"), 
+    series("(\\p{L}|\\d|\\s|\\p{Punct})*"), address("(\\p{L}|\\d|\\s|\\p{Punct})*"), 
+    edition("(\\p{L}|\\d|\\s|\\p{Punct})*"), month("(\\p{L})*"), 
+    note("(\\p{L}|\\d|\\s|\\p{Punct})*"), key("(\\d)*");
 
     private String muoto;
 
