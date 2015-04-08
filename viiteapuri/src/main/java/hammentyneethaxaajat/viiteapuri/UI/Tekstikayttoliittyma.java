@@ -40,8 +40,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * @return Käyttäjän antama syöte.
      */
     protected String kysele(String teksti) {
-        io.tulosta(teksti + ":\n");
-        return io.seuraavaRivi();
+        return io.lueRivi(teksti + ":\n");
     }
 
     protected String kysyKomento() {

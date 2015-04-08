@@ -6,5 +6,5 @@ package hammentyneethaxaajat.viiteapuri.IO;
 
 public interface IO {
     public void tulosta(String teksti);
-    public String seuraavaRivi();
+    public String lueRivi(String kehote);
 }

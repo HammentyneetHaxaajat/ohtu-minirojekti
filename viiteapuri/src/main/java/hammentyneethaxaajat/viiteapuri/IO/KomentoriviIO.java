@@ -25,7 +25,8 @@ public class KomentoriviIO implements IO {
      */
     
     @Override
-    public String seuraavaRivi() {
+    public String lueRivi(String kehote) {
+        System.out.print(kehote);
         return lukija.nextLine();
     }
 
