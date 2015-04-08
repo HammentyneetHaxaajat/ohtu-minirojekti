@@ -27,6 +27,9 @@ public class Validaattori implements Validoija {
             case "nimi":
                 validoiNimi(arvo);
                 break;
+            case "crossref":
+                validoiRistiviite(arvo);
+                break;
             default:
                 validoiAttribuutti(validoitava, arvo);
                 break;
@@ -52,26 +55,32 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException jos nimi on jo käytössä
      */
     protected void validoiNimi(String nimi) {
-        if(viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).anyMatch(s -> s.equals(nimi))) {
+        if (viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).anyMatch(s -> s.equals(nimi))) {
             heitaException("Nimi varattu. Valitse toinen nimi.\n");
-        } else if(!nimi.matches("[a-zA-Z0-9öÖäÄåÅ]*")){
+            //TODO MÄÄRITÄ NIMEN SYNTAKSI
+        } else if (!nimi.matches(".*")) {
             heitaException("Nimi saa sisältää vain aakkosia tai numeroita eikä siinä saa olla välejä.\n");
         }
     }
 
     protected void validoiAttribuutti(String nimi, String arvo) {
         AttrTyyppi tyyppi = null;
-
         try {
             tyyppi = AttrTyyppi.valueOf(nimi);
         } catch (Exception e) {
             //Tämän ei pitäisi tapahtua ikinä nykyisellä UIlla...
             heitaException("Tämän nimistä attribuuttia ei viitteellä ole.\nSyötä jokin sille kuuluvista attribuuteista.\n");
         }
-        
+
         if (tyyppi != null && !arvo.matches(tyyppi.getMuoto())) {
             //TODO kaikille AtrTyypeille voisi määrittää sanallisen kuvauksen hyväksytystä syötteestä ja lisätä sen tähän.
             heitaException("Syöte ei vastaa hyväksyttyä muotoa.\n");
+        }
+    }
+
+    private void validoiRistiviite(String arvo) {
+        if (!arvo.isEmpty() && viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).noneMatch(s -> s.equals(arvo))) {
+            heitaException(arvo + " nimistä viitettä ei löydetty. Et voi viitata olemattomiin viitteisiin\n");
         }
     }
 

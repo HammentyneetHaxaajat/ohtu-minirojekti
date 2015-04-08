@@ -1,5 +1,6 @@
 package hammentyneethaxaajat.viiteapuri.viite;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,10 +31,6 @@ public class Viite {
         return attribuutit.get(attr);
     }
 
-    public String getAttribuutinArvo(String attr) {
-        return attribuutit.get(attr).getArvo();
-    }
-
     public void setTyyppi(ViiteTyyppi tyyppi) {
         this.tyyppi = tyyppi;
     }
@@ -53,14 +50,14 @@ public class Viite {
     public void setAttribuutti(Attribuutti attr) {
         attribuutit.put(attr.getTyyppi().name(), attr);
     }
-
+    
     /**
      * Palauttaa selkokielisen listan viitteen kenttien arvoista.
      *
      * @return
      */
     public String listaus() {
-        return attribuutit.values().stream().map(a -> a.getTyyppi().name() + ": " + a.getArvo()).collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
+        return attribuutit.values().stream().sorted((a,b)->a.getTyyppi().name().compareTo(b.getTyyppi().name())).map(a -> a.getTyyppi().name() + ": " + a.getArvo()).collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
     }
 
     /**
@@ -68,9 +65,9 @@ public class Viite {
      *
      * @return
      */
-    @Override
-    public String toString() {
-        return attribuutit.values().stream().filter(s -> !s.getArvo().equals("")).map(a -> a.toString()).collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
-    }
+//    @Override
+//    public String toString() {
+//        return attribuutit.values().stream().filter(s -> !s.getArvo().equals("")).map(a -> a.toString()).collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
+//    }
 
 }

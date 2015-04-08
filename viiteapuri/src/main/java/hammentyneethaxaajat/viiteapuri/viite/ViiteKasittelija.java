@@ -25,9 +25,9 @@ public class ViiteKasittelija {
         return viitteet.get(nimi);
     }
 
-    public String viitteetBibtexina() {
-        return viitteet.values().stream().map(v -> v.toString()).collect(Collectors.joining("\n"));
-    }
+//    public String viitteetBibtexina() {
+//        return viitteet.values().stream().map(v -> v.toString()).collect(Collectors.joining("\n"));
+//    }
 
     public Collection<Viite> getViitteet() {
         return viitteet.values();

@@ -48,10 +48,10 @@ public class Tekstikayttoliittyma implements Runnable {
     }
 
     /**
-     * Kysyy käyttäjältä syötettä kunnes annettu syöte läpäisee testit.
+     * Kysyy käyttäjältä syötettä kunnes annetaan kelvollinen syöte.
      *
-     * @param nimi
-     * @param epatyhja
+     * @param nimi Kysyttävän arvon nimi
+     * @param epatyhja Tieto siitä pitääkö käyttäjän syöttää arvoa lainkaan
      * @return
      */
     protected String hankiValidiSyöte(String nimi, boolean epatyhja) {
@@ -64,7 +64,9 @@ public class Tekstikayttoliittyma implements Runnable {
             }
 
             try {
-                validaattori.validoi(nimi, syote);
+                if (!syote.isEmpty()) {
+                    validaattori.validoi(nimi, syote);
+                }
                 return syote;
             } catch (IllegalArgumentException e) {
                 io.tulosta(e.getMessage());
@@ -72,6 +74,11 @@ public class Tekstikayttoliittyma implements Runnable {
         }
     }
 
+    /**
+     * Valitseen suoritettavan komennon parametrin perusteella.
+     *
+     * @param komento Haluttu komento.
+     */
     protected void suoritaToiminto(String komento) {
         switch (komento) {
             case "uusi":
@@ -80,9 +87,9 @@ public class Tekstikayttoliittyma implements Runnable {
             case "listaa":
                 listaaViitteet();
                 break;
-            case "bibtex":
-                tulostaBibtex();
-                break;
+//            case "bibtex":
+//                tulostaBibtex();
+//                break;
             case "lopeta":
                 kaynnissa = false;
                 break;
@@ -93,22 +100,43 @@ public class Tekstikayttoliittyma implements Runnable {
         }
     }
 
+    /**
+     * Kyselee kaikki uuden viitteen luomiseen tarvittavat arvot ja antaa uuden
+     * viitteen viitteenkäsittelijälle.
+     */
     protected void uusiViite() {
         //Se on ruma mutta toimii. korjatkaa toki....
         io.tulosta("Luodaan uusi viite.\n");
         Viite uusi = new Viite();
-
         io.tulosta("Tähdellä(*) merkityt kentät ovat pakollisia.\n");
+
         //Hommataan nimi
         uusi.setNimi(hankiValidiSyöte("nimi", true));
+
         //Hommataan typpi      
         uusi.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyöte("tyyppi", true)));
+
+        //Määritä mahdollinen ristiviittaus
+        String crossref = hankiValidiSyöte("crossref", false);
+        uusi.setAttribuutti("crossref", crossref);
+
+        //Teen kaiken tästä eteenpäin paremmin jossain vaiheessa -marktuom
         //Kysellään kutakin attribuuttia vastaava arvo ja mapitetaan ne.
-        Map<String, String> pakollisetArvot = uusi.getTyyppi().getPakolliset().stream().collect(Collectors.toMap(s -> s.name(), s -> hankiValidiSyöte(s.name(), true)));
-        //Asetetaan arvot.
+        Map<String, String> pakollisetArvot
+                = uusi.getTyyppi().getPakolliset().stream()//Tehdään stream
+                .map(s -> s.name())//Kartoitetaan AttrTyypit vastaaviin nimiin
+                .sorted()//Laitetaan aakkosjärjestykseen
+                .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää arvon niin sitä ei tarvitse syöttää.
+
+        //Asetetaan arvot        
         pakollisetArvot.keySet().stream().forEach(s -> uusi.setAttribuutti(s, pakollisetArvot.get(s)));
+
         //sama valinnaisille... parempi ratkaisu lienee olemassa mutta slack :3
-        Map<String, String> valinnaisetArvot = uusi.getTyyppi().getValinnaiset().stream().collect(Collectors.toMap(s -> s.name(), s -> hankiValidiSyöte(s.name(), false)));
+        Map<String, String> valinnaisetArvot
+                = uusi.getTyyppi().getValinnaiset().stream()
+                .map(s -> s.name())
+                .sorted()
+                .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, false)));
         valinnaisetArvot.keySet().stream().forEach(s -> uusi.setAttribuutti(s, valinnaisetArvot.get(s)));
 
         viiteKasittelija.lisaaViite(uusi);
@@ -119,11 +147,22 @@ public class Tekstikayttoliittyma implements Runnable {
         io.tulosta(viiteKasittelija.viitteetListauksena());
     }
 
-    protected void tulostaBibtex() {
-        io.tulosta(viiteKasittelija.viitteetBibtexina());
+//    protected void tulostaBibtex() {
+//        io.tulosta(viiteKasittelija.viitteetBibtexina());
+//    }
+    protected void listaaKomennot() {
+        io.tulosta("Tuetut komennot: uusi, listaa, lopeta.\n");
     }
 
-    protected void listaaKomennot() {
-        io.tulosta("Tuetut komennot: uusi, listaa, bibtex, lopeta.\n");
+    /**
+     * Tarkistaa onko Attribuutti pakko syöttää vai onko se jo määritelty
+     * ristiviitattavassa viitteessä.
+     *
+     * @param attribuutti Attribuutti, jota etsitään viitattavasta luokasta
+     * @param crossref Viitteen nimi jo ristiviittaus kohdistuu
+     * @return False jos attribuutti on määritetty. Muulloin false.
+     */
+    protected boolean onPakollinen(String attribuutti, String crossref) {
+        return crossref.equals("") ? true : viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti) == null || viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti).getArvo().equals("");
     }
 }
