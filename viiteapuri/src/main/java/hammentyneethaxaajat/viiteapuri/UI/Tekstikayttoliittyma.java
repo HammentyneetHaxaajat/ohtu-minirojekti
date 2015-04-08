@@ -56,7 +56,7 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     protected String hankiValidiSyöte(String nimi, boolean epatyhja) {
         while (true) {
-            String syote = kysele(nimi);
+            String syote = kysele(nimi + (epatyhja ? "*" : ""));
 
             if (epatyhja && syote.trim().equals("")) {
                 io.tulosta("Kentän arvo ei saa olla tyhjä!\n");
@@ -98,7 +98,7 @@ public class Tekstikayttoliittyma implements Runnable {
         io.tulosta("Luodaan uusi viite.\n");
         Viite uusi = new Viite();
 
-        io.tulosta("Seuraavat arvot ovat pakollisia, joten kenttiä ei voi jättää tyhjiksi.\n");
+        io.tulosta("Tähdellä(*) merkityt kentät ovat pakollisia.\n");
         //Hommataan nimi
         uusi.setNimi(hankiValidiSyöte("nimi", true));
         //Hommataan typpi      
@@ -108,7 +108,6 @@ public class Tekstikayttoliittyma implements Runnable {
         //Asetetaan arvot.
         pakollisetArvot.keySet().stream().forEach(s -> uusi.setAttribuutti(s, pakollisetArvot.get(s)));
         //sama valinnaisille... parempi ratkaisu lienee olemassa mutta slack :3
-        io.tulosta("Loput arvoista ovat valinnaisia. Kentät voi jättää tyhjäksi.\n");
         Map<String, String> valinnaisetArvot = uusi.getTyyppi().getValinnaiset().stream().collect(Collectors.toMap(s -> s.name(), s -> hankiValidiSyöte(s.name(), false)));
         valinnaisetArvot.keySet().stream().forEach(s -> uusi.setAttribuutti(s, valinnaisetArvot.get(s)));
 
