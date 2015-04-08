@@ -4,6 +4,7 @@ package hammentyneethaxaajat.viiteapuri.viite;
  * Atribuutin tyyppi, joka määrittää kyseiselle atribuutille hyväksyttävän
  * arvon.
  */
+
 public enum AttrTyyppi {
 
     author("(\\p{L}|\\s|\\{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"), 
@@ -19,9 +20,10 @@ public enum AttrTyyppi {
     private AttrTyyppi(String syntaksi) {
         if (syntaksi.equals("")) {
             this.muoto = ".*";
-        } else {
-            this.muoto = syntaksi;
+            return;
         }
+        
+        this.muoto = syntaksi;
     }
 
     /**
@@ -30,8 +32,8 @@ public enum AttrTyyppi {
      *
      * @return Tyyppiä vastaava säännöllinen lause stringinä
      */
+    
     public String getMuoto() {
         return this.muoto;
     }
-
 }

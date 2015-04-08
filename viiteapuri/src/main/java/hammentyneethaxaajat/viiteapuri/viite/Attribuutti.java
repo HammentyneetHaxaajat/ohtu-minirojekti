@@ -1,10 +1,9 @@
 package hammentyneethaxaajat.viiteapuri.viite;
 
-import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
-
 /**
- *  Olio jota käytetään viitteen kenntien arvojen tallettamiseen.
+ *  Olio jota käytetään viitteen kenttien arvojen tallettamiseen.
  */
+
 public class Attribuutti {
 
     private final AttrTyyppi tyyppi;
@@ -35,5 +34,4 @@ public class Attribuutti {
     public String toString() {
         return tyyppi.name() + " = {" + arvo + "},";
     }
-
 }

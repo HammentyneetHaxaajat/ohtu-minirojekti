@@ -1,7 +1,5 @@
 package hammentyneethaxaajat.viiteapuri.viite;
 
-import hammentyneethaxaajat.viiteapuri.viite.Viite;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +8,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
+
 public class ViiteKasittelija {
 
     private Map<String, Viite> viitteet;

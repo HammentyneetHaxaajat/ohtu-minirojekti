@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 /**
  *
  */
+
 public class Viite {
 
     private ViiteTyyppi tyyppi;

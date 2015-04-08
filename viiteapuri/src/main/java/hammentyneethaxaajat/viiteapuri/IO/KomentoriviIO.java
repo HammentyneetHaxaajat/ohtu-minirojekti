@@ -1,11 +1,11 @@
 package hammentyneethaxaajat.viiteapuri.IO;
 
-import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Scanner;
 
 /**
  * Komentoriviä käyttävä IO-implememntaatio
  */
+
 public class KomentoriviIO implements IO {
 
     private Scanner lukija;
@@ -13,6 +13,7 @@ public class KomentoriviIO implements IO {
     /**
      * Luo uuden komentoriviIOn
      */
+    
     public KomentoriviIO() {
         lukija = new Scanner(System.in);
     }
@@ -22,11 +23,17 @@ public class KomentoriviIO implements IO {
      *
      * @return Komentoriville syötetty rivi.
      */
+    
     @Override
     public String seuraavaRivi() {
         return lukija.nextLine();
     }
 
+    /**
+     * Tulostaa parametrina saamansa tekstin ilman rivinvaihtoa.
+     * @param teksti 
+     */
+    
     @Override
     public void tulosta(String teksti) {
         System.out.print(teksti);

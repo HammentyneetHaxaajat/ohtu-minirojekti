@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 /**
  * Viitteen tyyppi, joka määrittää sille pakolliset ja sallitut atribuutit.
  */
+
 public enum ViiteTyyppi {
 
     //TODO keksi parempi tapa saaada nämä listat seteiksi.
-    book(new AttrTyyppi[]{
+    book(new AttrTyyppi[] {
         AttrTyyppi.author, AttrTyyppi.editor, AttrTyyppi.title, AttrTyyppi.publisher, AttrTyyppi.year
-    }, new AttrTyyppi[]{
+    }, new AttrTyyppi[] {
         AttrTyyppi.volume, AttrTyyppi.number, AttrTyyppi.series, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
     });
 
@@ -20,14 +21,14 @@ public enum ViiteTyyppi {
     private Set<AttrTyyppi> valinnaiset;
 
     private ViiteTyyppi(AttrTyyppi[] pakolliset, AttrTyyppi[] valinnaiset) {
-        this.pakolliset = Arrays.stream(pakolliset).collect(Collectors.toSet());
-        this.valinnaiset = Arrays.stream(valinnaiset).collect(Collectors.toSet());
+        this.pakolliset = aseta(pakolliset);
+        this.valinnaiset = aseta(valinnaiset);
     }
 
     /**
      * Palauttaa setin pakollisista Atributtityypeistä
      *
-     * @return Set Set, joka sisältää pakollisten attribuuttien tyypit.
+     * @return Set, joka sisältää pakollisten attribuuttien tyypit.
      */
     public Set<AttrTyyppi> getPakolliset() {
         return pakolliset;
@@ -36,10 +37,14 @@ public enum ViiteTyyppi {
     /**
      * Palauttaa setin valinnaisista Atributtityypeistä
      *
-     * @return Set Set, joka sisältää valinnaisten attribuuttien tyypit.
+     * @return Set, joka sisältää valinnaisten attribuuttien tyypit.
      */
+    
     public Set<AttrTyyppi> getValinnaiset() {
         return valinnaiset;
     }
 
+    protected Set<AttrTyyppi> aseta(AttrTyyppi[] lista) {
+        return Arrays.stream(lista).collect(Collectors.toSet());
+    }
 }

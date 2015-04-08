@@ -11,39 +11,74 @@ import java.util.Arrays;
 public class Validaattori implements Validoija {
 
     //TODO Laita testit heittämään exception virheen ilmaisua varten muualla.
-    private ViiteKasittelija vk;
+    private ViiteKasittelija viiteKasittelija;
 
-    public Validaattori(ViiteKasittelija vk) {
-        this.vk = vk;
+    public Validaattori(ViiteKasittelija viiteKasittelija) {
+        this.viiteKasittelija = viiteKasittelija;
     }
 
     @Override
-    public boolean validoi(String nimi, String arvo) {
-        switch (nimi) {
+    public void validoi(String validoitava, String arvo) {
+        switch (validoitava) {
             case "tyyppi":
-                return validoiViiteTyyppi(arvo);
+                validoiViiteTyyppi(arvo);
+                break;
             case "nimi":
-                return validoiNimi(arvo);
+                tarkistaEttaNimiUniikki(arvo);
+                break;
             default:
-                return validoiAttribuutti(nimi, arvo);
+                validoiAttribuutti(validoitava, arvo);
+                break;
         }
     }
 
-    private boolean validoiViiteTyyppi(String tyyppi) {
-        return Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).anyMatch(s -> s.equals(tyyppi));
-    }
-
-    private boolean validoiNimi(String arvo) {
-        return vk.getViitteet().stream().map(s -> s.getNimi()).noneMatch(s -> s.equals(arvo));
-    }
-
-    private boolean validoiAttribuutti(String nimi, String arvo) {
+    /**
+     * 
+     * @param tyyppi 
+     * @throws IllegalArgumentException jos tyyppi ei validi. EI TOIMI ???
+     */
+    
+    protected void validoiViiteTyyppi(String tyyppi) {
         try {
-            AttrTyyppi tyyppi = AttrTyyppi.valueOf(nimi);
-            return arvo.matches(tyyppi.getMuoto());
-        } catch (Exception e) {
-            return false;
+            Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).anyMatch(s -> s.equals(tyyppi));
         }
+        catch (IllegalArgumentException e) {
+            heitaException("Viitteen tyyppi ei validi.");
+        }
+    }
+
+    /**
+     * Tarkistaa, että saman nimistä viiteolioita ei ole jo viitelistassa.
+     * @param nimi
+     * @throws IllegalArgumentException jos nimi on jo käytössä
+     */
+    
+    protected void tarkistaEttaNimiUniikki(String nimi) {
+        try {
+            viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).noneMatch(s -> s.equals(nimi));
+        }
+        catch (IllegalArgumentException e) {
+            heitaException("Samalla nimellä oleva viite on jo olemassa.\nValitse toinen nimi.\n");
+        }
+    }
+
+    protected void validoiAttribuutti(String nimi, String arvo) {
+        AttrTyyppi tyyppi = null;
+        
+        try {
+            tyyppi = AttrTyyppi.valueOf(nimi);
+        }
+        catch (IllegalArgumentException e) {
+            heitaException("Tämän nimistä attribuuttia ei viitteellä ole.\nSyötä jokin sille kuuluvista attribuuteista.\n");
+        }
+        
+        if (tyyppi != null && ! arvo.matches(tyyppi.getMuoto())) {
+            heitaException("Attribuutin kirjoitusasu ei täsmää BibTex -muodon kanssa.\nSyötä attribuutti uudelleen.\n");
+        }
+    }
+    
+    protected void heitaException(String msg) {
+        throw new IllegalArgumentException(msg);
     }
 
 }
