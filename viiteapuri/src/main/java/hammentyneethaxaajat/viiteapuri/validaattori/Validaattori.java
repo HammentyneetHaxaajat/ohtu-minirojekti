@@ -4,6 +4,7 @@ import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Luokka, joka validoi syötteitä
@@ -24,7 +25,7 @@ public class Validaattori implements Validoija {
                 validoiViiteTyyppi(arvo);
                 break;
             case "nimi":
-                tarkistaEttaNimiUniikki(arvo);
+                validoiNimi(arvo);
                 break;
             default:
                 validoiAttribuutti(validoitava, arvo);
@@ -33,50 +34,47 @@ public class Validaattori implements Validoija {
     }
 
     /**
-     * 
-     * @param tyyppi 
+     *
+     * @param tyyppi
      * @throws IllegalArgumentException jos tyyppi ei validi. EI TOIMI ???
      */
-    
     protected void validoiViiteTyyppi(String tyyppi) {
-        try {
-            Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).anyMatch(s -> s.equals(tyyppi));
-        }
-        catch (IllegalArgumentException e) {
-            heitaException("Viitteen tyyppi ei validi.");
+        if (Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).noneMatch(s -> s.equals(tyyppi))) {
+            String tuetutTyypit = Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).collect(Collectors.joining(", ", "Tuetut tyypit: ", ".\n"));
+            heitaException("Tuntematon viitteen tyyppi. " + tuetutTyypit);
         }
     }
 
     /**
      * Tarkistaa, että saman nimistä viiteolioita ei ole jo viitelistassa.
+     *
      * @param nimi
      * @throws IllegalArgumentException jos nimi on jo käytössä
      */
-    
-    protected void tarkistaEttaNimiUniikki(String nimi) {
-        try {
-            viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).noneMatch(s -> s.equals(nimi));
-        }
-        catch (IllegalArgumentException e) {
-            heitaException("Samalla nimellä oleva viite on jo olemassa.\nValitse toinen nimi.\n");
+    protected void validoiNimi(String nimi) {
+        if(viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).anyMatch(s -> s.equals(nimi))) {
+            heitaException("Nimi varattu. Valitse toinen nimi.\n");
+        } else if(!nimi.matches("[a-zA-Z0-9öÖäÄåÅ]*")){
+            heitaException("Nimi saa sisältää vain aakkosia tai numeroita eikä siinä saa olla välejä.\n");
         }
     }
 
     protected void validoiAttribuutti(String nimi, String arvo) {
         AttrTyyppi tyyppi = null;
-        
+
         try {
             tyyppi = AttrTyyppi.valueOf(nimi);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (Exception e) {
+            //Tämän ei pitäisi tapahtua ikinä nykyisellä UIlla...
             heitaException("Tämän nimistä attribuuttia ei viitteellä ole.\nSyötä jokin sille kuuluvista attribuuteista.\n");
         }
         
-        if (tyyppi != null && ! arvo.matches(tyyppi.getMuoto())) {
-            heitaException("Attribuutin kirjoitusasu ei täsmää BibTex -muodon kanssa.\nSyötä attribuutti uudelleen.\n");
+        if (tyyppi != null && !arvo.matches(tyyppi.getMuoto())) {
+            //TODO kaikille AtrTyypeille voisi määrittää sanallisen kuvauksen hyväksytystä syötteestä ja lisätä sen tähän.
+            heitaException("Syöte ei vastaa hyväksyttyä muotoa.\n");
         }
     }
-    
+
     protected void heitaException(String msg) {
         throw new IllegalArgumentException(msg);
     }

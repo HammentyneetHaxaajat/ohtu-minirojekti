@@ -6,7 +6,6 @@ import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Tekstikayttoliittyma implements Runnable {
@@ -27,7 +26,7 @@ public class Tekstikayttoliittyma implements Runnable {
     public void run() {
         listaaKomennot();
         String komento;
-        
+
         while (kaynnissa) {
             komento = kysyKomento();
             suoritaToiminto(komento);
@@ -40,7 +39,6 @@ public class Tekstikayttoliittyma implements Runnable {
      * @param teksti Käyttäjälle esitettävä tuloste.
      * @return Käyttäjän antama syöte.
      */
-    
     protected String kysele(String teksti) {
         io.tulosta(teksti + ":\n");
         return io.seuraavaRivi();
@@ -57,21 +55,19 @@ public class Tekstikayttoliittyma implements Runnable {
      * @param epatyhja
      * @return
      */
-    
     protected String hankiValidiSyöte(String nimi, boolean epatyhja) {
         while (true) {
             String syote = kysele(nimi);
-            
+
             if (epatyhja && syote.trim().equals("")) {
                 io.tulosta("Kentän arvo ei saa olla tyhjä!\n");
                 continue;
             }
-            
+
             try {
                 validaattori.validoi(nimi, syote);
                 return syote;
-            }
-            catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 io.tulosta(e.getMessage());
             }
         }
@@ -106,19 +102,8 @@ public class Tekstikayttoliittyma implements Runnable {
         io.tulosta("Seuraavat arvot ovat pakollisia, joten kenttiä ei voi jättää tyhjiksi.\n");
         //Hommataan nimi
         uusi.setNimi(hankiValidiSyöte("nimi", true));
-        //Hommataan typpi
-        
-        while (true) {
-            try {
-                ViiteTyyppi tyyppi = ViiteTyyppi.valueOf(hankiValidiSyöte("tyyppi", true));
-                uusi.setTyyppi(tyyppi);
-                break;
-            }
-            catch (IllegalArgumentException e) {
-                io.tulosta("Tällaista viitetyyppiä ei ole olemassa.\nValitse BibTexin tukema viitetyyppi.\n");
-            }
-        }
-
+        //Hommataan typpi      
+        uusi.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyöte("tyyppi", true)));
         //Kysellään kutakin attribuuttia vastaava arvo ja mapitetaan ne.
         Map<String, String> pakollisetArvot = uusi.getTyyppi().getPakolliset().stream().collect(Collectors.toMap(s -> s.name(), s -> hankiValidiSyöte(s.name(), true)));
         //Asetetaan arvot.
