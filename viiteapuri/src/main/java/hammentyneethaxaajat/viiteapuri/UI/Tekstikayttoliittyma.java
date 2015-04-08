@@ -123,13 +123,14 @@ public class Tekstikayttoliittyma implements Runnable {
         //Teen kaiken tästä eteenpäin paremmin jossain vaiheessa -marktuom
         //Kysellään kutakin attribuuttia vastaava arvo ja mapitetaan ne.
         Map<String, String> pakollisetArvot
-                = uusi.getTyyppi().getPakolliset().stream()//Tehdään stream
-                .map(s -> s.name())//Kartoitetaan AttrTyypit vastaaviin nimiin
+                = uusi.getTyyppi().getPakolliset().stream()//Tehdään stream pakollisita AttrTyypeistä
+                .map(s -> s.name())//vaihdetaan AttrTyypit vastaaviin Stringeihin
                 .sorted()//Laitetaan aakkosjärjestykseen
                 .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää arvon niin sitä ei tarvitse syöttää.
 
         //Asetetaan arvot        
-        pakollisetArvot.keySet().stream().forEach(s -> uusi.setAttribuutti(s, pakollisetArvot.get(s)));
+        pakollisetArvot.keySet().stream()
+                .forEach(s -> uusi.setAttribuutti(s, pakollisetArvot.get(s)));
 
         //sama valinnaisille... parempi ratkaisu lienee olemassa mutta slack :3
         Map<String, String> valinnaisetArvot
@@ -137,7 +138,9 @@ public class Tekstikayttoliittyma implements Runnable {
                 .map(s -> s.name())
                 .sorted()
                 .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, false)));
-        valinnaisetArvot.keySet().stream().forEach(s -> uusi.setAttribuutti(s, valinnaisetArvot.get(s)));
+
+        valinnaisetArvot.keySet().stream()
+                .forEach(s -> uusi.setAttribuutti(s, valinnaisetArvot.get(s)));
 
         viiteKasittelija.lisaaViite(uusi);
         io.tulosta("Viite lisätty onnistuneesti!\n");
@@ -155,8 +158,9 @@ public class Tekstikayttoliittyma implements Runnable {
     }
 
     /**
-     * Tarkistaa onko Attribuutti pakko syöttää vai onko se jo määritelty
-     * ristiviitattavassa viitteessä.
+     * Apumetodi, joka tarkistaa onko Attribuutti pakko syöttää vai onko se jo
+     * määritelty ristiviitattavassa viitteessä. TODO Tämän toiminnallisuuden
+     * voisi siirtää myös viitteen metodiksi.
      *
      * @param attribuutti Attribuutti, jota etsitään viitattavasta luokasta
      * @param crossref Viitteen nimi jo ristiviittaus kohdistuu

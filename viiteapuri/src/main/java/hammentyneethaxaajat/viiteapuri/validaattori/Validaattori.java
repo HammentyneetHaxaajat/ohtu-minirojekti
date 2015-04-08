@@ -7,17 +7,22 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 /**
- * Luokka, joka validoi syötteitä
+ * Luokka, joka validoi viitteen kenttiin tulevia arvoja.
  */
 public class Validaattori implements Validoija {
 
-    //TODO Laita testit heittämään exception virheen ilmaisua varten muualla.
     private ViiteKasittelija viiteKasittelija;
 
     public Validaattori(ViiteKasittelija viiteKasittelija) {
         this.viiteKasittelija = viiteKasittelija;
     }
 
+    /**
+     * Valitsee oikean validointifunktion parametrien perusteella.
+     *
+     * @param validoitava Validoitavan tiedon tunniste/nimi
+     * @param arvo Validoitava arvo
+     */
     @Override
     public void validoi(String validoitava, String arvo) {
         switch (validoitava) {
@@ -37,25 +42,36 @@ public class Validaattori implements Validoija {
     }
 
     /**
+     * Validoi viitteen tyypin
      *
-     * @param tyyppi
-     * @throws IllegalArgumentException jos tyyppi ei validi. EI TOIMI ???
+     * @param tyyppi Validoitava tyyppi.
+     * @throws IllegalArgumentException Jos Tyyppi ei ole kelvollinen heittää
+     * virheen.
      */
     protected void validoiViiteTyyppi(String tyyppi) {
-        if (Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).noneMatch(s -> s.equals(tyyppi))) {
-            String tuetutTyypit = Arrays.stream(ViiteTyyppi.values()).map(s -> s.name()).collect(Collectors.joining(", ", "Tuetut tyypit: ", ".\n"));
+        //Tarkistaa vastaako yksikään ViiteTyyppi luokassa määritetty tyyppi annettua
+        if (Arrays.stream(ViiteTyyppi.values())
+                .map(s -> s.name())
+                .noneMatch(s -> s.equals(tyyppi))) {
+            //Listataan tuetut tyypit virheilmoituksessa.
+            String tuetutTyypit = Arrays.stream(ViiteTyyppi.values())
+                    .map(s -> s.name())
+                    .collect(Collectors.joining(", ", "Tuetut tyypit: ", ".\n"));
             heitaException("Tuntematon viitteen tyyppi. " + tuetutTyypit);
         }
     }
 
     /**
-     * Tarkistaa, että saman nimistä viiteolioita ei ole jo viitelistassa.
+     * Validoi viitteelle annettavan nimen.
      *
-     * @param nimi
-     * @throws IllegalArgumentException jos nimi on jo käytössä
+     * @param nimi Validoitava nimi.
+     * @throws IllegalArgumentException jos nimi on jo käytössä tai se ei vastaa
+     * syntaksia.
      */
     protected void validoiNimi(String nimi) {
-        if (viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).anyMatch(s -> s.equals(nimi))) {
+        if (viiteKasittelija.getViitteet().stream()
+                .map(s -> s.getNimi())
+                .anyMatch(s -> s.equals(nimi))) {
             heitaException("Nimi varattu. Valitse toinen nimi.\n");
             //TODO MÄÄRITÄ NIMEN SYNTAKSI
         } else if (!nimi.matches(".*")) {
@@ -63,6 +79,14 @@ public class Validaattori implements Validoija {
         }
     }
 
+    /**
+     * Validoi tavallisen viitteen attribuutin arvon.
+     *
+     * @param nimi Validoitavan arvon nimi/tyyppi
+     * @param arvo Validoitava arvo
+     * @throws IllegalArgumentException arvo ei vastaan nimen määrittämää
+     * muotoa.
+     */
     protected void validoiAttribuutti(String nimi, String arvo) {
         AttrTyyppi tyyppi = null;
         try {
@@ -78,12 +102,27 @@ public class Validaattori implements Validoija {
         }
     }
 
+    /**
+     * Validoi ristiviittauksen.
+     *
+     * @param arvo Validoitava viittaus
+     * @throws IllegalArgumentException jos ristiviitattavaa viitettä ei ole
+     * olemassa.
+     */
     private void validoiRistiviite(String arvo) {
-        if (!arvo.isEmpty() && viiteKasittelija.getViitteet().stream().map(s -> s.getNimi()).noneMatch(s -> s.equals(arvo))) {
+        Boolean eiLoydy = viiteKasittelija.getViitteet().stream()
+                .map(s -> s.getNimi())
+                .noneMatch(s -> s.equals(arvo));
+        if (!arvo.isEmpty() && eiLoydy) {
             heitaException(arvo + " nimistä viitettä ei löydetty. Et voi viitata olemattomiin viitteisiin\n");
         }
     }
 
+    /**
+     * Heittää uuden IllegalArgumentExceptionin määritetyllä viestillä
+     *
+     * @param msg Exceptionin viesti
+     */
     protected void heitaException(String msg) {
         throw new IllegalArgumentException(msg);
     }
