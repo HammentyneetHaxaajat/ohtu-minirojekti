@@ -1,14 +1,12 @@
 package hammentyneethaxaajat.viiteapuri.viite;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- *
+ *  Viitettä kuvaava luokka, joka sisältää viitteen tyypin, nimen sekä useita luokalle kuuluvia attribuutteja.
  */
-
 public class Viite {
 
     private ViiteTyyppi tyyppi;
@@ -30,7 +28,7 @@ public class Viite {
     public Attribuutti getAttribuutti(String attr) {
         return attribuutit.get(attr);
     }
-
+    
     public void setTyyppi(ViiteTyyppi tyyppi) {
         this.tyyppi = tyyppi;
     }
@@ -39,6 +37,13 @@ public class Viite {
         this.nimi = nimi;
     }
 
+    /**
+     * Asettaa parametrina määritellylle attribuutille toisen parametrin
+     * määrittämän arvon.
+     *
+     * @param attr Attribuutti jonka arvo asetetaan.
+     * @param arvo Attribuutin uusi arvo.
+     */
     public void setAttribuutti(String attr, String arvo) {
         if (attribuutit.containsKey(attr)) {
             attribuutit.get(attr).setArvo(arvo);
@@ -47,17 +52,16 @@ public class Viite {
         }
     }
 
-    public void setAttribuutti(Attribuutti attr) {
-        attribuutit.put(attr.getTyyppi().name(), attr);
-    }
-    
     /**
      * Palauttaa selkokielisen listan viitteen kenttien arvoista.
      *
-     * @return
+     * @return String joka sisältää kaikki viitteen sisältämät arvot.
      */
     public String listaus() {
-        return attribuutit.values().stream().sorted((a,b)->a.getTyyppi().name().compareTo(b.getTyyppi().name())).map(a -> a.getTyyppi().name() + ": " + a.getArvo()).collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
+        return attribuutit.values().stream()
+                .sorted((a, b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
+                .map(a -> a.getTyyppi().name() + ": " + a.getArvo())
+                .collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
     }
 
     /**
@@ -69,5 +73,4 @@ public class Viite {
 //    public String toString() {
 //        return attribuutit.values().stream().filter(s -> !s.getArvo().equals("")).map(a -> a.toString()).collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
 //    }
-
 }

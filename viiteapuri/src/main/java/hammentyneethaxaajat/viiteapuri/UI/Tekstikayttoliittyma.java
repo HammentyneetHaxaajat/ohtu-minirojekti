@@ -105,7 +105,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * viitteen viitteenkäsittelijälle.
      */
     protected void uusiViite() {
-        //Se on ruma mutta toimii. korjatkaa toki....
+        //TODO Tee tästä kaunis....
         io.tulosta("Luodaan uusi viite.\n");
         Viite uusi = new Viite();
         io.tulosta("Tähdellä(*) merkityt kentät ovat pakollisia.\n");
@@ -120,13 +120,12 @@ public class Tekstikayttoliittyma implements Runnable {
         String crossref = hankiValidiSyöte("crossref", false);
         uusi.setAttribuutti("crossref", crossref);
 
-        //Teen kaiken tästä eteenpäin paremmin jossain vaiheessa -marktuom
-        //Kysellään kutakin attribuuttia vastaava arvo ja mapitetaan ne.
+        //Kysellään kutakin pakollista attribuuttia vastaava arvo ja mapitetaan ne.
         Map<String, String> pakollisetArvot
                 = uusi.getTyyppi().getPakolliset().stream()//Tehdään stream pakollisita AttrTyypeistä
                 .map(s -> s.name())//vaihdetaan AttrTyypit vastaaviin Stringeihin
                 .sorted()//Laitetaan aakkosjärjestykseen
-                .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää arvon niin sitä ei tarvitse syöttää.
+                .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää attribuutin arvon niin sitä attribuuttia ei tarvitse syöttää.
 
         //Asetetaan arvot        
         pakollisetArvot.keySet().stream()
@@ -159,14 +158,14 @@ public class Tekstikayttoliittyma implements Runnable {
 
     /**
      * Apumetodi, joka tarkistaa onko Attribuutti pakko syöttää vai onko se jo
-     * määritelty ristiviitattavassa viitteessä. TODO Tämän toiminnallisuuden
-     * voisi siirtää myös viitteen metodiksi.
+     * määritelty ristiviitattavassa viitteessä.
      *
      * @param attribuutti Attribuutti, jota etsitään viitattavasta luokasta
      * @param crossref Viitteen nimi jo ristiviittaus kohdistuu
-     * @return False jos attribuutti on määritetty. Muulloin false.
+     * @return false jos attribuutti on määritetty. Muulloin true.
      */
     protected boolean onPakollinen(String attribuutti, String crossref) {
+        // TODO Tämän toiminnallisuuden voisi siirtää myös viitteen metodiksi. viite siis osaisi kertoa listan pakollisista, valinnaisista ja/tai kaikista attributteistaan. 
         return crossref.equals("") ? true : viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti) == null || viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti).getArvo().equals("");
     }
 }

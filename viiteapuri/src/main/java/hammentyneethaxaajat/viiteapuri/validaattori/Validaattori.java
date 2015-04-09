@@ -20,8 +20,8 @@ public class Validaattori implements Validoija {
     /**
      * Valitsee oikean validointifunktion parametrien perusteella.
      *
-     * @param validoitava Validoitavan tiedon tunniste/nimi
-     * @param arvo Validoitava arvo
+     * @param validoitava Validoitavan tiedon tunniste/nimi.
+     * @param arvo Validoitava arvo.
      */
     @Override
     public void validoi(String validoitava, String arvo) {
@@ -42,11 +42,10 @@ public class Validaattori implements Validoija {
     }
 
     /**
-     * Validoi viitteen tyypin
+     * Validoi viitteen tyypin.
      *
      * @param tyyppi Validoitava tyyppi.
-     * @throws IllegalArgumentException Jos Tyyppi ei ole kelvollinen heittää
-     * virheen.
+     * @throws IllegalArgumentException Jos Tyyppi ei ole kelvollinen.
      */
     protected void validoiViiteTyyppi(String tyyppi) {
         //Tarkistaa vastaako yksikään ViiteTyyppi luokassa määritetty tyyppi annettua
@@ -75,16 +74,16 @@ public class Validaattori implements Validoija {
             heitaException("Nimi varattu. Valitse toinen nimi.\n");
             //TODO MÄÄRITÄ NIMEN SYNTAKSI
         } else if (!nimi.matches(".*")) {
-            heitaException("Nimi saa sisältää vain aakkosia tai numeroita eikä siinä saa olla välejä.\n");
+            heitaException("Nimi ei vastaa sille määrätyä syntaksia.\n");
         }
     }
 
     /**
      * Validoi tavallisen viitteen attribuutin arvon.
      *
-     * @param nimi Validoitavan arvon nimi/tyyppi
-     * @param arvo Validoitava arvo
-     * @throws IllegalArgumentException arvo ei vastaan nimen määrittämää
+     * @param nimi Validoitavan arvon nimi/tyyppi.
+     * @param arvo Validoitava arvo.
+     * @throws IllegalArgumentException Arvo ei vastaan nimen määrittämää
      * muotoa.
      */
     protected void validoiAttribuutti(String nimi, String arvo) {
@@ -93,11 +92,11 @@ public class Validaattori implements Validoija {
             tyyppi = AttrTyyppi.valueOf(nimi);
         } catch (Exception e) {
             //Tämän ei pitäisi tapahtua ikinä nykyisellä UIlla...
-            heitaException("Tämän nimistä attribuuttia ei viitteellä ole.\nSyötä jokin sille kuuluvista attribuuteista.\n");
+            heitaException("Tämän nimistä attribuuttia ei ole.\n");
         }
 
         if (tyyppi != null && !arvo.matches(tyyppi.getMuoto())) {
-            //TODO kaikille AtrTyypeille voisi määrittää sanallisen kuvauksen hyväksytystä syötteestä ja lisätä sen tähän.
+            //TODO kaikille AtrTyypeille voisi määrittää sanallisen kuvauksen hyväksytystä syötteestä ja lisätä sen viestiin. esim yearin kohdalla "year tulee olla muotoa yyyy." tjs.
             heitaException("Syöte ei vastaa hyväksyttyä muotoa.\n");
         }
     }
@@ -105,7 +104,7 @@ public class Validaattori implements Validoija {
     /**
      * Validoi ristiviittauksen.
      *
-     * @param arvo Validoitava viittaus
+     * @param arvo Validoitava viittaus.
      * @throws IllegalArgumentException jos ristiviitattavaa viitettä ei ole
      * olemassa.
      */
@@ -119,9 +118,9 @@ public class Validaattori implements Validoija {
     }
 
     /**
-     * Heittää uuden IllegalArgumentExceptionin määritetyllä viestillä
+     * Heittää uuden IllegalArgumentExceptionin määritetyllä viestillä.
      *
-     * @param msg Exceptionin viesti
+     * @param msg Exceptionin viesti.
      */
     protected void heitaException(String msg) {
         throw new IllegalArgumentException(msg);

@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Viitteen tyyppi, joka määrittää sille pakolliset ja sallitut atribuutit.
+ * Viitteen tyyppiä kuvaava luokka, joka määrittää Viitteelle pakolliset ja sallitut atribuutit.
  */
 
 public enum ViiteTyyppi {
