@@ -37,6 +37,15 @@ public class Viite {
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }
+    
+    /**
+     * Ainoastaan testiluokan käyttöön.
+     * @return 
+     */
+    
+    protected Map<String, Attribuutti> getAttribuutit() {
+        return attribuutit;
+    }
 
     /**
      * Asettaa parametrina määritellylle attribuutille toisen parametrin

@@ -6,9 +6,6 @@ import static org.junit.Assert.*;
 
 public class AppTest {
     
-    public AppTest() {
-    }
-    
     @Before
     public void setUp() {
     }

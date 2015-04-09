@@ -114,7 +114,7 @@ public class Validaattori implements Validoija {
      * olemassa.
      */
     
-    private void validoiRistiviite(String arvo) {
+    protected void validoiRistiviite(String arvo) {
         Boolean eiLoydy = viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
                 .noneMatch(s -> s.equals(arvo));
