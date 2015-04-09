@@ -4,6 +4,7 @@ package hammentyneethaxaajat.viiteapuri.viite;
  * Olio jota käytetään viitteen kenttien arvojen tallettamiseen. Kukin
  * attribuutti sisältää tyypin ja arvon.
  */
+
 public class Attribuutti {
 
     private final AttrTyyppi tyyppi;
@@ -28,9 +29,9 @@ public class Attribuutti {
 
     /**
      * Palauttaa bibtex muotoisen tekstiesityksen
-     *
      * @return
      */
+    
     @Override
     public String toString() {
         return tyyppi.name() + " = {" + arvo + "},";

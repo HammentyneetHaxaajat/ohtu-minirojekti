@@ -20,14 +20,20 @@ public enum ViiteTyyppi {
     private Set<AttrTyyppi> pakolliset;
     private Set<AttrTyyppi> valinnaiset;
 
+    /**
+     * Privaatti konstruktori, joka luo viitetyypin (enum) joka sisältää
+     * listan pakollisia ja valinnaisia attribuutteja (AttrTyyppi).
+     * @param pakolliset
+     * @param valinnaiset 
+     */
+    
     private ViiteTyyppi(AttrTyyppi[] pakolliset, AttrTyyppi[] valinnaiset) {
-        this.pakolliset = aseta(pakolliset);
-        this.valinnaiset = aseta(valinnaiset);
+        this.pakolliset = attribuutit(pakolliset);
+        this.valinnaiset = attribuutit(valinnaiset);
     }
 
     /**
-     * Palauttaa setin pakollisista Atributtityypeistä
-     *
+     * Palauttaa setin pakollisista Attribuuttityypeistä.
      * @return Set, joka sisältää pakollisten attribuuttien tyypit.
      */
     public Set<AttrTyyppi> getPakolliset() {
@@ -35,8 +41,7 @@ public enum ViiteTyyppi {
     }
 
     /**
-     * Palauttaa setin valinnaisista Atributtityypeistä
-     *
+     * Palauttaa setin valinnaisista Attribuuttityypeistä.
      * @return Set, joka sisältää valinnaisten attribuuttien tyypit.
      */
     
@@ -44,7 +49,13 @@ public enum ViiteTyyppi {
         return valinnaiset;
     }
 
-    protected Set<AttrTyyppi> aseta(AttrTyyppi[] lista) {
+    /**
+     * Palauttaa listan attribuutit Set:inä.
+     * @param lista
+     * @return 
+     */
+    
+    protected Set<AttrTyyppi> attribuutit(AttrTyyppi[] lista) {
         return Arrays.stream(lista).collect(Collectors.toSet());
     }
 }

@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Luokka, joka validoi viitteen kenttiin tulevia arvoja.
  */
+
 public class Validaattori implements Validoija {
 
     private ViiteKasittelija viiteKasittelija;
@@ -23,6 +24,7 @@ public class Validaattori implements Validoija {
      * @param validoitava Validoitavan tiedon tunniste/nimi.
      * @param arvo Validoitava arvo.
      */
+    
     @Override
     public void validoi(String validoitava, String arvo) {
         switch (validoitava) {
@@ -47,6 +49,7 @@ public class Validaattori implements Validoija {
      * @param tyyppi Validoitava tyyppi.
      * @throws IllegalArgumentException Jos Tyyppi ei ole kelvollinen.
      */
+    
     protected void validoiViiteTyyppi(String tyyppi) {
         //Tarkistaa vastaako yksikään ViiteTyyppi luokassa määritetty tyyppi annettua
         if (Arrays.stream(ViiteTyyppi.values())
@@ -67,6 +70,7 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException jos nimi on jo käytössä tai se ei vastaa
      * syntaksia.
      */
+    
     protected void validoiNimi(String nimi) {
         if (viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
@@ -86,6 +90,7 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException Arvo ei vastaan nimen määrittämää
      * muotoa.
      */
+    
     protected void validoiAttribuutti(String nimi, String arvo) {
         AttrTyyppi tyyppi = null;
         try {
@@ -108,6 +113,7 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException jos ristiviitattavaa viitettä ei ole
      * olemassa.
      */
+    
     private void validoiRistiviite(String arvo) {
         Boolean eiLoydy = viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
@@ -119,11 +125,10 @@ public class Validaattori implements Validoija {
 
     /**
      * Heittää uuden IllegalArgumentExceptionin määritetyllä viestillä.
-     *
      * @param msg Exceptionin viesti.
      */
+    
     protected void heitaException(String msg) {
         throw new IllegalArgumentException(msg);
     }
-
 }

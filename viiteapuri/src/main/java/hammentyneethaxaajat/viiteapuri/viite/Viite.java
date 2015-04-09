@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 /**
  *  Viitettä kuvaava luokka, joka sisältää viitteen tyypin, nimen sekä useita luokalle kuuluvia attribuutteja.
  */
+
 public class Viite {
 
     private ViiteTyyppi tyyppi;
@@ -44,6 +45,7 @@ public class Viite {
      * @param attr Attribuutti jonka arvo asetetaan.
      * @param arvo Attribuutin uusi arvo.
      */
+    
     public void setAttribuutti(String attr, String arvo) {
         if (attribuutit.containsKey(attr)) {
             attribuutit.get(attr).setArvo(arvo);
@@ -57,6 +59,7 @@ public class Viite {
      *
      * @return String joka sisältää kaikki viitteen sisältämät arvot.
      */
+    
     public String listaus() {
         return attribuutit.values().stream()
                 .sorted((a, b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
@@ -64,6 +67,18 @@ public class Viite {
                 .collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
     }
 
+
+    /**
+     * Asettaa viitteen pakollisten tai valinnaisten attribuuttien arvot
+     * riippuen saamastaan attribuuttijoukosta.
+     * @param arvot viitteen pakolliset tai valinnaiset arvot
+     */
+    
+    public void asetaAttribuuttienArvot(Map<String, String> arvot) {
+        arvot.keySet().stream().forEach(s -> this.setAttribuutti(s, arvot.get(s)));
+    }
+    
+    
     /**
      * Palauttaa bibtexmuotoisen tekstiesityksen
      *

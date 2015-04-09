@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 /**
  *
- * @author juri
  */
+
 public class StubIO implements IO {
 
     private String[] rivit;
@@ -17,11 +17,22 @@ public class StubIO implements IO {
         this.tulosteet = new ArrayList<>();
     }
 
+    /**
+     * 
+     * @param teksti 
+     */
+    
     @Override
     public void tulosta(String teksti) {
         tulosteet.add(teksti);
     }
 
+    /**
+     * 
+     * @param kehote
+     * @return 
+     */
+    
     @Override
     public String lueRivi(String kehote) {
         if (i < rivit.length) {
@@ -30,6 +41,11 @@ public class StubIO implements IO {
         return "";
     }
 
+    /**
+     * 
+     * @return 
+     */
+    
     public ArrayList<String> getTulosteet() {
         return tulosteet;
     }

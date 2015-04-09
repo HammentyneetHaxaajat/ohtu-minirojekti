@@ -32,6 +32,7 @@ public enum AttrTyyppi {
      *
      * @return Tyypin hyväksymiä arvoja vastaava säännöllinen lause stringinä
      */
+    
     public String getMuoto() {
         return this.muoto;
     }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 /**
  * Luokka joka sisältää Viite-olioiden käsittelyyn liityviä metodeja.
  */
+
 public class ViiteKasittelija {
 
     private Map<String, Viite> viitteet;
@@ -20,6 +21,12 @@ public class ViiteKasittelija {
         viitteet.put(uusi.getNimi(), uusi);
     }
 
+    /**
+     * Hakee viitteen sille annetun nimen perusteella.
+     * @param nimi
+     * @return 
+     */
+    
     public Viite haeViite(String nimi) {
         return viitteet.get(nimi);
     }
@@ -43,5 +50,4 @@ public class ViiteKasittelija {
                 .map(s -> s.listaus())
                 .collect(Collectors.joining("----------------------------------------\n", "--------------------Listataan viitteet--------------------\n", "--------------------END--------------------\n"));
     }
-
 }

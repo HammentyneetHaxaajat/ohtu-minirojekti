@@ -8,6 +8,13 @@ import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Tekstikäyttöliittymä, joka toimii ikään kuin
+ * "pääohjelmana". Käyttöliittymän kautta kutsutaan
+ * muiden luokkien olioita tekemään osan ohjelman
+ * suorituksesta puolestaan.
+ */
+
 public class Tekstikayttoliittyma implements Runnable {
 
     private ViiteKasittelija viiteKasittelija;
@@ -15,20 +22,25 @@ public class Tekstikayttoliittyma implements Runnable {
     private IO io;
     private boolean kaynnissa;
 
-    public Tekstikayttoliittyma(ViiteKasittelija vk, Validoija validaattori, IO io) {
+    public Tekstikayttoliittyma(ViiteKasittelija viiteKasittelija, Validoija validaattori, IO io) {
         kaynnissa = true;
-        this.viiteKasittelija = vk;
+        this.viiteKasittelija = viiteKasittelija;
         this.validaattori = validaattori;
         this.io = io;
     }
 
+    /**
+     * Ohjelman toiminta perustuu siihen että niin kauan kuin ohjelma on
+     * käynnissä, kysytään käyttäjältä syöte ja suoritetaan sitä vastaava
+     * toiminnallisuus alla olevassa while-loopissa.
+     */
+    
     @Override
     public void run() {
         listaaKomennot();
-        String komento;
 
         while (kaynnissa) {
-            komento = kysyKomento();
+            String komento = kysyKomento();
             suoritaToiminto(komento);
         }
     }
@@ -39,6 +51,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * @param teksti Käyttäjälle esitettävä tuloste.
      * @return Käyttäjän antama syöte.
      */
+    
     protected String kysele(String teksti) {
         return io.lueRivi(teksti + ":\n");
     }
@@ -54,6 +67,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * @param epatyhja Tieto siitä pitääkö käyttäjän syöttää arvoa lainkaan
      * @return
      */
+    
     protected String hankiValidiSyöte(String nimi, boolean epatyhja) {
         while (true) {
             String syote = kysele(nimi + (epatyhja ? "*" : ""));
@@ -79,6 +93,7 @@ public class Tekstikayttoliittyma implements Runnable {
      *
      * @param komento Haluttu komento.
      */
+    
     protected void suoritaToiminto(String komento) {
         switch (komento) {
             case "uusi":
@@ -104,6 +119,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * Kyselee kaikki uuden viitteen luomiseen tarvittavat arvot ja antaa uuden
      * viitteen viitteenkäsittelijälle.
      */
+    
     protected void uusiViite() {
         //TODO Tee tästä kaunis....
         io.tulosta("Luodaan uusi viite.\n");
@@ -120,6 +136,8 @@ public class Tekstikayttoliittyma implements Runnable {
         String crossref = hankiValidiSyöte("crossref", false);
         uusi.setAttribuutti("crossref", crossref);
 
+        // Miten voi refaktoroida alla olevan yhteen erilliseen metodikutsuun vai yritetäänkö Java 7:lla kirjoittaa?
+        
         //Kysellään kutakin pakollista attribuuttia vastaava arvo ja mapitetaan ne.
         Map<String, String> pakollisetArvot
                 = uusi.getTyyppi().getPakolliset().stream()//Tehdään stream pakollisita AttrTyypeistä
@@ -127,19 +145,16 @@ public class Tekstikayttoliittyma implements Runnable {
                 .sorted()//Laitetaan aakkosjärjestykseen
                 .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää attribuutin arvon niin sitä attribuuttia ei tarvitse syöttää.
 
-        //Asetetaan arvot        
-        pakollisetArvot.keySet().stream()
-                .forEach(s -> uusi.setAttribuutti(s, pakollisetArvot.get(s)));
-
         //sama valinnaisille... parempi ratkaisu lienee olemassa mutta slack :3
         Map<String, String> valinnaisetArvot
                 = uusi.getTyyppi().getValinnaiset().stream()
                 .map(s -> s.name())
                 .sorted()
                 .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, false)));
-
-        valinnaisetArvot.keySet().stream()
-                .forEach(s -> uusi.setAttribuutti(s, valinnaisetArvot.get(s)));
+        
+        //Asetetaan arvot
+        uusi.asetaAttribuuttienArvot(pakollisetArvot);
+        uusi.asetaAttribuuttienArvot(valinnaisetArvot);
 
         viiteKasittelija.lisaaViite(uusi);
         io.tulosta("Viite lisätty onnistuneesti!\n");
@@ -152,6 +167,7 @@ public class Tekstikayttoliittyma implements Runnable {
 //    protected void tulostaBibtex() {
 //        io.tulosta(viiteKasittelija.viitteetBibtexina());
 //    }
+    
     protected void listaaKomennot() {
         io.tulosta("Tuetut komennot: uusi, listaa, lopeta.\n");
     }
@@ -164,6 +180,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * @param crossref Viitteen nimi jo ristiviittaus kohdistuu
      * @return false jos attribuutti on määritetty. Muulloin true.
      */
+    
     protected boolean onPakollinen(String attribuutti, String crossref) {
         // TODO Tämän toiminnallisuuden voisi siirtää myös viitteen metodiksi. viite siis osaisi kertoa listan pakollisista, valinnaisista ja/tai kaikista attributteistaan. 
         return crossref.equals("") ? true : viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti) == null || viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti).getArvo().equals("");
