@@ -124,40 +124,34 @@ public class Tekstikayttoliittyma implements Runnable {
     protected void uusiViite() {
         //TODO Tee tästä kaunis....
         io.tulosta("Luodaan uusi viite.\n");
-        Viite uusi = new Viite();
+        Viite uusiViite = new Viite();
         io.tulosta("Tähdellä(*) merkityt kentät ovat pakollisia.\n");
 
         //Hommataan nimi
-        uusi.setNimi(hankiValidiSyöte("nimi", true));
+        uusiViite.setNimi(hankiValidiSyöte("nimi", true));
 
         //Hommataan typpi      
-        uusi.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyöte("tyyppi", true)));
+        uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyöte("tyyppi", true)));
 
         //Määritä mahdollinen ristiviittaus
         String crossref = hankiValidiSyöte("crossref", false);
-        uusi.setAttribuutti("crossref", crossref);
+        uusiViite.setAttribuutti("crossref", crossref);
 
         // Miten voi refaktoroida alla olevan yhteen erilliseen metodikutsuun vai yritetäänkö Java 7:lla kirjoittaa?
         
         //Kysellään kutakin pakollista attribuuttia vastaava arvo ja mapitetaan ne.
-        Map<String, String> pakollisetArvot
-                = uusi.getTyyppi().getPakolliset().stream()//Tehdään stream pakollisita AttrTyypeistä
+        uusiViite.getTyyppi().getPakolliset().stream()//Tehdään stream pakollisita AttrTyypeistä
                 .map(s -> s.name())//vaihdetaan AttrTyypit vastaaviin Stringeihin
                 .sorted()//Laitetaan aakkosjärjestykseen
-                .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää attribuutin arvon niin sitä attribuuttia ei tarvitse syöttää.
+                .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää attribuutin arvon niin sitä attribuuttia ei tarvitse syöttää.
 
         //sama valinnaisille... parempi ratkaisu lienee olemassa mutta slack :3
-        Map<String, String> valinnaisetArvot
-                = uusi.getTyyppi().getValinnaiset().stream()
+        uusiViite.getTyyppi().getValinnaiset().stream()
                 .map(s -> s.name())
                 .sorted()
-                .collect(Collectors.toMap(s -> s, s -> hankiValidiSyöte(s, false)));
+                .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyöte(s, false)));
         
-        //Asetetaan arvot
-        uusi.asetaAttribuuttienArvot(pakollisetArvot);
-        uusi.asetaAttribuuttienArvot(valinnaisetArvot);
-
-        viiteKasittelija.lisaaViite(uusi);
+        viiteKasittelija.lisaaViite(uusiViite);
         io.tulosta("Viite lisätty onnistuneesti!\n");
     }
 
