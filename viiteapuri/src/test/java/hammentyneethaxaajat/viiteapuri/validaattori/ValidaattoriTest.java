@@ -42,7 +42,7 @@ public class ValidaattoriTest {
     @Test
     public void validoiParametrinaJotainMuutaValidoiAttribuutin() {
         validaattori.validoi("author", "abc");
-        verify(validaattori, times(1)).validoiAttribuutti("author","abc");
+        verify(validaattori, times(1)).validoiAttribuutti(eq("author"), eq("abc"));
     }
 
     @Test

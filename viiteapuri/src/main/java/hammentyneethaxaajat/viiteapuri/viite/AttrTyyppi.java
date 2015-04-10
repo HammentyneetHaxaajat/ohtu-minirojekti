@@ -7,7 +7,7 @@ package hammentyneethaxaajat.viiteapuri.viite;
 public enum AttrTyyppi {
 
     //TODO Kullekin voisi määrittää myös kuvauksen attribuutin tarkoituksesta ja/tai sanallisen kuvauksen attribuutin hyväksymistä arvoista.
-    author("(\\p{L}|\\s|\\{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"),
+    author("(\\p{L}|\\s|\\p{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     editor("(\\p{L}|\\d|\\s|\\p{Punct})*"), publisher("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     year("[\\d]{4}"), volume("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     number("(\\p{L}|\\d|\\s|\\p{Punct})*"),

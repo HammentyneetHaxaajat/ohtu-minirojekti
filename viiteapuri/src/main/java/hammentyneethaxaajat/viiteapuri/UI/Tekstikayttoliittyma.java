@@ -7,6 +7,7 @@ import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Map;
 import java.util.stream.Collectors;
+import static resurssit.Tulosteet.*;
 
 /**
  * Tekstikäyttöliittymä, joka toimii ikään kuin
@@ -73,7 +74,7 @@ public class Tekstikayttoliittyma implements Runnable {
             String syote = kysele(nimi + (epatyhja ? "*" : ""));
 
             if (epatyhja && syote.trim().equals("")) {
-                io.tulosta("Kentän arvo ei saa olla tyhjä!\n");
+                io.tulosta(VIRHE_EI_TYHJA);
                 continue;
             }
 
