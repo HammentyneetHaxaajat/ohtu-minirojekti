@@ -58,7 +58,7 @@ public class Tekstikayttoliittyma implements Runnable {
     }
 
     protected String kysyKomento() {
-        return kysele("Syötä komento");
+        return kysele(SYOTA_KOMENTO);
     }
 
     /**
@@ -69,12 +69,12 @@ public class Tekstikayttoliittyma implements Runnable {
      * @return
      */
     
-    protected String hankiValidiSyöte(String nimi, boolean epatyhja) {
+    protected String hankiValidiSyote(String nimi, boolean epatyhja) {
         while (true) {
             String syote = kysele(nimi + (epatyhja ? "*" : ""));
 
             if (epatyhja && syote.trim().equals("")) {
-                io.tulosta(VIRHE_EI_TYHJA);
+                io.tulosta(ARVO_EI_SAA_OLLA_TYHJA);
                 continue;
             }
 
@@ -97,20 +97,20 @@ public class Tekstikayttoliittyma implements Runnable {
     
     protected void suoritaToiminto(String komento) {
         switch (komento) {
-            case "uusi":
+            case UUSI:
                 uusiViite();
                 break;
-            case "listaa":
+            case LISTAA:
                 listaaViitteet();
                 break;
-//            case "bibtex":
+//            case BIBTEX:
 //                tulostaBibtex();
 //                break;
-            case "lopeta":
+            case LOPETA:
                 kaynnissa = false;
                 break;
             default:
-                io.tulosta("Tuntematon komento. ");
+                io.tulosta(TUNTEMATON_KOMENTO);
                 listaaKomennot();
                 break;
         }
@@ -123,19 +123,19 @@ public class Tekstikayttoliittyma implements Runnable {
     
     protected void uusiViite() {
         //TODO Tee tästä kaunis....
-        io.tulosta("Luodaan uusi viite.\n");
+        
+        io.tulosta(UUDEN_VIITTEEN_LUONTI);
         Viite uusiViite = new Viite();
-        io.tulosta("Tähdellä(*) merkityt kentät ovat pakollisia.\n");
 
         //Hommataan nimi
-        uusiViite.setNimi(hankiValidiSyöte("nimi", true));
+        uusiViite.setNimi(hankiValidiSyote(NIMI, true));
 
         //Hommataan typpi      
-        uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyöte("tyyppi", true)));
+        uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyote(TYYPPI, true)));
 
         //Määritä mahdollinen ristiviittaus
-        String crossref = hankiValidiSyöte("crossref", false);
-        uusiViite.setAttribuutti("crossref", crossref);
+        String crossref = hankiValidiSyote(CROSSREF, false);
+        uusiViite.setAttribuutti(CROSSREF, crossref);
 
         // Miten voi refaktoroida alla olevan yhteen erilliseen metodikutsuun vai yritetäänkö Java 7:lla kirjoittaa?
         
@@ -143,16 +143,16 @@ public class Tekstikayttoliittyma implements Runnable {
         uusiViite.getTyyppi().getPakolliset().stream()//Tehdään stream pakollisita AttrTyypeistä
                 .map(s -> s.name())//vaihdetaan AttrTyypit vastaaviin Stringeihin
                 .sorted()//Laitetaan aakkosjärjestykseen
-                .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyöte(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää attribuutin arvon niin sitä attribuuttia ei tarvitse syöttää.
+                .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyote(s, onPakollinen(s, crossref)))); // Kerätään mapiksi, jos crossfer kohde määritelty ja sisältää attribuutin arvon niin sitä attribuuttia ei tarvitse syöttää.
 
         //sama valinnaisille... parempi ratkaisu lienee olemassa mutta slack :3
         uusiViite.getTyyppi().getValinnaiset().stream()
                 .map(s -> s.name())
                 .sorted()
-                .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyöte(s, false)));
+                .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyote(s, false)));
         
         viiteKasittelija.lisaaViite(uusiViite);
-        io.tulosta("Viite lisätty onnistuneesti!\n");
+        io.tulosta(VIITE_LISATTY_ONNISTUNEESTI);
     }
 
     protected void listaaViitteet() {
@@ -164,7 +164,7 @@ public class Tekstikayttoliittyma implements Runnable {
 //    }
     
     protected void listaaKomennot() {
-        io.tulosta("Tuetut komennot: uusi, listaa, lopeta.\n");
+        io.tulosta(TUETUT_KOMENNOT);
     }
 
     /**

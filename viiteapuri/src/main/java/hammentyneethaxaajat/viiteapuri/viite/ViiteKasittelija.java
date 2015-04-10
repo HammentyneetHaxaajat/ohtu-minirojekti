@@ -17,7 +17,19 @@ public class ViiteKasittelija {
         viitteet = new HashMap<>();
     }
 
+    /**
+     * Viitteen lis‰‰minen lis‰‰ viitteen viitelistaan tai heitt‰‰ IllegalStatExceptionin
+     * jos saman niminen viite on jo olemassa. T‰llaista ei voi ko. koodilla edes
+     * tapahtua, mutta virhetilanteisiin silti fiksu varautua. *samoin k‰yt‰nnˆss‰
+     * jos uusi = null..
+     * @param uusi 
+     */
+    
     public void lisaaViite(Viite uusi) {
+        if (viitteet.containsKey(uusi.getNimi())) {
+            throw new IllegalStateException("Saman niminen viite on jo olemassa.");
+        }
+        
         viitteet.put(uusi.getNimi(), uusi);
     }
 

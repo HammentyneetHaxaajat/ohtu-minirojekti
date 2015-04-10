@@ -30,5 +30,19 @@ public class ViiteTest {
         assertTrue(viite.getAttribuutti("number").toString().contains("abc"));
     }
     
-    
+    @Test
+    public void listausListaaViitteetSelkokielisessaMuodossa() {
+        viite = new Viite();
+        viite.setNimi("Viite #1");
+        viite.setTyyppi(ViiteTyyppi.book);
+        viite.setAttribuutti("year", "2345");
+        viite.setAttribuutti("month", "tammikuu");
+        viite.setAttribuutti("author", "erkki");
+        
+        assertTrue(viite.listaus().contains("nimi: Viite #1"));
+        assertTrue(viite.listaus().contains("tyyppi: book"));
+        assertTrue(viite.listaus().contains("author: erkki"));
+        assertTrue(viite.listaus().contains("month: tammikuu"));
+        assertTrue(viite.listaus().contains("year: 2345"));
+    }
 }

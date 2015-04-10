@@ -5,6 +5,7 @@ import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import static resurssit.Tulosteet.*;
 
 /**
  * Luokka, joka validoi viitteen kenttiin tulevia arvoja.
@@ -28,13 +29,13 @@ public class Validaattori implements Validoija {
     @Override
     public void validoi(String validoitava, String arvo) {
         switch (validoitava) {
-            case "tyyppi":
+            case TYYPPI:
                 validoiViiteTyyppi(arvo);
                 break;
-            case "nimi":
+            case NIMI:
                 validoiNimi(arvo);
                 break;
-            case "crossref":
+            case CROSSREF:
                 validoiRistiviite(arvo);
                 break;
             default:
@@ -59,7 +60,7 @@ public class Validaattori implements Validoija {
             String tuetutTyypit = Arrays.stream(ViiteTyyppi.values())
                     .map(s -> s.name())
                     .collect(Collectors.joining(", ", "Tuetut tyypit: ", ".\n"));
-            heitaException("Tuntematon viitteen tyyppi. " + tuetutTyypit);
+            heitaException(TUNTEMATON_VIITETYYPPI + tuetutTyypit);
         }
     }
 
@@ -75,10 +76,10 @@ public class Validaattori implements Validoija {
         if (viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
                 .anyMatch(s -> s.equals(nimi))) {
-            heitaException("Nimi varattu. Valitse toinen nimi.\n");
+            heitaException(NIMI_VARATTU);
             //TODO MÄÄRITÄ NIMEN SYNTAKSI
         } else if (!nimi.matches(".*")) {
-            heitaException("Nimi ei vastaa sille määrätyä syntaksia.\n");
+            heitaException(NIMI_EI_VASTAA_SEN_SYNTAKSIA);
         }
     }
 
@@ -119,7 +120,7 @@ public class Validaattori implements Validoija {
                 .map(s -> s.getNimi())
                 .noneMatch(s -> s.equals(arvo));
         if (!arvo.isEmpty() && eiLoydy) {
-            heitaException(arvo + " nimistä viitettä ei löydetty. Et voi viitata olemattomiin viitteisiin\n");
+            heitaException(arvo + RISTIVIITETTA_EI_OLE);
         }
     }
 

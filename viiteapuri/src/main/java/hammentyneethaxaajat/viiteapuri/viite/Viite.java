@@ -83,9 +83,9 @@ public class Viite {
      * @param arvot viitteen pakolliset tai valinnaiset arvot
      */
     
-    public void asetaAttribuuttienArvot(Map<String, String> arvot) {
-        arvot.keySet().stream().forEach(s -> this.setAttribuutti(s, arvot.get(s)));
-    }
+//    public void asetaAttribuuttienArvot(Map<String, String> arvot) {
+//        arvot.keySet().stream().forEach(s -> this.setAttribuutti(s, arvot.get(s)));
+//    }
     
     
     /**
