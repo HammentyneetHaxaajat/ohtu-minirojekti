@@ -40,7 +40,29 @@ scenario "käyttäjä näkee kaikki session viitteet", {
 }
 
 //KESKEN
-scenario "viitteet listataan luettavassa muodossa"
+scenario "viitteet listataan luettavassa muodossa", {
+	
+	given 'käyttäjä on syöttäny useamman viitteen järjestelmään', {
+		init(perustilanne)
+	}
+
+	when 'käyttäjä syötää listaa komennon', {
+		app.run()
+	}
+
+	then 'viitteessä olevat tiedot listataan selkokielellä', {
+		def tulosteet = io.getTulosteet()
+		ensure(tulosteet.last()) {
+			contains("bViite1")
+			contains("book")
+			contains("juri")
+			contains("juritus")
+			contains("juri pub")
+			contains("testaamisen iloa1")
+			contains("1946")
+		}
+	}
+}
 
 scenario "viitteistä tulee kaikki tieto listaan", {
 	
@@ -52,17 +74,25 @@ scenario "viitteistä tulee kaikki tieto listaan", {
 		app.run()
 	}
 	
+	//Katsotaan siältääkö listaus kaikki tietokentät
 	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
-		def tulosteet = io.getTulosteet()
-		ensure(tulosteet.last()) {
-			contains("bViite1")
-			contains("book")
-			contains("juri")
-			contains("juritus")
-			contains("juri pub")
-			contains("testaamisen iloa1")
-			contains("1946")
-		}
+		def val = ViiteTyyppi.book.getPakolliset()
+        def pak = ViiteTyyppi.book.getValinnaiset()
+
+        //yhdistetään listat
+        def attribuutit = val.plus(pak)
+
+        //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
+        def viiteTiedot = io.getTulosteet().last()
+
+        ensure(viiteTiedot) {
+        	contains("nimi")
+        	contains("tyyppi")
+        	contains("crossref")
+        	for(AttrTyyppi atribuutti: attribuutit) {
+        		contains(atribuutti.toString())
+        	}
+        }
 	}
 }
 
