@@ -56,6 +56,13 @@ public class Tekstikayttoliittyma implements Runnable {
     protected String kysele(String teksti) {
         return io.lueRivi(teksti + ":\n");
     }
+    
+    /**
+     * Kutsuu metodia kysele valmiilla kehotteella SYOTA_KOMENTO.
+     * Kehote haetaan luokasta Tulosteet.
+     * 
+     * @return käyttäjän antama syöte.
+     */
 
     protected String kysyKomento() {
         return kysele(SYOTA_KOMENTO);
@@ -66,7 +73,7 @@ public class Tekstikayttoliittyma implements Runnable {
      *
      * @param nimi Kysyttävän arvon nimi
      * @param epatyhja Tieto siitä pitääkö käyttäjän syöttää arvoa lainkaan
-     * @return
+     * @return käyttäjän antama syöte
      */
     
     protected String hankiValidiSyote(String nimi, boolean epatyhja) {
@@ -154,6 +161,10 @@ public class Tekstikayttoliittyma implements Runnable {
         viiteKasittelija.lisaaViite(uusiViite);
         io.tulosta(VIITE_LISATTY_ONNISTUNEESTI);
     }
+    
+    /**
+     * Palauttaa selkokielisen listan viitekäsittelijän avulla.
+     */
 
     protected void listaaViitteet() {
         io.tulosta(viiteKasittelija.viitteetListauksena());
@@ -162,6 +173,10 @@ public class Tekstikayttoliittyma implements Runnable {
 //    protected void tulostaBibtex() {
 //        io.tulosta(viiteKasittelija.viitteetBibtexina());
 //    }
+    
+    /**
+     * Listaa ohjelmassa tuetut komennot.
+     */
     
     protected void listaaKomennot() {
         io.tulosta(TUETUT_KOMENNOT);

@@ -40,7 +40,7 @@ public class Viite {
     
     /**
      * Ainoastaan testiluokan käyttöön.
-     * @return 
+     * @return Map, joka sisältää attribuutin ja sen arvon.
      */
     
     protected Map<String, Attribuutti> getAttribuutit() {

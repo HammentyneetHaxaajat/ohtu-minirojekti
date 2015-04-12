@@ -29,7 +29,7 @@ public class Attribuutti {
 
     /**
      * Palauttaa bibtex muotoisen tekstiesityksen
-     * @return
+     * @return Palautettava String.
      */
     
     @Override
