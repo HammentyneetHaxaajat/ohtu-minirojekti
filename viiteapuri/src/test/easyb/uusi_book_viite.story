@@ -42,11 +42,12 @@ scenario "jos annetaan vahingossa virheelliset syötteet kenttiin, antaa ohjelma
 	}
 	
 	then 'käyttäjälle välittyy tieto väärästä komennosta', {
-		io.getTulosteet().shouldHave("Tuntematon komento.")
+		io.getTulosteet().shouldHave(Tulosteet.TUNTEMATON_KOMENTO)
+		io.getTulosteet().shouldHave(Tulosteet.TUETUT_KOMENNOT)
 	}
 	and
 	then 'käyttäjälle välittyy tieto väärästä viitteestä', {
-		io.getTulosteet().shouldHave("Tuntematon viitteen tyyppi. Tuetut tyypit: book.")
+		io.getTulosteet().shouldHave(Tulosteet.TUNTEMATON_VIITETYYPPI)
 	}
 }
 
@@ -61,7 +62,7 @@ scenario "käyttäjä tietää mitkä kentät ovat pakollisia", {
 	}
 
 	then 'käyttäjä saa tiedon pakollisista kentistä', {
-		io.getTulosteet().shouldHave("Tähdellä(*) merkityt kentät ovat pakollisia.")
+		io.getTulosteet().shouldHave(Tulosteet.UUDEN_VIITTEEN_LUONTI)
 	}
 }
 
@@ -77,7 +78,7 @@ scenario "käyttäjän tulee täyttää pakolliset kentät", {
 	}
 	
 	then 'Käyttäjälle ilmoitetaan, ettei kenttää voi jättää tyhjäksi', {
-		io.getTulosteet().shouldHave("Kentän arvo ei saa olla tyhjä!")
+		io.getTulosteet().shouldHave(Tulosteet.ARVO_EI_SAA_OLLA_TYHJA)
 	}
 }
 
@@ -92,6 +93,6 @@ scenario "käyttäjän ei ole pakko täyttää valinnaisia kenttiä", {
 	}
 
 	then 'uusi viite lisätään järjestelmään', {
-		io.getTulosteet().shouldHave("Viite lisätty onnistuneesti!")
+		io.getTulosteet().shouldHave(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI)
 	}
 }

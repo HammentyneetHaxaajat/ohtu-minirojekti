@@ -1,8 +1,8 @@
-import hammentyneethaxaajat.viiteapuri.*
 import hammentyneethaxaajat.viiteapuri.UI.*
 import hammentyneethaxaajat.viiteapuri.validaattori.*
 import hammentyneethaxaajat.viiteapuri.viite.*
 import hammentyneethaxaajat.viiteapuri.IO.*
+import hammentyneethaxaajat.viiteapuri.resurssit.*
 
 String[] perustilanne = [
 "uusi", "bViite1", "book", "", "juri", "juritus", "juri pub", "testaamisen iloa1", "1946", "", "", "", "", "", "", "",
@@ -31,28 +31,29 @@ scenario "käyttäjä näkee kaikki session viitteet", {
 	}
 
 	then 'ohjelma tulostaa siihen syötetyt viitteet', {
-		def tulosteet = io.getTulosteet()
-		tulosteet.shouldHave("bViite1")
-		tulosteet.shouldHave("bViite2")
-		tulosteet.shouldHave("bViite3")
-		tulosteet.shouldHave("bViite4")
+		def konsoliTulosteet = io.getTulosteet()		
+		ensure(konsoliTulosteet.last()) {
+			contains("bViite1")
+			contains("bViite2")
+			contains("bViite3")
+			contains("bViite4")
+		}
 	}
 }
 
-//KESKEN
 scenario "viitteet listataan luettavassa muodossa", {
 	
-	given 'käyttäjä on syöttäny useamman viitteen järjestelmään', {
+	given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
 		init(perustilanne)
 	}
 
-	when 'käyttäjä syötää listaa komennon', {
+	when 'käyttäjä syöttää listaa komennon', {
 		app.run()
 	}
 
 	then 'viitteessä olevat tiedot listataan selkokielellä', {
-		def tulosteet = io.getTulosteet()
-		ensure(tulosteet.last()) {
+		def konsoliTulosteet = io.getTulosteet()
+		ensure(konsoliTulosteet.last()) {
 			contains("bViite1")
 			contains("book")
 			contains("juri")
@@ -77,22 +78,22 @@ scenario "viitteistä tulee kaikki tieto listaan", {
 	//Katsotaan siältääkö listaus kaikki tietokentät
 	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
 		def val = ViiteTyyppi.book.getPakolliset()
-        def pak = ViiteTyyppi.book.getValinnaiset()
+                def pak = ViiteTyyppi.book.getValinnaiset()
 
-        //yhdistetään listat
-        def attribuutit = val.plus(pak)
+                //yhdistetään listat
+                def attribuutit = val.plus(pak)
 
-        //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
-        def viiteTiedot = io.getTulosteet().last()
+                //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
+                def viiteTiedot = io.getTulosteet().last()
 
-        ensure(viiteTiedot) {
-        	contains("nimi")
-        	contains("tyyppi")
-        	contains("crossref")
-        	for(AttrTyyppi atribuutti: attribuutit) {
-        		contains(atribuutti.toString())
-        	}
-        }
+                ensure(viiteTiedot) {
+                        contains(Tulosteet.NIMI)
+                        contains(Tulosteet.TYYPPI)
+                        contains(Tulosteet.CROSSREF)
+                        for(AttrTyyppi atribuutti: attribuutit) {
+                                contains(atribuutti.toString())
+                        }
+                }
 	}
 }
 
@@ -115,8 +116,8 @@ scenario "edellisten sessioiden viitteitä ei listata", {
 	}
 	
 	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
-		def tulosteet = io.getTulosteet()
-		ensure(tulosteet.last()) {
+		def konsoliTulosteet = io.getTulosteet()
+		ensure(konsoliTulosteet.last()) {
 			doesNotContain("bViite1")
 			doesNotContain("bViite2")
 			doesNotContain("bViite3")
