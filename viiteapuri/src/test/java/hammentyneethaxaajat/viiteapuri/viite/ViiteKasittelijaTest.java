@@ -18,13 +18,6 @@ public class ViiteKasittelijaTest {
         assertTrue(kasittelija.getViitteet().size() == 1);
     }
     
-    @Test (expected = IllegalStateException.class)
-    public void lisaaViiteHeittaaExceptioninJosSamanNiminenViiteJoOlemassa() {
-        setUp();
-        lisaaViite();
-        lisaaViite();
-    }
-    
     private void lisaaViite() {
         Viite viite = new Viite();
         viite.setNimi("viite 1");
