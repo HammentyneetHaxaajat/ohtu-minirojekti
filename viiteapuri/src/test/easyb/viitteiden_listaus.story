@@ -32,7 +32,7 @@ scenario "käyttäjä näkee kaikki session viitteet", {
 
 	then 'ohjelma tulostaa siihen syötetyt viitteet', {
 		def konsoliTulosteet = io.getTulosteet()		
-		ensure(konsoliTulosteet.last()) {
+		ensure(konsoliTulosteet) {
 			contains("bViite1")
 			contains("bViite2")
 			contains("bViite3")
@@ -53,7 +53,7 @@ scenario "viitteet listataan luettavassa muodossa", {
 
 	then 'viitteessä olevat tiedot listataan selkokielellä', {
 		def konsoliTulosteet = io.getTulosteet()
-		ensure(konsoliTulosteet.last()) {
+		ensure(konsoliTulosteet) {
 			contains("bViite1")
 			contains("book")
 			contains("juri")
@@ -84,7 +84,7 @@ scenario "viitteistä tulee kaikki tieto listaan", {
                 def attribuutit = val.plus(pak)
 
                 //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
-                def viiteTiedot = io.getTulosteet().last()
+                def viiteTiedot = io.getTulosteet()
 
                 ensure(viiteTiedot) {
                         contains(Tulosteet.NIMI)
@@ -117,7 +117,7 @@ scenario "edellisten sessioiden viitteitä ei listata", {
 	
 	then 'vain edellisen session viite löytyy listasta', {
 		def konsoliTulosteet = io.getTulosteet()
-		ensure(konsoliTulosteet.last()) {
+		ensure(konsoliTulosteet) {
 			doesNotContain("bViite1")
 			doesNotContain("bViite2")
 			doesNotContain("bViite3")
