@@ -2,6 +2,7 @@ import hammentyneethaxaajat.viiteapuri.UI.*
 import hammentyneethaxaajat.viiteapuri.validaattori.*
 import hammentyneethaxaajat.viiteapuri.viite.*
 import hammentyneethaxaajat.viiteapuri.IO.*
+import hammentyneethaxaajat.viiteapuri.resurssit.*
 
 String[] perustilanne = ["uusi", "bViite", "book", "", "juri", "juritus", "juri pub", "testaamisen Iloa", "1945", "", "", "", "", "", "", "", "lopeta"]
 
@@ -25,7 +26,7 @@ scenario "käyttäjä kykenee lisäämään uuden book-viitteen", {
 	}
 
 	then 'uusi viite lisätään järjestelmään', {
-		io.getTulosteet().shouldHave("Viite lisätty onnistuneesti!")
+		io.getTulosteet().shouldHave(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI)
 	}
 
 }

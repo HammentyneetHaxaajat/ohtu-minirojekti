@@ -7,7 +7,7 @@ import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Map;
 import java.util.stream.Collectors;
-import static resurssit.Tulosteet.*;
+import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 
 /**
  * Tekstikäyttöliittymä, joka toimii ikään kuin

@@ -33,7 +33,7 @@ public class ViiteKasittelijaTest {
     
 //    @Test
 //    public void viitteetListauksenaPalauttaaViitteetSelkokielisenaListana() {
-//        // TODO ellei pelk‰st‰‰n easyB -testill‰ joka tekee kyll‰ saman asian
+//        // TODO ellei pelk√§st√§√§n easyB -testill√§ joka tekee kyll√§ saman asian
 //        
 //        assertTrue(false);
 //    }

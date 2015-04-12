@@ -5,7 +5,7 @@ import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import static resurssit.Tulosteet.*;
+import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 
 /**
  * Luokka, joka validoi viitteen kenttiin tulevia arvoja.

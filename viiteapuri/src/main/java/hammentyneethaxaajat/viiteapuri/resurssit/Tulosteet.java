@@ -1,4 +1,4 @@
-package resurssit;
+package hammentyneethaxaajat.viiteapuri.resurssit;
 
 public abstract class Tulosteet {
     public static final String ARVO_EI_SAA_OLLA_TYHJA = "Kentän arvo ei saa olla tyhjä!\n";

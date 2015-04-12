@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 /**
  * Luokka joka sis√§lt√§√§ Viite-olioiden k√§sittelyyn liityvi√§ metodeja.
  */
-
 public class ViiteKasittelija {
 
     private Map<String, Viite> viitteet;
@@ -18,27 +17,28 @@ public class ViiteKasittelija {
     }
 
     /**
-     * Viitteen lis‰‰minen lis‰‰ viitteen viitelistaan tai heitt‰‰ IllegalStatExceptionin
-     * jos saman niminen viite on jo olemassa. T‰llaista ei voi ko. koodilla edes
-     * tapahtua, mutta virhetilanteisiin silti fiksu varautua. *samoin k‰yt‰nnˆss‰
-     * jos uusi = null..
-     * @param uusi 
+     * Viitteen lis√§√§minen lis√§√§ viitteen viitelistaan tai heitt√§√§
+     * IllegalStatExceptionin jos saman niminen viite on jo olemassa. T√§llaista
+     * ei voi ko. koodilla edes tapahtua, mutta virhetilanteisiin silti fiksu
+     * varautua. *samoin k√§yt√§nn√§ss√§ jos uusi = null..
+     *
+     * @param uusi
      */
-    
     public void lisaaViite(Viite uusi) {
+        //FIXIT TODO Miksi tarkistus t√§√§l√§ kun ne pit√§isi olla validaattorilla???
         if (viitteet.containsKey(uusi.getNimi())) {
             throw new IllegalStateException("Saman niminen viite on jo olemassa.");
         }
-        
+
         viitteet.put(uusi.getNimi(), uusi);
     }
 
     /**
      * Hakee viitteen sille annetun nimen perusteella.
+     *
      * @param nimi
-     * @return 
+     * @return
      */
-    
     public Viite haeViite(String nimi) {
         return viitteet.get(nimi);
     }
