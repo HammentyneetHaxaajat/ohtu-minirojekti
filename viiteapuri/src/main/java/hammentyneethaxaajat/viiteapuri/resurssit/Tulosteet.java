@@ -1,5 +1,9 @@
 package hammentyneethaxaajat.viiteapuri.resurssit;
 
+/**
+ * Tekstikäyttöliittymän hyödyntämät tulosteet vakioina.
+ */
+
 public abstract class Tulosteet {
     public static final String ARVO_EI_SAA_OLLA_TYHJA = "Kentän arvo ei saa olla tyhjä!\n";
     public static final String TUNTEMATON_VIITETYYPPI = "Tuntematon viitteen tyyppi. ";

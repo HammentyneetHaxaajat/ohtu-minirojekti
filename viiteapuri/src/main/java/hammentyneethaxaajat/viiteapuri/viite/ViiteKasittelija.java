@@ -17,27 +17,19 @@ public class ViiteKasittelija {
     }
 
     /**
-     * Viitteen lisääminen lisää viitteen viitelistaan tai heittää
-     * IllegalStatExceptionin jos saman niminen viite on jo olemassa. Tällaista
-     * ei voi ko. koodilla edes tapahtua, mutta virhetilanteisiin silti fiksu
-     * varautua. *samoin käytännässä jos uusi = null..
+     * Viitteen lisääminen lisää viitteen viitelistaan
      *
-     * @param uusi
+     * @param uusi lisättävä viite
      */
     public void lisaaViite(Viite uusi) {
-        //FIXIT TODO Miksi tarkistus täälä kun ne pitäisi olla validaattorilla???
-        if (viitteet.containsKey(uusi.getNimi())) {
-            throw new IllegalStateException("Saman niminen viite on jo olemassa.");
-        }
-
         viitteet.put(uusi.getNimi(), uusi);
     }
 
     /**
      * Hakee viitteen sille annetun nimen perusteella.
      *
-     * @param nimi
-     * @return
+     * @param nimi Haettavan viitteen nimi
+     * @return haun perusteella palautettava Viite-olio
      */
     public Viite haeViite(String nimi) {
         return viitteet.get(nimi);

@@ -75,7 +75,7 @@ scenario "viitteistä tulee kaikki tieto listaan", {
 		app.run()
 	}
 	
-	//Katsotaan siältääkö listaus kaikki tietokentät
+	//Katsotaan sisältääkö listaus kaikki tietokentät
 	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
 		def val = ViiteTyyppi.book.getPakolliset()
                 def pak = ViiteTyyppi.book.getValinnaiset()
@@ -115,13 +115,14 @@ scenario "edellisten sessioiden viitteitä ei listata", {
 		app.run()
 	}
 	
-	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
+	then 'vain edellisen session viite löytyy listasta', {
 		def konsoliTulosteet = io.getTulosteet()
 		ensure(konsoliTulosteet.last()) {
 			doesNotContain("bViite1")
 			doesNotContain("bViite2")
 			doesNotContain("bViite3")
 			doesNotContain("bViite4")
+			contains("bViite5")
 		}
 	}
 }

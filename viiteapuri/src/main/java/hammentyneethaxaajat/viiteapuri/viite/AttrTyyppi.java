@@ -17,6 +17,7 @@ public enum AttrTyyppi {
 
     private String muoto;
 
+    //TODO javadoc
     private AttrTyyppi(String syntaksi) {
         if (syntaksi.equals("")) {
             this.muoto = ".*";

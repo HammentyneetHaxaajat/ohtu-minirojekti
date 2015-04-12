@@ -23,8 +23,8 @@ public enum ViiteTyyppi {
     /**
      * Privaatti konstruktori, joka luo viitetyypin (enum) joka sisältää
      * listan pakollisia ja valinnaisia attribuutteja (AttrTyyppi).
-     * @param pakolliset
-     * @param valinnaiset 
+     * @param pakolliset Pakollisten attribuuttien taulukko.
+     * @param valinnaiset Valinnaisten attribuuttien taulukko.
      */
     
     private ViiteTyyppi(AttrTyyppi[] pakolliset, AttrTyyppi[] valinnaiset) {
@@ -51,8 +51,8 @@ public enum ViiteTyyppi {
 
     /**
      * Palauttaa listan attribuutit Set:inä.
-     * @param lista
-     * @return 
+     * @param lista Attribuutti-taulukko
+     * @return Paluatettava lista Set:inä.
      */
     
     protected Set<AttrTyyppi> attribuutit(AttrTyyppi[] lista) {

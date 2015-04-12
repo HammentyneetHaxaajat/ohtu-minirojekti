@@ -3,6 +3,10 @@ package hammentyneethaxaajat.viiteapuri.IO;
 import java.util.ArrayList;
 
 /**
+ * Stub luokka IO:lle, jota käytetään testaamiseen.
+ * StubIO ottaa parametrina komennot, jotka normaalisti näppäillään
+ * itse ohjelman suorituksen aikana. Ohjelman tulosteet tallennetaan
+ * testien ajaksi listaan.
  *
  */
 
@@ -11,6 +15,12 @@ public class StubIO implements IO {
     private String[] rivit;
     private ArrayList<String> tulosteet;
     private int i;
+    
+    /**
+     * Luo uuden StubIO:n
+     * 
+     * @param komennot Ohjelman suorituksen aikana käsiteltävät komennot.
+     */
 
     public StubIO(String... komennot) {
         this.rivit = komennot;
@@ -18,8 +28,9 @@ public class StubIO implements IO {
     }
 
     /**
+     * Ottaa talteen tulostettavaksi tarkoitetun tekstin.
      * 
-     * @param teksti 
+     * @param teksti tulostettava teksti
      */
     
     @Override
@@ -28,13 +39,16 @@ public class StubIO implements IO {
     }
 
     /**
+     * Ottaa syötteen pyyntyä varten kirjoitetun kehotteen talteen
+     * ja palauttaa seuraavan rivit-taulukkoon talletetuista syötteistä
      * 
-     * @param kehote
-     * @return 
+     * @param kehote Ohje siitä mitä ohjelman käyttäjän tulisi syöttää
+     * @return seuraava syöte rivit-taulukosta
      */
     
     @Override
     public String lueRivi(String kehote) {
+        tulosteet.add(kehote);
         if (i < rivit.length) {
             return rivit[i++];
         }
@@ -42,8 +56,9 @@ public class StubIO implements IO {
     }
 
     /**
+     * Palauttaa talteen otetut tulosteet.
      * 
-     * @return 
+     * @return lista tulosteista
      */
     
     public ArrayList<String> getTulosteet() {

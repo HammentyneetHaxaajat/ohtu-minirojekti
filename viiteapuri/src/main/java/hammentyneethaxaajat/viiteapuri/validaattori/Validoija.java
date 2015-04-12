@@ -2,7 +2,7 @@
 package hammentyneethaxaajat.viiteapuri.validaattori;
 
 /**
- *
+ * Rajapinta validointitoiminnoille
  */
 public interface Validoija {
 
