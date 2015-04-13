@@ -8,6 +8,8 @@ import hammentyneethaxaajat.viiteapuri.IO.IO;
 import java.util.Map;
 import java.util.stream.Collectors;
 import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
+import net.sourceforge.cobertura.CoverageIgnore;
+
 
 /**
  * Tekstikäyttöliittymä, joka toimii ikään kuin

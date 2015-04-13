@@ -78,7 +78,7 @@ public class Validaattori implements Validoija {
                 .anyMatch(s -> s.equals(nimi))) {
             heitaException(NIMI_VARATTU);
             //TODO MÄÄRITÄ NIMEN SYNTAKSI
-        } else if (!nimi.matches(".*")) {
+        } else if (!nimi.matches("[\\p{L}\\w\\s]*")) {
             heitaException(NIMI_EI_VASTAA_SEN_SYNTAKSIA);
         }
     }

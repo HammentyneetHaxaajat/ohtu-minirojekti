@@ -46,8 +46,13 @@
             <groupId>org.ow2.asm</groupId>  
             <artifactId>asm</artifactId>  
             <version>5.0.3</version>  
-        </dependency> 
-        
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.cobertura</groupId>
+            <artifactId>cobertura</artifactId>
+            <version>2.1.1</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     <build>
@@ -73,6 +78,8 @@
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/KomentoriviIO.class</exclude>
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/StubIO.class</exclude>                            
                             <exclude>hammentyneethaxaajat/viiteapuri/resurssit/Tulosteet.class</exclude>
+                            <exclude>hammentyneethaxaajat/viiteapuri/UI/Tekstikayttoliittyma.class</exclude>
+                            
                         </excludes>
                     </instrumentation>
                     <check>

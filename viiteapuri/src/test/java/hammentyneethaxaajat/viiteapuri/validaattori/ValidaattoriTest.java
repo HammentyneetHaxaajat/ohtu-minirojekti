@@ -119,7 +119,10 @@ public class ValidaattoriTest {
         validaattori.validoiAttribuutti("attr", "abc");
     }
     
-    
+    @Test (expected = IllegalArgumentException.class)
+    public void nimenOnVastattavaSyntaksia() {
+        validaattori.validoi("nimi", "@%///&&##");
+    }
     
     @Test
     public void ristiViitteenValidointiOnnistuuJosHaettavaTyhjaString() {
