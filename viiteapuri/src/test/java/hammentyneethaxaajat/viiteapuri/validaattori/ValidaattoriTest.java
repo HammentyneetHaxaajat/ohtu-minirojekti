@@ -7,46 +7,67 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import static org.junit.Assert.fail;
+import org.junit.Rule;
+import org.junit.internal.runners.statements.Fail;
+
 
 public class ValidaattoriTest {
     Validaattori validaattori;
-    Validaattori mockDaattori;
-    String aapinen = "aapinen";
+    ViiteKasittelija kasittelija;
+    
     
     @Before
     public void setUp() {
-        Viite viite = new Viite();
-        viite.setNimi(aapinen);
-        ViiteKasittelija kasittelija = new ViiteKasittelija();
-        kasittelija.lisaaViite(viite);
-        
+        kasittelija = mock(ViiteKasittelija.class);
         validaattori = new Validaattori(kasittelija);
-        mockDaattori = mock(Validaattori.class);
+        
     }
     
-//    @Test
-//    public void validoiParametrinaTyyppiValidoiTyypin() {
-//        mockDaattori.validoi("tyyppi", "book");
-//        verify(mockDaattori, times(1)).validoiViiteTyyppi(eq("book"));
-//    }
-//    
-//    @Test
-//    public void validoiParametrinaNimiValidoiNimen() {
-//        mockDaattori.validoi("nimi", "abc");
-//        verify(mockDaattori, times(1)).validoiNimi(eq("abc"));
-//    }
-//    
-//    @Test
-//    public void validoiParametrinaCrossrefValidoiRistiviitteen() {
-//        mockDaattori.validoi("crossref", "abc");
-//        verify(mockDaattori, times(1)).validoiRistiviite(eq("abc"));
-//    }
-//    
-//    @Test
-//    public void validoiParametrinaJotainMuutaValidoiAttribuutin() {
-//        mockDaattori.validoi("author", "abc");
-//        verify(mockDaattori, times(1)).validoiAttribuutti(eq("author"), eq("abc"));
-//    }
+    @Test
+    public void validoiTyypin() {
+        try {
+            validaattori.validoi("tyyppi", "book");
+        } catch (Exception e) {
+            fail("Tyypin validointi epäonnistui");
+        }
+    }
+    
+    @Test
+    public void validoiNimen() {
+        try {
+            validaattori.validoi("nimi", "korvisten rouva");
+        } catch (Exception e) {
+            fail("Nimen validointi epäonnistui");
+        }
+    }
+    
+    @Test
+    public void validoiRistiviite() {
+        Viite viite = when(mock(Viite.class).getNimi()).thenReturn("aapinen").getMock();
+        List<Viite> viitteet = new ArrayList<Viite>();
+        viitteet.add(viite);
+        
+        when(kasittelija.getViitteet()).thenReturn(viitteet);
+        
+        try {
+            validaattori.validoi("crossref", "aapinen");
+        } catch (Exception e) {
+            fail("Ristiviitteen validointi epäonnistui");
+        }
+    }
+    
+    @Test
+    public void validoiAttribuutti() {
+        try {
+            validaattori.validoi("series", "my little pony");
+        } catch (Exception e) {
+            fail("Attribuutin validointi epäonnistui");
+        }
+    }
 
     @Test
     public void viiteTyypinValidointiOnnistuuTunnetuillaViiteTyypeilla() {
@@ -74,13 +95,14 @@ public class ValidaattoriTest {
     
     @Test (expected = IllegalArgumentException.class)
     public void nimenValidointiEiOnnistuJosToisellaViitteellaOnSamaNimi() {
-        validaattori.validoiNimi(aapinen);
+        Viite viite = when(mock(Viite.class).getNimi()).thenReturn("aapinen").getMock();
+        List<Viite> viitteet = new ArrayList<Viite>();
+        viitteet.add(viite);
+        
+        when(kasittelija.getViitteet()).thenReturn(viitteet);
+        validaattori.validoiNimi("aapinen");
     }
     
-//    @Test (expected = IllegalArgumentException.class)
-//    public void nimenValidointiEiOnnistuJosNimiEiNoudataSilleMaarattyaSyntaksia() {
-//        validaattori.validoiNimi("12.*/sdfklj");
-//    }
     
     @Test
     public void attribuutinvalidointiOnnistuuJosAttribuuttiOnMaarattyaMuotoa() {
@@ -97,10 +119,7 @@ public class ValidaattoriTest {
         validaattori.validoiAttribuutti("attr", "abc");
     }
     
-    @Test
-    public void ristiViitteenValidointiOnnistuuJosHaettavaViiteOlemassa() {
-        validaattori.validoiRistiviite(aapinen);
-    }
+    
     
     @Test
     public void ristiViitteenValidointiOnnistuuJosHaettavaTyhjaString() {
