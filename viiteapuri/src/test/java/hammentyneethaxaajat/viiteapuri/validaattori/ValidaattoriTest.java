@@ -8,11 +8,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import static org.junit.Assert.fail;
-import org.junit.Rule;
-import org.junit.internal.runners.statements.Fail;
 
 
 public class ValidaattoriTest {

@@ -14,10 +14,9 @@
     <dependencies>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-core</artifactId>
             <version>1.9.5</version>
             <scope>test</scope>
-            <type>jar</type>
         </dependency>
 
         
@@ -47,6 +46,7 @@
             <artifactId>asm</artifactId>  
             <version>5.0.3</version>  
         </dependency>
+        
         <dependency>
             <groupId>net.sourceforge.cobertura</groupId>
             <artifactId>cobertura</artifactId>
@@ -78,7 +78,7 @@
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/KomentoriviIO.class</exclude>
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/StubIO.class</exclude>                            
                             <exclude>hammentyneethaxaajat/viiteapuri/resurssit/Tulosteet.class</exclude>
-                            <exclude>hammentyneethaxaajat/viiteapuri/UI/Tekstikayttoliittyma.class</exclude>
+<!--                            <exclude>hammentyneethaxaajat/viiteapuri/UI/Tekstikayttoliittyma.class</exclude>-->
                             
                         </excludes>
                     </instrumentation>

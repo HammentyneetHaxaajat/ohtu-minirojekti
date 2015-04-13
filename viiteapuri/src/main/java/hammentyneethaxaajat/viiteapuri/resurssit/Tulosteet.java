@@ -25,6 +25,7 @@ public abstract class Tulosteet {
     
     public static final String UUDEN_VIITTEEN_LUONTI = "Luodaan uusi viite.\nTähdellä(*) merkityt kentät ovat pakollisia.\n";
     public static final String TUETUT_KOMENNOT = "Tuetut komennot: " + UUSI + ", " + LISTAA + ", " + LOPETA + ".\n";
+    public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String VIITE_LISATTY_ONNISTUNEESTI = "Viite lisätty onnistuneesti!\n";
     
     

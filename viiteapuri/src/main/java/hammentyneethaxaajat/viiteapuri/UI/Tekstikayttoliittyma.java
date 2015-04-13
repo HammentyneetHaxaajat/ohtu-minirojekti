@@ -5,10 +5,7 @@ import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.IO.IO;
-import java.util.Map;
-import java.util.stream.Collectors;
 import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
-import net.sourceforge.cobertura.CoverageIgnore;
 
 
 /**
@@ -116,6 +113,7 @@ public class Tekstikayttoliittyma implements Runnable {
 //                tulostaBibtex();
 //                break;
             case LOPETA:
+                io.tulosta(VIESTI_HEIHEI);
                 kaynnissa = false;
                 break;
             default:
