@@ -68,8 +68,9 @@
                             <exclude>hammentyneethaxaajat/viiteapuri/viite/Attribuutti.class</exclude>
                             <!-- muut -->
                             <exclude>hammentyneethaxaajat/viiteapuri/Main.class</exclude>
+                            <exclude>hammentyneethaxaajat/viiteapuri/IO/KomentoriviIO.class</exclude>
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/StubIO.class</exclude>                            
-                            <exclude>resurssit/Tulosteet.class</exclude>
+                            <exclude>hammentyneethaxaajat/viiteapuri/resurssit/Tulosteet.class</exclude>
                         </excludes>
                     </instrumentation>
                     <check>

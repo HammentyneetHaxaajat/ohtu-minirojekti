@@ -14,6 +14,14 @@ public class ViiteTest {
     }
     
     @Test
+    public void ViitetyypinenAsettaminenJaHakeminenToimii() {
+        viite = new Viite();
+        viite.setTyyppi(ViiteTyyppi.book);
+        
+        assertEquals(ViiteTyyppi.book, viite.getTyyppi());
+    }
+    
+    @Test
     public void setAttribuuttiLuoViitteelleUudenAttribuutinJosSellaistaEiOle() {
         viite.setAttribuutti("number", "1243");
         assertEquals(1, viite.getAttribuutit().size());
