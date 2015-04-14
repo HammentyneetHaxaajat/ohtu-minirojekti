@@ -78,23 +78,23 @@ scenario "viitteistä tulee kaikki tieto listaan", {
 	//Katsotaan sisältääkö listaus kaikki tietokentät
 	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
 		def val = ViiteTyyppi.book.getPakolliset()
-                def pak = ViiteTyyppi.book.getValinnaiset()
+		def pak = ViiteTyyppi.book.getValinnaiset()
 
-                //yhdistetään listat
-                def attribuutit = val.plus(pak)
+        //yhdistetään listat
+        def attribuutit = val.plus(pak)
 
-                //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
-                def viiteTiedot = io.getTulosteet()
+        //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
+        def viiteTiedot = io.getTulosteet()
 
-                ensure(viiteTiedot) {
-                        contains(Tulosteet.NIMI)
-                        contains(Tulosteet.TYYPPI)
-                        contains(Tulosteet.CROSSREF)
-                        for(AttrTyyppi atribuutti: attribuutit) {
-                                contains(atribuutti.toString())
-                        }
-                }
-	}
+        ensure(viiteTiedot) {
+        	contains(Tulosteet.NIMI)
+        	contains(Tulosteet.TYYPPI)
+        	contains(Tulosteet.CROSSREF)
+        	for(AttrTyyppi atribuutti: attribuutit) {
+        		contains(atribuutti.toString())
+        	}
+        }
+    }
 }
 
 scenario "edellisten sessioiden viitteitä ei listata", {
@@ -102,7 +102,7 @@ scenario "edellisten sessioiden viitteitä ei listata", {
 	given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
 		init(perustilanne)
 	}
-	
+
 	when 'käyttäjä sulkee session', {
 		app.run()
 	}
@@ -114,7 +114,7 @@ scenario "edellisten sessioiden viitteitä ei listata", {
 	when 'käyttäjä syöttää listaa komennon', {
 		app.run()
 	}
-	
+
 	then 'vain edellisen session viite löytyy listasta', {
 		def konsoliTulosteet = io.getTulosteet()
 		ensure(konsoliTulosteet) {
@@ -124,5 +124,5 @@ scenario "edellisten sessioiden viitteitä ei listata", {
 			doesNotContain("bViite4")
 			contains("bViite5")
 		}
-	}
+    }
 }
