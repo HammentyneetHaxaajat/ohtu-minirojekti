@@ -3,6 +3,7 @@ package hammentyneethaxaajat.viiteapuri.viite;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * Viitteen tyyppiä kuvaava luokka, joka määrittää Viitteelle pakolliset ja sallitut atribuutit.
@@ -15,10 +16,15 @@ public enum ViiteTyyppi {
         AttrTyyppi.author, AttrTyyppi.editor, AttrTyyppi.title, AttrTyyppi.publisher, AttrTyyppi.year
     }, new AttrTyyppi[] {
         AttrTyyppi.volume, AttrTyyppi.number, AttrTyyppi.series, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    article(new AttrTyyppi[] {
+        AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.journal, AttrTyyppi.year, AttrTyyppi.volume
+    }, new AttrTyyppi[] {
+        AttrTyyppi.number, AttrTyyppi.pages, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
     });
 
-    private Set<AttrTyyppi> pakolliset;
-    private Set<AttrTyyppi> valinnaiset;
+    private AttrTyyppi[] pakolliset;
+    private AttrTyyppi[] valinnaiset;
 
     /**
      * Privaatti konstruktori, joka luo viitetyypin (enum) joka sisältää
@@ -28,8 +34,8 @@ public enum ViiteTyyppi {
      */
     
     private ViiteTyyppi(AttrTyyppi[] pakolliset, AttrTyyppi[] valinnaiset) {
-        this.pakolliset = attribuutit(pakolliset);
-        this.valinnaiset = attribuutit(valinnaiset);
+        this.pakolliset = pakolliset;
+        this.valinnaiset = valinnaiset;
     }
 
     /**
@@ -37,7 +43,7 @@ public enum ViiteTyyppi {
      * @return Set, joka sisältää pakollisten attribuuttien tyypit.
      */
     public Set<AttrTyyppi> getPakolliset() {
-        return pakolliset;
+        return Arrays.stream(pakolliset).collect(Collectors.toSet());
     }
 
     /**
@@ -46,16 +52,24 @@ public enum ViiteTyyppi {
      */
     
     public Set<AttrTyyppi> getValinnaiset() {
-        return valinnaiset;
+        return Arrays.stream(valinnaiset).collect(Collectors.toSet());
     }
 
     /**
-     * Palauttaa listan attribuutit Set:inä.
+     * Palauttaa arrayn attribuutit Set:inä.
      * @param lista Attribuutti-taulukko
      * @return Paluatettava lista Set:inä.
      */
     
     protected Set<AttrTyyppi> attribuutit(AttrTyyppi[] lista) {
         return Arrays.stream(lista).collect(Collectors.toSet());
+    }
+    
+    /**
+     * Palauttaa kaikki viitteeseen liittyvät AttrTyypit.
+     * @return Set joka sisältää kaikki ViiteTyypille sallitut AttrTyypit.
+     */
+    public Set<AttrTyyppi> getKaikki(){
+        return Arrays.stream(ArrayUtils.addAll(pakolliset, valinnaiset)).collect(Collectors.toSet());
     }
 }

@@ -24,6 +24,14 @@ public class ViiteKasittelija {
     public void lisaaViite(Viite uusi) {
         viitteet.put(uusi.getNimi(), uusi);
     }
+    
+    /**
+     * Poistaa viitteen parametrina saadun viitteen ohjelmasta.
+     * @param viite Poistettava viite.
+     */
+    public void poistaViite(Viite viite){
+        viitteet.remove(viite.getNimi());
+    }
 
     /**
      * Hakee viitteen sille annetun nimen perusteella.
@@ -35,9 +43,10 @@ public class ViiteKasittelija {
         return viitteet.get(nimi);
     }
 
-//    public String viitteetBibtexina() {
-//        return viitteet.values().stream().map(v -> v.toString()).collect(Collectors.joining("\n"));
-//    }
+    public String viitteetBibtexina() {
+        return viitteet.values().stream().map(v -> v.toString()).collect(Collectors.joining("\n", "\\usepackage[utf8]{inputenc}\n\n",""));
+    }
+    
     public Collection<Viite> getViitteet() {
         return viitteet.values();
     }

@@ -93,8 +93,8 @@ public class Viite {
      *
      * @return
      */
-//    @Override
-//    public String toString() {
-//        return attribuutit.values().stream().filter(s -> !s.getArvo().equals("")).map(a -> a.toString()).collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
-//    }
+    @Override
+    public String toString() {
+        return attribuutit.values().stream().filter(s -> !s.getArvo().equals("")).map(a -> a.toString()).collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
+    }
 }

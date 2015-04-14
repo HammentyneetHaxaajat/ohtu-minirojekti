@@ -13,7 +13,7 @@ public enum AttrTyyppi {
     number("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     series("(\\p{L}|\\d|\\s|\\p{Punct})*"), address("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     edition("(\\p{L}|\\d|\\s|\\p{Punct})*"), month("(\\p{L})*"),
-    note("(\\p{L}|\\d|\\s|\\p{Punct})*"), key("(\\d)*"), crossref("");
+    note("(\\p{L}|\\d|\\s|\\p{Punct})*"), key("(\\d)*"), crossref(""), pages(""), journal("");
 
     private String muoto;
 
