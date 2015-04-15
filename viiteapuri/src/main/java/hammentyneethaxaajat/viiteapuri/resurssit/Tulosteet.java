@@ -15,8 +15,8 @@ public abstract class Tulosteet {
     
     public static final String VIRHE_EIVIITTEITA = "Ohjelmassa ei ole yhtäkään viitettä.\n";
     public static final String VIITE = "viite";
-    public static final String ATTIBUTTIKYSELY = "Muokattava attribuutti";
-    public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiestolle";
+    public static final String ATTRIBUUTTIKYSELY = "Muokattava attribuutti";
+    public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiedostolle";
     public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio";
     public static final String TYYPPI = "tyyppi";
     public static final String NIMI = "nimi";

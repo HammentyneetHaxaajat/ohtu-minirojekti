@@ -42,9 +42,9 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     @Override
     public void run() {
-        listaaKomennot();
 
         while (kaynnissa) {
+            listaaKomennot();
             String komento = kysyKomento();
             suoritaToiminto(komento);
         }
@@ -233,41 +233,56 @@ public class Tekstikayttoliittyma implements Runnable {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            io.tulosta(viiteKasittelija.getViitteet().stream()
-                    .map(s -> s.getNimi())
-                    .collect(Collectors.joining(", ", "Muokattavissa olevat viitteet: ", "\n")));
-            Viite viite = viiteKasittelija.haeViite(hankiValidiSyote(VIITE, true));
-            io.tulosta("Viitteen tiedot:\n" + viite.listaus());
+            tulostaViestiJaViitteet("Muokattavissa olevat viitteet: ");
+
+            Viite viite = haeViiteKayttajanSyotteenPerusteella();
+            tulostaViitteenTiedot(viite);
             //FIXIT validaattori ei nykyisellään kykene tarkistamaan tätä joten tarkistetaan tässä
-            String attribuutti;
-            while (true) {
-                attribuutti = kysele(ATTIBUTTIKYSELY);
-                try {
-                    AttrTyyppi.valueOf(attribuutti);
-                    break;
-                } catch (Exception e) {
-                    io.tulosta("Syötä jokin viitteen tietojen listauksessa näkyvistä attribuuteista.\n");
-                }
-            }
+            
+            String attribuutti = muokattavaAttribuutti(viite);
+
             io.tulosta("Uusi arvo attribuutille ");
             String uusiArvo = hankiValidiSyote(attribuutti, onPakollinen(attribuutti, viite.getAttribuutti("crossref").getArvo()));
             viite.setAttribuutti(attribuutti, uusiArvo);
         }
 
     }
+    
+    /**
+     * Selvittää käyttäjältä viitteen attribuutin, jota käyttäjä haluaa muokata.
+     * @return 
+     */
+    private String muokattavaAttribuutti(Viite viite) {
+        // TODO - siirrä validointi validaattorille? Validaattorin tulisi tietää viite.
+        while (true) {
+            String attribuutti = kysele(ATTRIBUUTTIKYSELY);
+            
+            if (viite.getAttribuutti(attribuutti) != null) {
+                return attribuutti;
+            }
+            io.tulosta("Syötä jokin viitteen tietojen listauksessa näkyvistä attribuuteista.\n");
+            
+            // try {
+                // AttrTyyppi.valueOf(attribuutti); 
+            // } 
+            // catch (Exception e) {}
+        }
+    }
 
     private void poistaViite() {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            io.tulosta(viiteKasittelija.getViitteet().stream()
-                    .map(s -> s.getNimi())
-                    .collect(Collectors.joining(", ", "Poistettavissa olevat viitteet: ", "\n")));
-            Viite viite = viiteKasittelija.haeViite(hankiValidiSyote(VIITE, true));
-            io.tulosta("Viitteen tiedot:\n" + viite.listaus());
+            tulostaViestiJaViitteet("Poistettavissa olevat viitteet: ");
+
+            Viite viite = haeViiteKayttajanSyotteenPerusteella();
+            tulostaViitteenTiedot(viite);
+            
             String varmistus = kysele(KYSY_VARMISTUS);
             if (varmistus.equals("poista")) {
                 viiteKasittelija.poistaViite(viite);
+            } else {
+                io.tulosta("Viitettä ei poistettu.\n");
             }
         }
 
@@ -275,5 +290,19 @@ public class Tekstikayttoliittyma implements Runnable {
 
     private boolean ohjelmassaViitteita() {
         return !viiteKasittelija.getViitteet().isEmpty();
+    }
+    
+    private void tulostaViestiJaViitteet(String viesti) {
+        io.tulosta(viiteKasittelija.getViitteet().stream()
+                .map(s -> s.getNimi())
+                .collect(Collectors.joining(", ", viesti, "\n")));
+    }
+    
+    private void tulostaViitteenTiedot(Viite viite) {
+        io.tulosta("Viitteen tiedot:\n" + viite.listaus());
+    }
+    
+    private Viite haeViiteKayttajanSyotteenPerusteella() {
+        return viiteKasittelija.haeViite(hankiValidiSyote(VIITE, true));
     }
 }

@@ -31,7 +31,7 @@ public class Validaattori implements Validoija {
             case VIITE:
                 tarkistaViitteenOlemassaolo(arvo);
                 break;
-            case ATTIBUTTIKYSELY:
+            case ATTRIBUUTTIKYSELY:
                 //TODO IMPLEMENTOI testi kuuluuko attribuutti tietylle viitteelle. Ja mille viitteelle onkin jotain mitä validaattori ei voi tietää.
                 break;
             case KYSY_TIEDOSTO_NIMI:
