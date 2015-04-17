@@ -105,5 +105,15 @@ scenario "käyttäjän ei ole pakko täyttää valinnaisia kenttiä", {
 
 //Toistaiseksi ohjelma ei tee tätä
 scenario "lisäyksen jälkeen ohjelma listaa lisätyn viitteen", {
+    given 'käyttäjä lisää viitteen ohjelmaan', {
+        init(perustilanne)
+    }
 
+    when 'kaikki tiedot lisätään oike', {
+        app.run()
+    }
+
+    then 'ohjelma listaa viitteen', {
+        io.getTulosteet().shouldHave("Viitteen tiedot:")
+    }
 }

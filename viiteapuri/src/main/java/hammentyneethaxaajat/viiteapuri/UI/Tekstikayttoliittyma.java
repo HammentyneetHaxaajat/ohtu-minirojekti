@@ -164,7 +164,8 @@ public class Tekstikayttoliittyma implements Runnable {
                 .forEach(s -> uusiViite.setAttribuutti(s, hankiValidiSyote(s, false)));
 
         viiteKasittelija.lisaaViite(uusiViite);
-        io.tulosta(VIITE_LISATTY_ONNISTUNEESTI);
+        tulostaViitteenTiedot(uusiViite);
+        io.tulosta('\n' + VIITE_LISATTY_ONNISTUNEESTI);
     }
 
     /**
