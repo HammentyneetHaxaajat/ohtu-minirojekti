@@ -87,6 +87,16 @@ public class Viite {
 //        arvot.keySet().stream().forEach(s -> this.setAttribuutti(s, arvot.get(s)));
 //    }
     
+    /**
+     * Tarkistaa, onko viitteellä samannimistä pakollista attribuuttia kuin 'attr'.
+     * @param attr
+     * @return 
+     */
+    
+    public boolean pakollinenAttribuutti(String attr) {
+        return this.getTyyppi().getPakolliset().stream().anyMatch((attrTyyppi) -> (attrTyyppi.name().equals(attr)));
+    }
+    
     
     /**
      * Palauttaa bibtexmuotoisen tekstiesityksen

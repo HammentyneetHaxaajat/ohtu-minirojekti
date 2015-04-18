@@ -6,7 +6,7 @@ import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
-import hammentyneethaxaajat.viiteapuri.viite.Attribuutti;
+import hammentyneethaxaajat.viiteapuri.viite.Viite;
 
 /**
  * Luokka, joka validoi viitteen kenttiin tulevia arvoja.
@@ -54,6 +54,40 @@ public class Validaattori implements Validoija {
                 break;
         }
     }
+    
+    @Override
+    public void validoiEttaEpaTyhja(String syote) {
+        if (syote.isEmpty()) {
+            heitaException(ARVO_EI_SAA_OLLA_TYHJA);
+        }
+    }
+    
+    @Override
+    public void validoi(Viite viite, String attr, String validoitava) {
+        switch(validoitava) {
+            case "muokkaa":
+                validoiMuokattavaAttribuutti(viite, attr);
+                break;
+        }
+    }
+    
+    protected void validoiMuokattavaAttribuutti(Viite viite, String attr) {
+        switch(attr) {
+            case NIMI:
+                heitaException("Et voi muokata viitteen nimeä.\n");
+                break;
+            case TYYPPI:
+                heitaException("Et voi muokata viitteen tyyppiä.\n");
+                break;
+            default:
+                if (viite.getAttribuutti(attr) == null) {
+                    heitaException("Syötä jokin viitteen tietojen listauksessa näkyvistä attribuuteista.\n");
+                }
+                break;
+        }
+    }
+    
+    
 
     /**
      * Validoi viitteen tyypin.

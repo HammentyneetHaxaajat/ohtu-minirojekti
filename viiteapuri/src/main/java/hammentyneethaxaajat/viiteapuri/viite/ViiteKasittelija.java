@@ -1,5 +1,6 @@
 package hammentyneethaxaajat.viiteapuri.viite;
 
+import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,5 +63,22 @@ public class ViiteKasittelija {
         return viitteet.values().stream()
                 .map(s -> s.listaus())
                 .collect(Collectors.joining("----------------------------------------\n", "--------------------Listataan viitteet--------------------\n", "--------------------END--------------------\n"));
+    }
+    
+    public boolean pakollinenSyotettavaAttribuutti(Viite viite, String attribuutti) {
+        if (viite.pakollinenAttribuutti(attribuutti)) {
+            String crossref = viite.getAttribuutti(CROSSREF).getArvo();
+        
+            return crossref.isEmpty();
+//          return crossref.equals("") ? true : haeViite(crossref).getAttribuutti(attribuutti) == null || haeViite(CROSSREF).getAttribuutti(attribuutti).getArvo().equals("");
+        }
+        return false;
+    }
+    
+    public Collection<Viite> viittaavatViitteet(Viite viite) {
+        return this.getViitteet()
+            .stream()
+            .filter((v) -> (v.getAttribuutti(CROSSREF).getArvo().equals(viite.getNimi())))
+            .collect(Collectors.toSet());
     }
 }
