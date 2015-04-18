@@ -6,10 +6,11 @@ package hammentyneethaxaajat.viiteapuri.viite;
  */
 public enum AttrTyyppi {
 
-    //TODO Kullekin voisi määrittää myös kuvauksen attribuutin tarkoituksesta ja/tai sanallisen kuvauksen attribuutin hyväksymistä arvoista.
+    //TODO Määrittäkää sanalliset kuvaukset syntaksille jos se on monimutkainen. Silloin sen voi tulostaa "virheellisen syntaksi" ilmoituksen kanssa.
+    //TODO Määrittäkää kunnolliset regexit
     author("(\\p{L}|\\s|\\p{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     editor("(\\p{L}|\\d|\\s|\\p{Punct})*"), publisher("(\\p{L}|\\d|\\s|\\p{Punct})*"),
-    year("[\\d]{4}"), volume("(\\p{L}|\\d|\\s|\\p{Punct})*"),
+    year("([\\d]{4})?"), volume("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     number("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     series("(\\p{L}|\\d|\\s|\\p{Punct})*"), address("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     edition("(\\p{L}|\\d|\\s|\\p{Punct})*"), month("(\\p{L})*"),
@@ -17,7 +18,10 @@ public enum AttrTyyppi {
 
     private String muoto;
 
-    //TODO javadoc
+    /**
+     * Alustaa AttrTyyppi enumit. Kukin saa oletuksena ".*" regexin jos parametri ei määritä muuta.
+     * @param syntaksi 
+     */
     private AttrTyyppi(String syntaksi) {
         if (syntaksi.equals("")) {
             this.muoto = ".*";

@@ -20,20 +20,14 @@ public class Validaattori implements Validoija {
     }
 
     /**
-     * Valitsee oikean validointifunktion parametrien perusteella.
+     * Validoi annetun arvon sitä vastaavan tunnisteen mukaan.
      *
-     * @param validoitava Validoitavan tiedon tunniste/nimi.
+     * @param tyyppi Validoitavan tiedon tunniste/nimi.
      * @param arvo Validoitava arvo.
      */
     @Override
-    public void validoi(String validoitava, String arvo) {
-        switch (validoitava) {
-            case VIITE:
-                tarkistaViitteenOlemassaolo(arvo);
-                break;
-            case ATTRIBUUTTIKYSELY:
-                //TODO IMPLEMENTOI testi kuuluuko attribuutti tietylle viitteelle. Ja mille viitteelle onkin jotain mitä validaattori ei voi tietää.
-                break;
+    public void validoi(String tyyppi, String arvo) {
+        switch (tyyppi) {
             case KYSY_TIEDOSTO_NIMI:
                 //TODO IMPLEMENTOI tarkistus hyväksyttävälle tiedostonimelle
                 break;
@@ -46,48 +40,52 @@ public class Validaattori implements Validoija {
             case NIMI:
                 validoiNimi(arvo);
                 break;
+            case VIITE:
+                tarkistaTyhjyys(arvo);
             case CROSSREF:
-                validoiRistiviite(arvo);
+                validoiViite(arvo);
                 break;
             default:
-                validoiAttribuutti(validoitava, arvo);
-                break;
+                heitaException("Tuntematon validoitava.\n");
         }
     }
-    
+
+    /**
+     * Validoi viitteelle asetettavia attribuutteja sekä niiden arvoja.
+     *
+     * @param viite Viite jolle attribuutti kuuluu.
+     * @param attr Attribuutti joka tarkistetaan
+     * @param arvo Attribuutin arvo.
+     */
     @Override
-    public void validoiEttaEpaTyhja(String syote) {
-        if (syote.isEmpty()) {
-            heitaException(ARVO_EI_SAA_OLLA_TYHJA);
-        }
-    }
-    
-    @Override
-    public void validoi(Viite viite, String attr, String validoitava) {
-        switch(validoitava) {
-            case "muokkaa":
-                validoiMuokattavaAttribuutti(viite, attr);
+    public void validoi(Viite viite, String attr, String arvo) {
+        switch (attr) {
+            case ATTRIBUUTTI:
+                validoiAttribuutinTyyppi(viite, arvo);
                 break;
-        }
-    }
-    
-    protected void validoiMuokattavaAttribuutti(Viite viite, String attr) {
-        switch(attr) {
             case NIMI:
-                heitaException("Et voi muokata viitteen nimeä.\n");
-                break;
-            case TYYPPI:
-                heitaException("Et voi muokata viitteen tyyppiä.\n");
+                validoiNimi(arvo);
                 break;
             default:
-                if (viite.getAttribuutti(attr) == null) {
-                    heitaException("Syötä jokin viitteen tietojen listauksessa näkyvistä attribuuteista.\n");
-                }
-                break;
+                validoiAttribuutti(viite, attr, arvo);
         }
     }
-    
-    
+
+    /**
+     * Validoi viitteelle kuuluvan "tavallisen" attribuutin
+     *
+     * @param viite Viite jolle attribuutti kuuluu.
+     * @param attr Validoitava attribuutti.
+     * @param arvo Validoitava arvo.
+     * @throws IllegalArgumentException Jos Arvo ei täytä attribuutin ja viitteen sille asettamia vaatimuksia.
+     */
+    protected void validoiAttribuutti(Viite viite, String attr, String arvo) {
+        if (viiteKasittelija.pakollisetAttribuutit(viite).stream()
+                .anyMatch(s -> s.name().equals(attr))) {
+            tarkistaTyhjyys(arvo);
+        }
+        validoiAttribuutinArvo(attr, arvo);
+    }
 
     /**
      * Validoi viitteen tyypin.
@@ -116,11 +114,12 @@ public class Validaattori implements Validoija {
      * syntaksia.
      */
     protected void validoiNimi(String nimi) {
+        tarkistaTyhjyys(nimi);
         if (viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
                 .anyMatch(s -> s.equals(nimi))) {
             heitaException(NIMI_VARATTU);
-            //TODO MÄÄRITÄ NIMEN SYNTAKSI
+            //TODO MÄÄRITÄ NIMEN SYNTAKSI. voi tehdä AttrTyyppi enumin sille niin voi määrittää samassa paikassa muiden kanssa.
         } else if (!nimi.matches("[\\p{L}\\w\\s]*")) {
             heitaException(NIMI_EI_VASTAA_SEN_SYNTAKSIA);
         }
@@ -134,17 +133,15 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException Arvo ei vastaan nimen määrittämää
      * muotoa.
      */
-    protected void validoiAttribuutti(String nimi, String arvo) {
+    protected void validoiAttribuutinArvo(String nimi, String arvo) {
         AttrTyyppi tyyppi = null;
         try {
             tyyppi = AttrTyyppi.valueOf(nimi);
         } catch (Exception e) {
-            //Tämän ei pitäisi tapahtua ikinä nykyisellä UIlla...
             heitaException("Tämän nimistä attribuuttia ei ole.\n");
         }
 
         if (tyyppi != null && !arvo.matches(tyyppi.getMuoto())) {
-            //TODO kaikille AtrTyypeille voisi määrittää sanallisen kuvauksen hyväksytystä syötteestä ja lisätä sen viestiin. esim yearin kohdalla "year tulee olla muotoa yyyy." tjs.
             heitaException("Syöte ei vastaa hyväksyttyä muotoa.\n");
         }
     }
@@ -156,12 +153,23 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException jos ristiviitattavaa viitettä ei ole
      * olemassa.
      */
-    protected void validoiRistiviite(String arvo) {
+    protected void validoiViite(String arvo) {
         Boolean eiLoydy = viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
                 .noneMatch(s -> s.equals(arvo));
         if (!arvo.isEmpty() && eiLoydy) {
-            heitaException(arvo + RISTIVIITETTA_EI_OLE);
+            heitaException(arvo + VIRHE_VIITETTA_EI_OLE);
+        }
+    }
+
+    /**
+     * Tarkistaa onko annettu String tyhjä
+     *
+     * @param syote Tarkistettava String.
+     */
+    private void tarkistaTyhjyys(String syote) {
+        if (syote.isEmpty()) {
+            heitaException(ARVO_EI_SAA_OLLA_TYHJA);
         }
     }
 
@@ -174,9 +182,22 @@ public class Validaattori implements Validoija {
         throw new IllegalArgumentException(msg);
     }
 
-    private void tarkistaViitteenOlemassaolo(String arvo) {
-        if (viiteKasittelija.getViitteet().stream().noneMatch(s -> s.getNimi().matches(arvo))) {
-            heitaException(arvo + " ei vastaa olemassa olevaa viitettä.\n");
+    /**
+     * Tarkistaa että annettu attributti kuuluu viitteelle ja sen arvo voidaan
+     * muuttaa.
+     *
+     * @param viite Viite jolle attribuuti kuuluu
+     * @param attr Attribuutin nimi
+     */
+    private void validoiAttribuutinTyyppi(Viite viite, String attr) {
+        if (attr.equals(AttrTyyppi.crossref.name())) {
+            //TODO Kommentoi alempi rivi jos crossreffin muuttaminen sallitaan joskus. Crossreffin muuttamisen toiminnallisuus pitää myös korjata muualla koodissa jos sallitaan.
+            heitaException("Crossref kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
+        } else if (attr.equals(NIMI)) {
+            //TODO Kommentoi alempi rivi jos nimen vaihtaminen sallitaan.
+//            heitaException("Nimi kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
+        } else if (viite.getTyyppi().getKaikki().stream().noneMatch(a -> a.name().equals(attr))) {
+            heitaException("Viitteellä ei ole " + attr + " nimistä kenttää.\n");
         }
     }
 }

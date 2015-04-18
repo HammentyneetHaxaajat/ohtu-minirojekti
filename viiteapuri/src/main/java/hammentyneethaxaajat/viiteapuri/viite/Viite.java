@@ -38,12 +38,7 @@ public class Viite {
         this.nimi = nimi;
     }
     
-    /**
-     * Ainoastaan testiluokan käyttöön.
-     * @return Map, joka sisältää attribuutin ja sen arvon.
-     */
-    
-    protected Map<String, Attribuutti> getAttribuutit() {
+    public Map<String, Attribuutti> getAttribuutit() {
         return attribuutit;
     }
 
@@ -86,16 +81,6 @@ public class Viite {
 //    public void asetaAttribuuttienArvot(Map<String, String> arvot) {
 //        arvot.keySet().stream().forEach(s -> this.setAttribuutti(s, arvot.get(s)));
 //    }
-    
-    /**
-     * Tarkistaa, onko viitteellä samannimistä pakollista attribuuttia kuin 'attr'.
-     * @param attr
-     * @return 
-     */
-    
-    public boolean pakollinenAttribuutti(String attr) {
-        return this.getTyyppi().getPakolliset().stream().anyMatch((attrTyyppi) -> (attrTyyppi.name().equals(attr)));
-    }
     
     
     /**

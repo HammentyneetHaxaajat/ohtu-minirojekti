@@ -56,15 +56,7 @@ public class ValidaattoriTest {
             fail("Ristiviitteen validointi epäonnistui");
         }
     }
-    
-    @Test
-    public void validoiAttribuutti() {
-        try {
-            validaattori.validoi("series", "my little pony");
-        } catch (Exception e) {
-            fail("Attribuutin validointi epäonnistui");
-        }
-    }
+   
 
     @Test
     public void viiteTyypinValidointiOnnistuuTunnetuillaViiteTyypeilla() {
@@ -103,17 +95,17 @@ public class ValidaattoriTest {
     
     @Test
     public void attribuutinvalidointiOnnistuuJosAttribuuttiOnMaarattyaMuotoa() {
-        validaattori.validoiAttribuutti("key", "123");
+        validaattori.validoiAttribuutinArvo("key", "123");
     }
     
     @Test (expected = IllegalArgumentException.class)
     public void attribuutinvalidointiEiOnnistuJosAttribuuttiEiOleMaarattyaMuotoa() {
-        validaattori.validoiAttribuutti("key", "123a");
+        validaattori.validoiAttribuutinArvo("key", "123a");
     }
     
     @Test (expected = IllegalArgumentException.class)
     public void attribuutinvalidointiEiOnnistuJosValidoitavanNimellaOlevaaAttribuuttiaEiOlemassa() {
-        validaattori.validoiAttribuutti("attr", "abc");
+        validaattori.validoiAttribuutinArvo("attr", "abc");
     }
     
     @Test (expected = IllegalArgumentException.class)
@@ -123,12 +115,12 @@ public class ValidaattoriTest {
     
     @Test
     public void ristiViitteenValidointiOnnistuuJosHaettavaTyhjaString() {
-        validaattori.validoiRistiviite("");
+        validaattori.validoiViite("");
     }
     
     @Test (expected = IllegalArgumentException.class)
     public void ristiViitteenValidointiEiOnnistuJosHaettavaaViiteEiOlemassaJaHaettavaEpaTyhja() {
-        validaattori.validoiRistiviite("kirja");
+        validaattori.validoiViite("kirja");
     }
     
     @Test (expected = IllegalArgumentException.class)

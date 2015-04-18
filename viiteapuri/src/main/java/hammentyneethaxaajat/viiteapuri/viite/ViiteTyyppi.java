@@ -11,7 +11,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public enum ViiteTyyppi {
 
-    //TODO keksi parempi tapa saaada nämä listat seteiksi.
     book(new AttrTyyppi[] {
         AttrTyyppi.author, AttrTyyppi.editor, AttrTyyppi.title, AttrTyyppi.publisher, AttrTyyppi.year
     }, new AttrTyyppi[] {

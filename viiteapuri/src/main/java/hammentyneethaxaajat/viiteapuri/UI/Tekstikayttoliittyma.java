@@ -34,9 +34,8 @@ public class Tekstikayttoliittyma implements Runnable {
     }
 
     /**
-     * Ohjelman toiminta perustuu siihen että niin kauan kuin ohjelma on
-     * käynnissä, kysytään käyttäjältä syöte ja suoritetaan sitä vastaava
-     * toiminnallisuus alla olevassa while-loopissa.
+     * Käynnistää ohjelman suorituksen. Suoritusta jatketaan kunnes käyttäjä
+     * sulkee ohjelman.
      */
     @Override
     public void run() {
@@ -59,8 +58,7 @@ public class Tekstikayttoliittyma implements Runnable {
     }
 
     /**
-     * Kutsuu metodia kysele valmiilla kehotteella SYOTA_KOMENTO. Kehote haetaan
-     * luokasta Tulosteet.
+     * Kysyy käyttäjältä seuraavaksi suoritettavan komennon.
      *
      * @return käyttäjän antama syöte.
      */
@@ -71,30 +69,42 @@ public class Tekstikayttoliittyma implements Runnable {
     /**
      * Kysyy käyttäjältä syötettä kunnes annetaan kelvollinen syöte.
      *
-     * @param nimi Kysyttävän arvon nimi
-     * @param epatyhja Tieto siitä pitääkö käyttäjän syöttää arvoa lainkaan
-     * @return käyttäjän antama syöte
+     * @param nimi Kysyttävän arvon nimi.
+     * @param epatyhja Tieto siitä näytetäänkö käyttäjälle merkki joka ilmaisee
+     * kentän pakollisuutta.
+     * @return käyttäjän antama validoitu syöte.
      */
-    protected String hankiValidiMahdTyhjaSyote(String nimi) {
-        return hankiValidiSyote(nimi, false);
-    }
-    
-    protected String hankiValidiEpaTyhjaSyote(String nimi) {
-        return hankiValidiSyote(nimi, true);
-    }
-    
     protected String hankiValidiSyote(String nimi, boolean epatyhja) {
         while (true) {
-             String syote = kysele(nimi + (epatyhja ? "*" : ""));
-            
+            String syote = kysele(nimi + (epatyhja ? "*" : ""));
+
             try {
-                if (epatyhja) {
-                    validaattori.validoiEttaEpaTyhja(syote);
-                }
-                
                 validaattori.validoi(nimi, syote);
                 return syote;
-                
+
+            } catch (IllegalArgumentException e) {
+                tulostaVirheIlmoitus(e);
+            }
+        }
+    }
+
+    /**
+     * Kysyy käyttäjältä syötettä kunnes annetaan kelvollinen syöte.
+     *
+     * @param viite Viite jolle kysytty arvo tulee
+     * @param attr Attribuutti jonka arvo halutaan
+     * @param epatyhja Tieto siitä näytetäänkö käyttäjälle merkki joka ilmaisee
+     * kentän pakollisuutta.
+     * @return käyttäjän antama validoitu syöte.
+     */
+    protected String hankiValidiSyote(Viite viite, String attr, boolean epatyhja) {
+        while (true) {
+            String syote = kysele(attr + (epatyhja ? "*" : ""));
+
+            try {
+                validaattori.validoi(viite, attr, syote);
+                return syote;
+
             } catch (IllegalArgumentException e) {
                 tulostaVirheIlmoitus(e);
             }
@@ -108,28 +118,27 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     protected void suoritaToiminto(String komento) {
         switch (komento) {
-            case UUSI:
+            case KOMENTO_UUSI:
                 uusiViite();
                 break;
-            case LISTAA:
-                listaaViitteet();
+            case KOMENTO_LISTAA:
+                listaaViitteidenTiedot();
                 break;
-            case MUOKKAA:
+            case KOMENTO_MUOKKAA:
                 muokkaaViitetta();
                 break;
-            case POISTA:
+            case KOMENTO_POISTA:
                 poistaViite();
                 break;
-            case BIBTEX:
+            case KOMENTO_BIBTEX:
                 luoBibtex();
                 break;
-            case LOPETA:
+            case KOMENTO_LOPETA:
                 io.tulosta(VIESTI_HEIHEI);
                 kaynnissa = false;
                 break;
             default:
                 io.tulosta(TUNTEMATON_KOMENTO);
-                listaaKomennot();
                 break;
         }
     }
@@ -142,29 +151,39 @@ public class Tekstikayttoliittyma implements Runnable {
         io.tulosta(UUDEN_VIITTEEN_LUONTI);
         Viite uusiViite = new Viite();
 
-        uusiViite.setNimi(hankiValidiEpaTyhjaSyote(NIMI));   
-        uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiEpaTyhjaSyote(TYYPPI)));
-        uusiViite.setAttribuutti(CROSSREF, hankiValidiMahdTyhjaSyote(CROSSREF));
+        uusiViite.setNimi(hankiValidiSyote(NIMI, true));
+        uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyote(TYYPPI, true)));
+        uusiViite.setAttribuutti(AttrTyyppi.crossref.name(), hankiValidiSyote(AttrTyyppi.crossref.name(), false));
 
-        syotaKaikki(uusiViite.getTyyppi().getPakolliset(), uusiViite);
-        syotaKaikki(uusiViite.getTyyppi().getValinnaiset(), uusiViite);
+        hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getPakolliset(), uusiViite);
+        hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getValinnaiset(), uusiViite);
 
+        //Alempi toimii yksin kahden ylemmän sijaan. Rikkoo tosin testit koska ne antavat vastaukset kiinteässä järjestyksessä.
+//        hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getKaikki(), uusiViite);
         viiteKasittelija.lisaaViite(uusiViite);
         tulostaViitteenTiedot(uusiViite);
         io.tulosta('\n' + VIITE_LISATTY_ONNISTUNEESTI);
     }
-    
-    protected void syotaKaikki(Collection<AttrTyyppi> tyypit, Viite viite) {
+
+    /**
+     * Hankkii käyttäjältä kullekin attribuutille kelvollisen arvon ja asettaa
+     * sen parametrina saadulle viitteelle
+     *
+     * @param tyypit Käyttäjältä kyseltävät Attribuutit
+     * @param viite Viite jolle attribuuttien arvot asetetaan
+     */
+    protected void hankiJaAsetaAttribuuttienArvot(Collection<AttrTyyppi> tyypit, Viite viite) {
         tyypit.stream()
-        .map(attr -> attr.name())//vaihdetaan AttrTyypit vastaaviin Stringeihin
-        .sorted()//Laitetaan aakkosjärjestykseen
-        .forEach(attr -> viite.setAttribuutti(attr, hankiValidiSyote(attr, viiteKasittelija.pakollinenSyotettavaAttribuutti(viite, attr))));
+                .map(attr -> attr.name())//vaihdetaan AttrTyypit vastaaviin Stringeihin
+                .sorted()//Laitetaan aakkosjärjestykseen
+                .forEach(attr -> viite.setAttribuutti(attr, hankiValidiSyote(viite, attr, attribuutinPakollisuus(viite, attr))));
     }
 
     /**
-     * Palauttaa selkokielisen listan ohjelman sisältämistä viitteistä
+     * Tulostaa selkokielisen listan ohjelman sisältämistä viitteistä ja niiden
+     * sisältämistä arvoista.
      */
-    protected void listaaViitteet() {
+    protected void listaaViitteidenTiedot() {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
@@ -177,8 +196,8 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     protected void luoBibtex() {
         //TODO Vaihtakaa polun yms. kysely johonkin järkevään. 
-        String nimi = hankiValidiMahdTyhjaSyote(KYSY_TIEDOSTO_NIMI);
-        String polku = hankiValidiMahdTyhjaSyote(KYSY_TIEDOSTO_POLKU);
+        String nimi = hankiValidiSyote(KYSY_TIEDOSTO_NIMI, false);
+        String polku = hankiValidiSyote(KYSY_TIEDOSTO_POLKU, false);
 
         if (nimi.matches("")) {
             nimi = "test";
@@ -199,76 +218,69 @@ public class Tekstikayttoliittyma implements Runnable {
     }
 
     /**
-     * Listaa ohjelmassa tuetut komennot.
-     */
-    protected void listaaKomennot() {
-        io.tulosta(TUETUT_KOMENNOT);
-    }
-
-//    /**
-//     * Apumetodi, joka tarkistaa onko Attribuutti pakko syöttää vai onko se jo
-//     * määritelty ristiviitattavassa viitteessä.
-//     *
-//     * @param attribuutti Attribuutti, jota etsitään viitattavasta luokasta
-//     * @param crossref Viitteen nimi jo ristiviittaus kohdistuu
-//     * @return false jos attribuutti on määritetty. Muulloin true.
-//     */
-//    protected boolean onPakollinen(String attribuutti, String crossref) {
-//        // TODO Tämän toiminnallisuuden voisi siirtää myös viitteen metodiksi. viite siis osaisi kertoa listan pakollisista, valinnaisista ja/tai kaikista attributteistaan. 
-//        return crossref.equals("") ? true : viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti) == null || viiteKasittelija.haeViite(crossref).getAttribuutti(attribuutti).getArvo().equals("");
-//    }
-
-    /**
      * Ohjattu viitteenmuokkastoiminto. Antaa käyttäjän muokata olemassaolevia
      * viitteitä
      */
     private void muokkaaViitetta() {
-        //TODO Kaunistelkaa. Pitääkö nimen olla vaihdettavissa?
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            tulostaViestiJaViitteet("Muokattavissa olevat viitteet: ");
+            listaaViitteet("Muokattavissa olevat viitteet: ");
 
             Viite viite = haeViiteKayttajanSyotteenPerusteella();
             tulostaViitteenTiedot(viite);
-            
-            String attribuutti = muokattavaAttribuutti(viite);
 
-            io.tulosta("Uusi arvo attribuutille ");
-            String uusiArvo = hankiValidiSyote(attribuutti, viiteKasittelija.pakollinenSyotettavaAttribuutti(viite, attribuutti));
-            viite.setAttribuutti(attribuutti, uusiArvo);
-        }
-    }
-    
-    /**
-     * Selvittää käyttäjältä viitteen attribuutin, jota käyttäjä haluaa muokata.
-     * @return 
-     */
-    private String muokattavaAttribuutti(Viite viite) {
-        while (true) {
-            String attribuutti = kysele(ATTRIBUUTTIKYSELY);
-            
-            try {
-                validaattori.validoi(viite, attribuutti, "muokkaa");
-                return attribuutti;
-            } catch (IllegalArgumentException e) {
-                tulostaVirheIlmoitus(e);
+            String attribuutti = hankiValidiSyote(viite, ATTRIBUUTTI, false);
+
+            io.tulosta("Uusi arvo kentälle ");
+            String uusiArvo = hankiValidiSyote(viite, attribuutti, attribuutinPakollisuus(viite, attribuutti));
+
+            //Jos vaihdetaan nimi niin päivitetään viitaukset.
+            if (attribuutti.equals(NIMI)) {
+                //TODO tämä säädön voisi siirtää viitekäsittelijän metodiksi. paivitaNimi(Viite viite, String nimi).
+                viiteKasittelija.viittaavatViitteet(viite).stream().forEach(s -> s.setAttribuutti(AttrTyyppi.crossref.name(), uusiArvo));
+                viiteKasittelija.poistaViite(viite);
+                viite.setNimi(uusiArvo);
+                viiteKasittelija.lisaaViite(viite);
+            } 
+//                else if(attribuutti.equals(CROSSREF)){
+            //                //TODO Tähän voi määrittää toiminnan kun/jos crossref muutetaan. Muista päivittää myös validaattorin vastaava toiminta.
+            //            } 
+                else {
+                viite.setAttribuutti(attribuutti, uusiArvo);
             }
+            io.tulosta("Kentän arvo päivitetty onnistuneesti.\n");
         }
     }
 
+    /**
+     * Ohjattu viitten poistamistoiminto
+     */
     private void poistaViite() {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            tulostaViestiJaViitteet("Poistettavissa olevat viitteet: ");
+            listaaViitteet("Poistettavissa olevat viitteet: ");
 
             Viite viite = haeViiteKayttajanSyotteenPerusteella();
             tulostaViitteenTiedot(viite);
-            
-            String varmistus = kysele(KYSY_VARMISTUS);
-            if (varmistus.equals("poista")) {
+
+            String varmistus = kysele(KYSY_VARMISTUS + VARMISTA_POISTO);
+            if (varmistus.equals(VARMISTA_POISTO)) {
                 viiteKasittelija.poistaViite(viite);
+                io.tulosta("Viite poistettiin onnistuneesti.\n");
+                //Tekee tarvittavat muutokset viitteisiin joiden crossref oli poistettu viite. 
+                if (!viiteKasittelija.viittaavatViitteet(viite).isEmpty()) {
+                    viiteKasittelija.viittaavatViitteet(viite).stream()
+                            .forEach(s -> {
+                                viite.getAttribuutit().values().stream()
+                                .filter(a -> s.getTyyppi().getPakolliset().contains(a.getTyyppi())
+                                        && s.getAttribuutti(a.getTyyppi().name()).getArvo().equals(""))
+                                .forEach(a -> s.setAttribuutti(a.getTyyppi().name(), a.getArvo()));
+                                s.setAttribuutti(AttrTyyppi.crossref.name(), "");
+                            });
+                    io.tulosta("Ohjelman teki muutoksia viiteisiin, joiden crossref kenttä viittasi poistettuun viitteeseen.\n");
+                }
             } else {
                 io.tulosta("Viitettä ei poistettu.\n");
             }
@@ -276,25 +288,70 @@ public class Tekstikayttoliittyma implements Runnable {
 
     }
 
+    /**
+     * Kertoo onko ohjelmassa yhtäkään viitettä
+     *
+     * @return True jos ohjelma sisältää viitteitä, muulloin false.
+     */
     private boolean ohjelmassaViitteita() {
         return !viiteKasittelija.getViitteet().isEmpty();
     }
-    
-    private void tulostaViestiJaViitteet(String viesti) {
+
+    /**
+     * Tulostaa Listan kaikista ohjelmaan syötetyista viitteistä (vain nimet)
+     * sekä mahdollisesti Viestin, joka edeltää listausta.
+     *
+     * @param viesti String joka sisältää viiteiden listausta edeltävän viestin.
+     */
+    private void listaaViitteet(String viesti) {
         io.tulosta(viiteKasittelija.getViitteet().stream()
                 .map(s -> s.getNimi())
                 .collect(Collectors.joining(", ", viesti, "\n")));
     }
-    
+
+    /**
+     * Tulostaa yhden viitteen tiedot käyttäjän nähtäväksi.
+     *
+     * @param viite Viite jonka tiedot tulostetaan käyttäjän nähtäviksi.
+     */
     private void tulostaViitteenTiedot(Viite viite) {
         io.tulosta("\nViitteen tiedot:\n" + viite.listaus());
     }
-    
-    private void tulostaVirheIlmoitus(IllegalArgumentException virhe) {
+
+    /**
+     * Tulostaa parametrina saatavan virheen viestin.
+     *
+     * @param virhe Virhe jonka viesti tulostetaan.
+     */
+    private void tulostaVirheIlmoitus(Exception virhe) {
         io.tulosta(virhe.getMessage());
     }
-    
+
+    /**
+     * Palauttaa käyttäjän syötettä vastaavan viitteen.
+     *
+     * @return Viite jonka nimi vastaa käyttäjän syötettä.
+     */
     private Viite haeViiteKayttajanSyotteenPerusteella() {
-        return viiteKasittelija.haeViite(hankiValidiEpaTyhjaSyote(VIITE));
+        return viiteKasittelija.haeViite(hankiValidiSyote(VIITE, false));
+    }
+
+    /**
+     * Kertoo onko parametrina saatava attribuutti pakollinen parametrina
+     * saatavalle viittelle.
+     *
+     * @param viite Viite jolle attribuutti kuuluu.
+     * @param attr Attribuutti jonka pakollisuus tarkistetaan.
+     * @return
+     */
+    private boolean attribuutinPakollisuus(Viite viite, String attr) {
+        return viiteKasittelija.pakollisetAttribuutit(viite).stream().anyMatch(a -> a.name().equals(attr));
+    }
+
+    /**
+     * Listaa ohjelmassa tuetut komennot.
+     */
+    protected void listaaKomennot() {
+        io.tulosta(TUETUT_KOMENNOT);
     }
 }
