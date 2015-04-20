@@ -3,72 +3,94 @@ import hammentyneethaxaajat.viiteapuri.validaattori.*
 import hammentyneethaxaajat.viiteapuri.viite.*
 import hammentyneethaxaajat.viiteapuri.IO.*
 import hammentyneethaxaajat.viiteapuri.resurssit.*
+import static org.mockito.Mockito.*
 
-String[] perustilanne = ["uusi", "bViite", "book", "", "juri", "juritus", "juri pub", "testaamisen Iloa", "1945", "", "", "", "", "", "", "", "lopeta"]
+def perusviite = [nimi : "bViite", tyyppi : "book", author : "juri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
 
-def init(String... komennot) {
+
+//Setup metodeja
+def init() {
     viiteKasittelija = new ViiteKasittelija()
     validaattori = new Validaattori(viiteKasittelija)
-    io = new StubIO(komennot)
+    io = mock(KomentoriviIO.class)
     app = new Tekstikayttoliittyma(viiteKasittelija, validaattori, io)
 }
+
+def lisaaViite(Map mappi) {
+    yleisKomento("")
+    for (String kentta : mappi.keySet()) {
+        when(io.lueRivi(contains(kentta))).thenReturn(mappi.get(kentta))
+    }
+}
+
+def yleisKomento(String komento) {
+    when(io.lueRivi(anyString())).thenReturn(komento)
+}
+
+//Testit alkaa täältä
 
 description "Käyttäjä voi luoda uuden book-viitteen"
 
 scenario "käyttäjä kykenee lisäämään uuden book-viitteen", {
-    
+
     given 'käyttäjä antaa komennon uusi', {
-        init(perustilanne)
+        init()
     }
 
     when 'kaikki kentät lisätään oikein', {
+        lisaaViite(perusviite)
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
         app.run()
     }
 
     then 'uusi viite lisätään järjestelmään', {
-        io.getTulosteet().shouldHave(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI)
+        verify(io).tulosta(contains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI))
     }
 
 }
 
 scenario "jos annetaan vahingossa virheelliset syötteet kenttiin, antaa ohjelma palautetta", {
-    
-    given 'käyttäjä antaa vääriä syötteitä', {
-        init("aasi", "uusi", "bViite", "böök", "book", "", "juri", "juritus", "juri pub", "testaamisen Iloa", "1945", "", "", "", "", "", "", "", "lopeta")
+
+    given 'käyttäjä antaa syötteitä', {
+        init()
+        lisaaViite(perusviite)
     }
     
     when 'käyttäjä antaa väärän komennon ja viitetiedon', {
+        //Korvaa lisaaViite() metodissa asetun perustilanteen
+        when(io.lueRivi(contains("tyyppi"))).thenReturn("böök", "book")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("aasi", "uusi", "lopeta")
         app.run()
     }
     
     then 'käyttäjälle välittyy tieto väärästä komennosta', {
-        io.getTulosteet().shouldHave(Tulosteet.TUNTEMATON_KOMENTO)
-        io.getTulosteet().shouldHave(Tulosteet.TUETUT_KOMENNOT)
+        verify(io).tulosta(contains(Tulosteet.TUNTEMATON_KOMENTO))
+        verify(io, atLeastOnce()).tulosta(contains(Tulosteet.TUETUT_KOMENNOT))
     }
     and
     then 'käyttäjälle välittyy tieto väärästä viitteestä', {
-        io.getTulosteet().shouldHave(Tulosteet.TUNTEMATON_VIITETYYPPI)
+        verify(io).tulosta(contains(Tulosteet.TUNTEMATON_VIITETYYPPI))
     }
 }
 
 scenario "käyttäjä tietää mitkä kentät ovat pakollisia", {
-    
+
     given 'käyttäjä syöttää komennon uusi', {
-        init(perustilanne)
+        init()
+        lisaaViite(perusviite)
     }
 
     when 'kaikki kentät lisätään oikein', {
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
         app.run()
     }
 
     then 'käyttäjä saa tiedon pakollisista kentistä', {
-        io.getTulosteet().shouldHave(Tulosteet.UUDEN_VIITTEEN_LUONTI)
+        verify(io).tulosta(contains(Tulosteet.UUDEN_VIITTEEN_LUONTI))
         def pakolliset = ViiteTyyppi.book.getPakolliset()
 
-        ensure(io.getTulosteet()) {
-            for(AttrTyyppi atribuutti : pakolliset) {
-                contains(atribuutti.toString() + "*:")
-            }
+        for(AttrTyyppi atribuutti : pakolliset) {
+            verify(io).lueRivi(contains(atribuutti.toString() + "*:"))
         }
     }
 }
@@ -76,30 +98,36 @@ scenario "käyttäjä tietää mitkä kentät ovat pakollisia", {
 //Ei vielä testaa kaikkia pakollisa kenttiä
 scenario "käyttäjän tulee täyttää pakolliset kentät", {
 
-    given 'käyttäjä syöttää komennon uusi', {
-        init("uusi", "bViite", "book", "", "juri", "", "juritus", "juri pub", "testaamisen Iloa", "1945", "", "", "", "", "", "", "", "lopeta")
+    given 'käyttäjä lisää uuden viitteen', {
+        init()
+        lisaaViite(perusviite)
     }
     
     when 'pakollinen kenttä jätetään tyhjäksi', {
+        when(io.lueRivi(contains("nimi"))).thenReturn("", "bViite")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")        
         app.run()
     }
     
     then 'Käyttäjälle ilmoitetaan, ettei kenttää voi jättää tyhjäksi', {
-        io.getTulosteet().shouldHave(Tulosteet.ARVO_EI_SAA_OLLA_TYHJA)
+        verify(io).tulosta(contains(Tulosteet.ARVO_EI_SAA_OLLA_TYHJA))
     }
 }
 
 scenario "käyttäjän ei ole pakko täyttää valinnaisia kenttiä", {
 
     given 'käyttäjä syöttää komennon uusi', {
-        init(perustilanne)
+        init()
+        lisaaViite(perusviite)
     }
 
     when 'kaikki valinnaiset kentät jätetään tyhjiksi', {
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
         app.run()
     }
 
     then 'uusi viite lisätään järjestelmään', {
-        io.getTulosteet().shouldHave(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI)
+        verify(io).tulosta(contains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI))
     }
 }
+
