@@ -90,6 +90,10 @@ public class Viite {
      */
     @Override
     public String toString() {
-        return attribuutit.values().stream().filter(s -> !s.getArvo().equals("")).map(a -> a.toString()).collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
+        return attribuutit.values().stream()
+                .filter(s -> !s.getArvo().equals(""))
+                .sorted((a,b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
+                .map(a -> a.toString())
+                .collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
     }
 }

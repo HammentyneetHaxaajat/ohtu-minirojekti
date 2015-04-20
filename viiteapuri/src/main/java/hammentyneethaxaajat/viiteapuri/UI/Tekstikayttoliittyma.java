@@ -197,18 +197,18 @@ public class Tekstikayttoliittyma implements Runnable {
     protected void luoBibtex() {
         //TODO Vaihtakaa polun yms. kysely johonkin järkevään. 
         String nimi = hankiValidiSyote(KYSY_TIEDOSTO_NIMI, false);
-        String polku = hankiValidiSyote(KYSY_TIEDOSTO_POLKU, false);
+        String polku = ""; // = hankiValidiSyote(KYSY_TIEDOSTO_POLKU, false);
 
-        if (nimi.matches("")) {
-            nimi = "test";
+        if (nimi.isEmpty()) {
+            nimi = "viitteet";
         }
         if (polku.matches("")) {
-            polku = "target/";
+            polku = "";
         }
 
         try {
             tiedostonKasittelija.kirjoitaBibtex(viiteKasittelija.viitteetBibtexina(), polku + nimi);
-            io.tulosta(TIEDOSTONLUONTI_ONNISTUI + polku + nimi + ".bib\n");
+            io.tulosta(TIEDOSTONLUONTI_ONNISTUI + nimi + "\n");
         } catch (IOException e) {
             io.tulosta(TIEDOSTONLUONTI_EI_ONNISTUNUT);
         }
@@ -249,6 +249,7 @@ public class Tekstikayttoliittyma implements Runnable {
                 else {
                 viite.setAttribuutti(attribuutti, uusiArvo);
             }
+            tulostaViitteenTiedot(viite);
             io.tulosta("Kentän arvo päivitetty onnistuneesti.\n");
         }
     }

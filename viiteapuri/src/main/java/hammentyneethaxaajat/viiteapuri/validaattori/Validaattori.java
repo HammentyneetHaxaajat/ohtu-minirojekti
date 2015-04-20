@@ -29,10 +29,11 @@ public class Validaattori implements Validoija {
     public void validoi(String tyyppi, String arvo) {
         switch (tyyppi) {
             case KYSY_TIEDOSTO_NIMI:
-                //TODO IMPLEMENTOI tarkistus hyväksyttävälle tiedostonimelle
+                validoiTiedostoNimi(arvo);
                 break;
             case KYSY_TIEDOSTO_POLKU:
                 //TODO IMPLEMENTOI tarkistus hyväksyttävälle polulle
+                validoiTiedostoPolku(arvo);
                 break;
             case TYYPPI:
                 validoiViiteTyyppi(arvo);
@@ -202,6 +203,18 @@ public class Validaattori implements Validoija {
         
         else if (viite.getTyyppi().getKaikki().stream().noneMatch(a -> a.name().equals(tyyppi))) {
             heitaException("Viitteellä ei ole " + tyyppi + " nimistä kenttää.\n");
+        }
+    }
+
+    private void validoiTiedostoNimi(String arvo) {
+        if (arvo.matches(".*\\W.*")) {
+            heitaException(VIRHE_TIEDOSTONIMI);
+        }
+    }
+
+    private void validoiTiedostoPolku(String arvo) {
+        if (!arvo.matches("(.*/)*")) {
+            heitaException(VIRHE_TIEDOSTOPOLKU);
         }
     }
 }

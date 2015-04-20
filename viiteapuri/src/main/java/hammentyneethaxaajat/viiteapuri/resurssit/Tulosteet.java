@@ -10,8 +10,10 @@ public abstract class Tulosteet {
     public static final String NIMI_VARATTU = "Nimi varattu. Valitse toinen nimi.\n";
     public static final String NIMI_EI_VASTAA_SEN_SYNTAKSIA = "Nimi ei vastaa sille määrätyä syntaksia.\n";
     public static final String VIRHE_VIITETTA_EI_OLE = " nimistä viitettä ei löydetty.\n";
-    public static final String TIEDOSTONLUONTI_EI_ONNISTUNUT = "Bibtex tiedoston kirjoitus epäonnistui";
-    public static final String TIEDOSTONLUONTI_ONNISTUI = "Tiedosto luotiin polkuun: ";
+    public static final String TIEDOSTONLUONTI_EI_ONNISTUNUT = "Bibtex tiedoston kirjoitus epäonnistui\n";
+    public static final String TIEDOSTONLUONTI_ONNISTUI = "Tiedosto luotiin ohjelman juureen nimellä: ";
+    public static final String VIRHE_TIEDOSTONIMI = "Tiedoston nimi saa sisältää vain kirjaimia ja numeroita\n";
+    public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki\n";
 
     public static final String VIRHE_EIVIITTEITA = "Ohjelmassa ei ole yhtäkään viitettä.\n";
     public static final String VIITE = "viite";

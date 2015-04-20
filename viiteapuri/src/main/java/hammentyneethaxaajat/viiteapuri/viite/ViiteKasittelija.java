@@ -16,7 +16,40 @@ public class ViiteKasittelija {
     public ViiteKasittelija() {
         viitteet = new HashMap<>();
     }
+    
+    protected int bibtexJarjestys(Viite viiteA, Viite viiteB) {
+        if (tarkistaAttribuutinTyhjyys(viiteA, "crossref") & !tarkistaAttribuutinTyhjyys(viiteB, "crossref")) {
+            return -1;
+        } else if (tarkistaAttribuutinTyhjyys(viiteB, "crossref") & !tarkistaAttribuutinTyhjyys(viiteA, "crossref")) {
+            return 1;
+        }
+        
+        String a = tarkistaVartailtavaAttribuutti(viiteA);
+        String b = tarkistaVartailtavaAttribuutti(viiteB);
+        
+        return a.compareTo(b);
+    }
 
+    protected String tarkistaVartailtavaAttribuutti(Viite viite) {
+        String a = "";
+        if (!tarkistaAttribuutinTyhjyys(viite, "author")) {
+            a = viite.getAttribuutti("author").getArvo();
+        } else if (!tarkistaAttribuutinTyhjyys(viite, "editor")) {
+            a = viite.getAttribuutti("editor").getArvo();
+        } else if (!tarkistaAttribuutinTyhjyys(viite, "key")) {
+            a = viite.getAttribuutti("key").getArvo();
+        }
+        
+        return a;
+    }
+    
+    protected boolean tarkistaAttribuutinTyhjyys(Viite viite, String attribuutti) {
+        if (viite.getAttribuutti(attribuutti) != null && !viite.getAttribuutti(attribuutti).getArvo().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+    
     /**
      * Viitteen lisääminen lisää viitteen viitelistaan
      *
@@ -53,7 +86,10 @@ public class ViiteKasittelija {
      * viitteistä
      */
     public String viitteetBibtexina() {
-        return viitteet.values().stream().map(v -> v.toString()).collect(Collectors.joining("\n", "\\usepackage[utf8]{inputenc}\n\n", ""));
+        return viitteet.values().stream()
+                .sorted((a,b) -> bibtexJarjestys(a, b))
+                .map(v -> v.toString())
+                .collect(Collectors.joining("\n", "\\usepackage[utf8]{inputenc}\n\n", ""));
     }
 
     /**
