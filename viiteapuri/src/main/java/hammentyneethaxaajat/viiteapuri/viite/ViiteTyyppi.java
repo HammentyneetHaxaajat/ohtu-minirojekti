@@ -3,7 +3,7 @@ package hammentyneethaxaajat.viiteapuri.viite;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.stream.Stream;
 
 /**
  * Viitteen tyyppiä kuvaava luokka, joka määrittää Viitteelle pakolliset ja sallitut atribuutit.
@@ -55,20 +55,10 @@ public enum ViiteTyyppi {
     }
 
     /**
-     * Palauttaa arrayn attribuutit Set:inä.
-     * @param lista Attribuutti-taulukko
-     * @return Paluatettava lista Set:inä.
-     */
-    
-    protected Set<AttrTyyppi> attribuutit(AttrTyyppi[] lista) {
-        return Arrays.stream(lista).collect(Collectors.toSet());
-    }
-    
-    /**
      * Palauttaa kaikki viitteeseen liittyvät AttrTyypit.
      * @return Set joka sisältää kaikki ViiteTyypille sallitut AttrTyypit.
      */
     public Set<AttrTyyppi> getKaikki(){
-        return Arrays.stream(ArrayUtils.addAll(pakolliset, valinnaiset)).collect(Collectors.toSet());
+        return Stream.concat(Arrays.stream(pakolliset), Arrays.stream(valinnaiset)).collect(Collectors.toSet());
     }
 }
