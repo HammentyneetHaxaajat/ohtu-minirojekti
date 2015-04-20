@@ -20,6 +20,12 @@ public enum ViiteTyyppi {
         AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.journal, AttrTyyppi.year, AttrTyyppi.volume
     }, new AttrTyyppi[] {
         AttrTyyppi.number, AttrTyyppi.pages, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    inproceedings(new AttrTyyppi[] {
+        AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.booktitle, AttrTyyppi.year
+    }, new AttrTyyppi[] { AttrTyyppi.editor, AttrTyyppi.volume, AttrTyyppi.series, AttrTyyppi.pages, AttrTyyppi.address, AttrTyyppi.month,
+                          AttrTyyppi.organization, AttrTyyppi.publisher, AttrTyyppi.note, AttrTyyppi.key
+        
     });
 
     private AttrTyyppi[] pakolliset;
