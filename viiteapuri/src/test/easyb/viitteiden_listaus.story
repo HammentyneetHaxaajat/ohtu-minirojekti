@@ -3,126 +3,162 @@ import hammentyneethaxaajat.viiteapuri.validaattori.*
 import hammentyneethaxaajat.viiteapuri.viite.*
 import hammentyneethaxaajat.viiteapuri.IO.*
 import hammentyneethaxaajat.viiteapuri.resurssit.*
+import static org.mockito.Mockito.*
 
-String[] perustilanne = [
-"uusi", "bViite1", "book", "", "juri", "juritus", "juri pub", "testaamisen iloa1", "1946", "", "", "", "", "", "", "",
-"uusi", "bViite2", "book", "", "matti", "matitus", "matti pub", "testaamisen iloa2", "1947", "", "", "", "", "", "", "",
-"uusi", "bViite3", "book", "", "markus", "markusedit", "markustamo", "testaamisen iloa3", "1948", "", "", "", "", "", "", "",
-"uusi", "bViite4", "book", "", "mika", "mikatus", "mika pub", "testaamisen iloa4", "1949", "", "", "", "", "", "", "", "listaa", "lopeta"]
+def perusviitteet = [
+nimi : ["bViite1","bViite2","bViite3","bViite4"], 
+tyyppi : ["book", "book", "book", "book"],
+author : ["juri","matti","markus","mika"],
+editor : ["juritus","matitus","markusedit","mikatus"],
+publisher : ["juri pub","matti pub","markustamo","mika pub"],
+title : ["testaamisen iloa1","testaamisen iloa2","testaamisen iloa3","testaamisen iloa4"],
+year : ["1946","1947","1948","1949"]
+]
 
-def init(String... komennot) {
-	viiteKasittelija = new ViiteKasittelija()
-	validaattori = new Validaattori(viiteKasittelija)
-	io = new StubIO(komennot)
-	app = new Tekstikayttoliittyma(viiteKasittelija, validaattori, io)
+def init() {
+    viiteKasittelija = new ViiteKasittelija()
+    validaattori = new Validaattori(viiteKasittelija)
+    io = mock(KomentoriviIO.class)
+    app = new Tekstikayttoliittyma(viiteKasittelija, validaattori, io)
 }
 
+def lisaaViite(Map mappi) {
+    yleisKomento("")
+    for (String kentta : mappi.keySet()) {
+        when(io.lueRivi(contains(kentta))).
+        thenReturn(mappi.get(kentta).get(0)).
+        thenReturn(mappi.get(kentta).get(1)).
+        thenReturn(mappi.get(kentta).get(2)).
+        thenReturn(mappi.get(kentta).get(3))
+    }
+}
+
+def yleisKomento(String komento) {
+    when(io.lueRivi(anyString())).thenReturn(komento)
+}
+
+def verifyContains(String vaatimus) {
+    verify(io, atLeastOnce()).tulosta(contains(vaatimus))
+}
+
+def verifyDoesNotContain(String vaatimus) {
+    verify(io, never()).tulosta(contains(vaatimus))
+}
+
+def perustilanne() {
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "uusi", "uusi", "listaa", "lopeta")    
+}
+
+//Testit alkaa täältä
 
 description "Käyttäjä pystyy listaamaan ohjelmassa olevat viitteet"
 
 scenario "käyttäjä näkee kaikki session viitteet", {
 
-	given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
-		init(perustilanne)
-	}
+    given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
+        init()
+        lisaaViite(perusviitteet)
+    }
 
-	when 'käyttäjä syöttää listaa komennon', {
-		app.run()
-	}
+    when 'käyttäjä syöttää listaa komennon', {
+        perustilanne()
+        app.run()
+    }
 
-	then 'ohjelma tulostaa siihen syötetyt viitteet', {
-		def konsoliTulosteet = io.getTulosteet()		
-		ensure(konsoliTulosteet) {
-			contains("bViite1")
-			contains("bViite2")
-			contains("bViite3")
-			contains("bViite4")
-		}
-	}
+    then 'ohjelma tulostaa siihen syötetyt viitteet', {
+        verify(io, atLeast(4)).tulosta(contains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI))
+        
+        verifyContains("bViite1")
+        verifyContains("bViite2")
+        verifyContains("bViite3")
+        verifyContains("bViite4")
+    }
 }
 
 scenario "viitteet listataan luettavassa muodossa", {
-	
-	given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
-		init(perustilanne)
-	}
 
-	when 'käyttäjä syöttää listaa komennon', {
-		app.run()
-	}
+    given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
+        init()
+        lisaaViite(perusviitteet)
+    }
 
-	then 'viitteessä olevat tiedot listataan selkokielellä', {
-		def konsoliTulosteet = io.getTulosteet()
-		ensure(konsoliTulosteet) {
-			contains("bViite1")
-			contains("book")
-			contains("juri")
-			contains("juritus")
-			contains("juri pub")
-			contains("testaamisen iloa1")
-			contains("1946")
-		}
-	}
+    when 'käyttäjä syöttää listaa komennon', {
+        perustilanne()
+        app.run()
+    }
+
+    then 'viitteessä olevat tiedot listataan selkokielellä', {
+        verifyContains("bViite1")
+        verifyContains("book")
+        verifyContains("juri")
+        verifyContains("juritus")
+        verifyContains("juri pub")
+        verifyContains("testaamisen iloa1")
+        verifyContains("1946")
+    }
 }
 
 scenario "viitteistä tulee kaikki tieto listaan", {
-	
-	given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
-		init(perustilanne)
-	}
-	
-	when 'käyttäjä syöttää listaa komennon', {
-		app.run()
-	}
-	
-	//Katsotaan sisältääkö listaus kaikki tietokentät
-	then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
-		def val = ViiteTyyppi.book.getPakolliset()
-		def pak = ViiteTyyppi.book.getValinnaiset()
+
+    given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
+        init()
+        lisaaViite(perusviitteet)
+    }
+
+    when 'käyttäjä syöttää listaa komennon', {
+        perustilanne()
+        app.run()
+    }
+
+    //Katsotaan sisältääkö listaus kaikki tietokentät
+    then 'kaikki syötetyt tiedot löytyvät tulosteesta', {
+        def val = ViiteTyyppi.book.getPakolliset()
+        def pak = ViiteTyyppi.book.getValinnaiset()
 
         //yhdistetään listat
         def attribuutit = val.plus(pak)
 
-        //haetaan Stringi joka sisältää kaikki viitteet tulostettavassa muodossa
-        def viiteTiedot = io.getTulosteet()
-
-        ensure(viiteTiedot) {
-        	contains(Tulosteet.NIMI)
-        	contains(Tulosteet.TYYPPI)
-        	contains(Tulosteet.CROSSREF)
-        	for(AttrTyyppi atribuutti: attribuutit) {
-        		contains(atribuutti.toString())
-        	}
+        verifyContains(Tulosteet.NIMI)
+        verifyContains(Tulosteet.TYYPPI)
+        verifyContains(Tulosteet.CROSSREF)
+        for(AttrTyyppi atribuutti: attribuutit) {
+            verifyContains(atribuutti.toString())
         }
     }
 }
 
 scenario "edellisten sessioiden viitteitä ei listata", {
 
-	given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
-		init(perustilanne)
-	}
+    given 'käyttäjä on syöttänyt useamman viitteen järjestelmään', {
+        init()
+        lisaaViite(perusviitteet)
+    }
 
-	when 'käyttäjä sulkee session', {
-		app.run()
-	}
+    when 'käyttäjä sulkee session', {
+        perustilanne()
+        app.run()
+    }
 
-	given 'käyttäjä lisää vain yhden viitteen uudessa sessiossa' , {
-		init("uusi", "bViite5", "book", "", "mika", "mikatus", "mika pub", "testaamisen iloa4", "1949", "", "", "", "", "", "", "", "listaa", "lopeta")
-	}
+    given 'käyttäjä lisää vain yhden viitteen uudessa sessiossa' , {
+        def perusviite = [nimi : "bViite5", tyyppi : "book", author : "juri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
+        init()
 
-	when 'käyttäjä syöttää listaa komennon', {
-		app.run()
-	}
+        yleisKomento("")
+        for (String kentta : perusviite.keySet()) {
+            when(io.lueRivi(contains(kentta))).thenReturn(perusviite.get(kentta))
+        }
+    }
 
-	then 'vain edellisen session viite löytyy listasta', {
-		def konsoliTulosteet = io.getTulosteet()
-		ensure(konsoliTulosteet) {
-			doesNotContain("bViite1")
-			doesNotContain("bViite2")
-			doesNotContain("bViite3")
-			doesNotContain("bViite4")
-			contains("bViite5")
-		}
+    when 'käyttäjä syöttää listaa komennon', {
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "listaa", "lopeta")
+        app.run()
+    }
+
+    then 'vain edellisen session viite löytyy listasta', {
+        verifyDoesNotContain("bViite1")
+        verifyDoesNotContain("bViite2")
+        verifyDoesNotContain("bViite3")
+        verifyDoesNotContain("bViite4")
+        verifyContains("bViite5")
     }
 }
