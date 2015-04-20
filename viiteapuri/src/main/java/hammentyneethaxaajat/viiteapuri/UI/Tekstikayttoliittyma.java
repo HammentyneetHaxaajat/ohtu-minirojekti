@@ -334,7 +334,7 @@ public class Tekstikayttoliittyma implements Runnable {
      * @return Viite jonka nimi vastaa käyttäjän syötettä.
      */
     private Viite haeViiteKayttajanSyotteenPerusteella() {
-        return viiteKasittelija.haeViite(hankiValidiSyote(POISTETTAVA_VIITE, false));
+        return viiteKasittelija.haeViite(hankiValidiSyote(VIITE, false));
     }
 
     /**

@@ -16,7 +16,7 @@ public abstract class Tulosteet {
     public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki\n";
 
     public static final String VIRHE_EIVIITTEITA = "Ohjelmassa ei ole yhtäkään viitettä.\n";
-    public static final String VIITE = "viite";
+    public static final String VIITE = "anna viite";
     public static final String ATTRIBUUTTI = "attribuutti";
     public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiedostolle";
     public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio";

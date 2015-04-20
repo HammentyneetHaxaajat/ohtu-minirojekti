@@ -53,7 +53,7 @@ def verifyDoesNotContain(String vaatimus) {
 
 def perustilanne() {
     when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "uusi", "uusi", "poista", "lopeta")
-    when(io.lueRivi(contains(Tulosteet.POISTETTAVA_VIITE))).thenReturn("bViite1")
+    when(io.lueRivi(contains(Tulosteet.VIITE))).thenReturn("bViite1")
     when(io.lueRivi(contains(Tulosteet.VARMISTA_POISTO))).thenReturn("poista")
 }
 
@@ -92,7 +92,7 @@ scenario "käyttäjä voi poistaa viitteen", {
     
     when 'käyttäjä poistaa viitteen ohjelmasta', {
         when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "uusi", "uusi", "poista", "poista", "lopeta")
-        when(io.lueRivi(contains(Tulosteet.POISTETTAVA_VIITE))).thenReturn("bViite1", "bViite1", "bViite2")
+        when(io.lueRivi(contains(Tulosteet.VIITE))).thenReturn("bViite1", "bViite1", "bViite2")
         when(io.lueRivi(contains(Tulosteet.VARMISTA_POISTO))).thenReturn("poista")
         app.run()
     }
