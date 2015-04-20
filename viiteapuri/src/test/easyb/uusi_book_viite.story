@@ -27,6 +27,14 @@ def yleisKomento(String komento) {
     when(io.lueRivi(anyString())).thenReturn(komento)
 }
 
+def verifyContains(String vaatimus) {
+    verify(io).tulosta(contains(vaatimus))
+}
+
+def perustilanne() {
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+}
+
 //Testit alkaa täältä
 
 description "Käyttäjä voi luoda uuden book-viitteen"
@@ -39,12 +47,12 @@ scenario "käyttäjä kykenee lisäämään uuden book-viitteen", {
 
     when 'kaikki kentät lisätään oikein', {
         lisaaViite(perusviite)
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+        perustilanne()
         app.run()
     }
 
     then 'uusi viite lisätään järjestelmään', {
-        verify(io).tulosta(contains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI))
+        verifyContains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI)
     }
 
 }
@@ -64,12 +72,12 @@ scenario "jos annetaan vahingossa virheelliset syötteet kenttiin, antaa ohjelma
     }
     
     then 'käyttäjälle välittyy tieto väärästä komennosta', {
-        verify(io).tulosta(contains(Tulosteet.TUNTEMATON_KOMENTO))
+        verifyContains(Tulosteet.TUNTEMATON_KOMENTO)
         verify(io, atLeastOnce()).tulosta(contains(Tulosteet.TUETUT_KOMENNOT))
     }
     and
     then 'käyttäjälle välittyy tieto väärästä viitteestä', {
-        verify(io).tulosta(contains(Tulosteet.TUNTEMATON_VIITETYYPPI))
+        verifyContains(Tulosteet.TUNTEMATON_VIITETYYPPI)
     }
 }
 
@@ -81,12 +89,12 @@ scenario "käyttäjä tietää mitkä kentät ovat pakollisia", {
     }
 
     when 'kaikki kentät lisätään oikein', {
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+        perustilanne()
         app.run()
     }
 
     then 'käyttäjä saa tiedon pakollisista kentistä', {
-        verify(io).tulosta(contains(Tulosteet.UUDEN_VIITTEEN_LUONTI))
+        verifyContains(Tulosteet.UUDEN_VIITTEEN_LUONTI)
         def pakolliset = ViiteTyyppi.book.getPakolliset()
 
         for(AttrTyyppi atribuutti : pakolliset) {
@@ -105,12 +113,12 @@ scenario "käyttäjän tulee täyttää pakolliset kentät", {
     
     when 'pakollinen kenttä jätetään tyhjäksi', {
         when(io.lueRivi(contains("nimi"))).thenReturn("", "bViite")
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")        
+        perustilanne()        
         app.run()
     }
     
     then 'Käyttäjälle ilmoitetaan, ettei kenttää voi jättää tyhjäksi', {
-        verify(io).tulosta(contains(Tulosteet.ARVO_EI_SAA_OLLA_TYHJA))
+        verifyContains(Tulosteet.ARVO_EI_SAA_OLLA_TYHJA)
     }
 }
 
@@ -122,12 +130,12 @@ scenario "käyttäjän ei ole pakko täyttää valinnaisia kenttiä", {
     }
 
     when 'kaikki valinnaiset kentät jätetään tyhjiksi', {
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+        perustilanne()
         app.run()
     }
 
     then 'uusi viite lisätään järjestelmään', {
-        verify(io).tulosta(contains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI))
+        verifyContains(Tulosteet.VIITE_LISATTY_ONNISTUNEESTI)
     }
 }
 
