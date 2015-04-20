@@ -39,6 +39,7 @@ public abstract class Tulosteet {
     public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
     public static final String VARMISTA_POISTO = "poista";
+    public static final String POISTETTAVA_VIITE = "poistettava viite";
     public static final String VIITE_LISATTY_ONNISTUNEESTI = "Viite lisätty onnistuneesti!\n";
 
 }

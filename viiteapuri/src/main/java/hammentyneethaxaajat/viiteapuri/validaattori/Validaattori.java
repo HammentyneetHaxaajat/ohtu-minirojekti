@@ -43,6 +43,8 @@ public class Validaattori implements Validoija {
                 break;
             case VIITE:
                 tarkistaTyhjyys(arvo);
+            case POISTETTAVA_VIITE:
+                tarkistaTyhjyys(arvo);
             case CROSSREF:
                 validoiViite(arvo);
                 break;
