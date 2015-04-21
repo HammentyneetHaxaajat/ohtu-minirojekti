@@ -43,7 +43,7 @@ scenario "käyttäjä voi valita muokattavan kentän ilman että käydään joka
             app.run()
         }
         then 'viite on muokattu onnistuneesti', {
-            io.getTulosteet().shouldHave("Kentan arvo paivittynyt onnistuneesti.")
+            io.getTulosteet().shouldHave("Kentän arvo päivittynyt onnistuneesti.")
         }
 
 }
