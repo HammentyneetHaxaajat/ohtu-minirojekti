@@ -80,7 +80,8 @@ public class Validaattori implements Validoija {
      * @param viite Viite jolle attribuutti kuuluu.
      * @param attr Validoitava attribuutti.
      * @param arvo Validoitava arvo.
-     * @throws IllegalArgumentException Jos Arvo ei täytä attribuutin ja viitteen sille asettamia vaatimuksia.
+     * @throws IllegalArgumentException Jos Arvo ei täytä attribuutin ja
+     * viitteen sille asettamia vaatimuksia.
      */
     protected void validoiAttribuutti(Viite viite, String attr, String arvo) {
         if (viiteKasittelija.pakollisetAttribuutit(viite).stream()
@@ -196,14 +197,10 @@ public class Validaattori implements Validoija {
         if (tyyppi.equals(AttrTyyppi.crossref.name())) {
             //  TODO Kommentoi alempi rivi jos crossreffin muuttaminen sallitaan joskus. Crossreffin muuttamisen toiminnallisuus pitää myös korjata muualla koodissa jos sallitaan.
             heitaException("Crossref kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
-        } 
-        
-        // Nimen vaihtaminen OK!
-        // else if (attr.equals(NIMI)) {
-        //  TODO Kommentoi alempi rivi jos nimen vaihtaminen sallitaan.
-        //  heitaException("Nimi kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
-        
-        else if (viite.getTyyppi().getKaikki().stream().noneMatch(a -> a.name().equals(tyyppi))) {
+        } else if (tyyppi.equals(NIMI)) {
+            //  TODO Kommentoi alempi rivi jos nimen vaihtaminen sallitaan.
+//            heitaException("Nimi kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
+        } else if (viite.getTyyppi().getKaikki().stream().noneMatch(a -> a.name().equals(tyyppi))) {
             heitaException("Viitteellä ei ole " + tyyppi + " nimistä kenttää.\n");
         }
     }
