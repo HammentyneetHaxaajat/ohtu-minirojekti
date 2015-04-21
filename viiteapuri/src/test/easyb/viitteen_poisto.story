@@ -5,12 +5,6 @@ import hammentyneethaxaajat.viiteapuri.IO.*
 import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
-String[] xcxzcxzccxzczcxzc = [
-"uusi", "bViite1", "book", "", "juri", "juritus", "juri pub", "testaamisen iloa1", "1946", "", "", "", "", "", "", "",
-"uusi", "bViite2", "book", "", "matti", "matitus", "matti pub", "testaamisen iloa2", "1947", "", "", "", "", "", "", "",
-"uusi", "bViite3", "book", "", "markus", "markusedit", "markustamo", "testaamisen iloa3", "1948", "", "", "", "", "", "", "",
-"uusi", "bViite4", "book", "", "mika", "mikatus", "mika pub", "testaamisen iloa4", "1949", "", "", "", "", "", "", "", "poista", "bViite3", "poista", "listaa", "lopeta"]
-
 def perusviitteet = [
 nimi : ["bViite1","bViite2","bViite3","bViite4"], 
 tyyppi : ["book", "book", "book", "book"],
