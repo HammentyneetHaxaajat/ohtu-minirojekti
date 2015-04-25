@@ -24,8 +24,31 @@ public enum ViiteTyyppi {
     inproceedings(new AttrTyyppi[] {
         AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.booktitle, AttrTyyppi.year
     }, new AttrTyyppi[] { AttrTyyppi.editor, AttrTyyppi.volume, AttrTyyppi.series, AttrTyyppi.pages, AttrTyyppi.address, AttrTyyppi.month,
-                          AttrTyyppi.organization, AttrTyyppi.publisher, AttrTyyppi.note, AttrTyyppi.key
-        
+                          AttrTyyppi.organization, AttrTyyppi.publisher, AttrTyyppi.note, AttrTyyppi.key        
+    }),
+    misc(new AttrTyyppi[] {},
+        new AttrTyyppi[] { AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.howpublished, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    booklet(new AttrTyyppi[] { AttrTyyppi.title
+    },  new AttrTyyppi[] { AttrTyyppi.author, AttrTyyppi.howpublished, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.year, AttrTyyppi.note,
+        AttrTyyppi.key
+    }),
+    mastersthesis( new AttrTyyppi[] { AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.school, AttrTyyppi.year
+    },  new AttrTyyppi[] { AttrTyyppi.type, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    phdthesis( new AttrTyyppi[] { AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.school, AttrTyyppi.year
+    },  new AttrTyyppi[] { AttrTyyppi.type, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    techreport( new AttrTyyppi[] { AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.institution, AttrTyyppi.year
+    }, new AttrTyyppi[] { AttrTyyppi.type, AttrTyyppi.number, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    proceedings( new AttrTyyppi[] { AttrTyyppi.title, AttrTyyppi.year
+    }, new AttrTyyppi[] { AttrTyyppi.editor, AttrTyyppi.volume, AttrTyyppi.series, AttrTyyppi.address, AttrTyyppi.month, AttrTyyppi.publisher,
+        AttrTyyppi.organization, AttrTyyppi.note, AttrTyyppi.key
+    }),
+    inbook( new AttrTyyppi[] { AttrTyyppi.author, AttrTyyppi.title, AttrTyyppi.pages, AttrTyyppi.publisher, AttrTyyppi.year
+    }, new AttrTyyppi[] { AttrTyyppi.volume, AttrTyyppi.series, AttrTyyppi.type, AttrTyyppi.address, AttrTyyppi.edition, AttrTyyppi.month,
+        AttrTyyppi.note, AttrTyyppi.key
     });
 
     private AttrTyyppi[] pakolliset;
