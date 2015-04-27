@@ -6,7 +6,7 @@ import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
 def perusviitteet = [
-nimi : ["bViite1","bViite2","bViite3","bViite4"], 
+bibtexavain : ["bViite1","bViite2","bViite3","bViite4"], 
 tyyppi : ["book", "book", "book", "book"],
 author : ["juri","matti","markus","mika"],
 editor : ["juritus","matitus","markusedit","mikatus"],
@@ -118,7 +118,7 @@ scenario "viitteistä tulee kaikki tieto listaan", {
         //yhdistetään listat
         def attribuutit = val.plus(pak)
 
-        verifyContains(Tulosteet.NIMI)
+        verifyContains("nimi")
         verifyContains(Tulosteet.TYYPPI)
         verifyContains(Tulosteet.CROSSREF)
         for(AttrTyyppi atribuutti: attribuutit) {
@@ -140,7 +140,7 @@ scenario "edellisten sessioiden viitteitä ei listata", {
     }
 
     given 'käyttäjä lisää vain yhden viitteen uudessa sessiossa' , {
-        def perusviite = [nimi : "bViite5", tyyppi : "book", author : "juri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
+        def perusviite = [bibtexavain : "bViite5", tyyppi : "book", author : "juri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
         init()
 
         yleisKomento("")

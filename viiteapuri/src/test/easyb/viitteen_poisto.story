@@ -6,7 +6,7 @@ import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
 def perusviitteet = [
-nimi : ["bViite1","bViite2","bViite3","bViite4"], 
+bibtexavain : ["bViite1","bViite2","bViite3","bViite4"], 
 tyyppi : ["book", "book", "book", "book"],
 author : ["juri","matti","markus","mika"],
 editor : ["juritus","matitus","markusedit","mikatus"],

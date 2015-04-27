@@ -5,7 +5,7 @@ import hammentyneethaxaajat.viiteapuri.IO.*
 import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
-def perusviite = [nimi : "bkltViite", tyyppi : "booklet", title : "testaamisen iloa"]
+def perusviite = [tyyppi : "booklet", title : "testaamisen iloa"]
 
 
 //Setup metodeja
@@ -87,7 +87,7 @@ scenario "käyttäjän tulee täyttää pakolliset kentät", {
     }
     
     when 'pakollinen kenttä jätetään tyhjäksi', {
-        when(io.lueRivi(contains("nimi"))).thenReturn("", "bkltViite")
+        when(io.lueRivi(contains("title"))).thenReturn("", "testaamisen iloa")
         perustilanne()        
         app.run()
     }

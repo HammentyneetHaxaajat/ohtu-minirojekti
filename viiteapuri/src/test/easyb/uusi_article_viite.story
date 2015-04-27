@@ -6,7 +6,7 @@ import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
 
-def perusviite = [nimi : "aViite", tyyppi : "article", author : "juri", journal : "Testaamisen Iloa", title : "Ilo Testata", volume : "3", year : "1995"]
+def perusviite = [tyyppi : "article", author : "juri", journal : "Testaamisen Iloa", title : "Ilo Testata", volume : "3", year : "1995"]
 
 
 //Setup metodeja
@@ -110,7 +110,7 @@ scenario "käyttäjän tulee täyttää pakolliset kentät", {
     }
     
     when 'pakollinen kenttä jätetään tyhjäksi', {
-        when(io.lueRivi(contains("nimi"))).thenReturn("", "aViite")
+        when(io.lueRivi(contains("author"))).thenReturn("", "juri")
         perustilanne()        
         app.run()
     }
@@ -136,7 +136,6 @@ scenario "käyttäjän ei ole pakko täyttää valinnaisia kenttiä", {
     }
 }
 
-//Toistaiseksi ohjelma ei tee tätä
 scenario "lisäyksen jälkeen ohjelma listaa lisätyn viitteen", {
     given 'käyttäjä lisää viitteen ohjelmaan', {
         init()

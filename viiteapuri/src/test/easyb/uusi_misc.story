@@ -5,7 +5,7 @@ import hammentyneethaxaajat.viiteapuri.IO.*
 import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
-def perusviite = [nimi : "misViite", tyyppi : "misc"]
+def perusviite = [tyyppi : "misc"]
 
 
 //Setup metodeja
@@ -57,45 +57,7 @@ scenario "käyttäjä kykenee lisäämään uuden misc-viitteen", {
 
 }
 
-scenario "käyttäjä tietää mitkä kentät ovat pakollisia", {
-
-    given 'käyttäjä syöttää komennon uusi', {
-        init()
-        lisaaViite(perusviite)
-    }
-
-    when 'kaikki kentät lisätään oikein', {
-        perustilanne()
-        app.run()
-    }
-
-    then 'käyttäjä saa tiedon pakollisista kentistä', {
-        verifyContains(Tulosteet.UUDEN_VIITTEEN_LUONTI)
-        def pakolliset = ViiteTyyppi.misc.getPakolliset()
-
-        for(AttrTyyppi atribuutti : pakolliset) {
-            verify(io).lueRivi(contains(atribuutti.toString() + "*:"))
-        }
-    }
-}
-
-scenario "käyttäjän tulee täyttää pakolliset kentät", {
-
-    given 'käyttäjä lisää uuden viitteen', {
-        init()
-        lisaaViite(perusviite)
-    }
-    
-    when 'pakollinen kenttä jätetään tyhjäksi', {
-        when(io.lueRivi(contains("nimi"))).thenReturn("", "misViite")
-        perustilanne()        
-        app.run()
-    }
-    
-    then 'Käyttäjälle ilmoitetaan, ettei kenttää voi jättää tyhjäksi', {
-        verifyContains(Tulosteet.ARVO_EI_SAA_OLLA_TYHJA)
-    }
-}
+//Normaalisti tässä kohtaa pakollisten kenttien testaus. Miscissä ei ole pakollisia kenttiä
 
 scenario "käyttäjän ei ole pakko täyttää valinnaisia kenttiä", {
 
