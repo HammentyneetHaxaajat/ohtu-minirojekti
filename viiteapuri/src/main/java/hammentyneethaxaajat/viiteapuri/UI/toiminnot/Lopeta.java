@@ -14,7 +14,7 @@ class Lopeta extends Toiminto {
 
     @Override
     public void suorita() {
-        System.out.println(Tulosteet.VIESTI_HEIHEI);
+        io.tulosta(Tulosteet.VIESTI_HEIHEI);
         System.exit(0);       
     }
     
