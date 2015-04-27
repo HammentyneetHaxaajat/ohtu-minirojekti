@@ -24,18 +24,19 @@ public abstract class Tulosteet {
     public static final String BIBTEXAVAIN = "bibtexavain";
     public static final String CROSSREF = "crossref";
 
-    public static final String KOMENTO_UUSI = "uusi";
-    public static final String KOMENTO_MUOKKAA = "muokkaa";
-    public static final String KOMENTO_POISTA = "poista";
-    public static final String KOMENTO_LISTAA = "listaa";
-    public static final String KOMENTO_BIBTEX = "bibtex";
-    public static final String KOMENTO_LOPETA = "lopeta";
+    public static final String KOMENTO_UUSI = "1. uusi\n";
+    public static final String KOMENTO_MUOKKAA = "2. muokkaa\n";
+    public static final String KOMENTO_POISTA = "3. poista\n";
+    public static final String KOMENTO_LISTAA = "4. listaa\n";
+    public static final String KOMENTO_BIBTEX = "5. bibtex\n";
+    public static final String KOMENTO_TUO_BIBTEX = "6. tuo bibtex\n";
+    public static final String KOMENTO_LOPETA = "7.lopeta\n";    
 
     public static final String SYOTA_KOMENTO = "Syötä komento";
     public static final String TUNTEMATON_KOMENTO = "Tuntematon komento. ";
 
     public static final String UUDEN_VIITTEEN_LUONTI = "Luodaan uusi viite.\nTähdellä(*) merkityt kentät ovat pakollisia.\n";
-    public static final String TUETUT_KOMENNOT = "Tuetut komennot: " + KOMENTO_UUSI + ", " + KOMENTO_MUOKKAA + ", " + KOMENTO_POISTA + ", " + KOMENTO_LISTAA + ", " + KOMENTO_BIBTEX + ", " + KOMENTO_LOPETA + ".\n";
+    public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + KOMENTO_UUSI + KOMENTO_MUOKKAA + KOMENTO_POISTA + KOMENTO_LISTAA + KOMENTO_BIBTEX + KOMENTO_TUO_BIBTEX + KOMENTO_LOPETA;
     public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
     public static final String VARMISTA_POISTO = "poista";

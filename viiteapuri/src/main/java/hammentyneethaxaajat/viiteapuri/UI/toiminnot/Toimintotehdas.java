@@ -19,7 +19,8 @@ public class Toimintotehdas {
         toiminnot.put("3", new PoistaViite(io, kasittelija, validoija));
         toiminnot.put("4", new ListaaViitteet(io, kasittelija, validoija));
         toiminnot.put("5", new luoBibtex(io, kasittelija, validoija, tiedostokasittelija));
-        toiminnot.put("6", new Lopeta(io, kasittelija, validoija));
+        toiminnot.put("6", new tuoBibtex(io, kasittelija, validoija, tiedostokasittelija));
+        toiminnot.put("7", new Lopeta(io, kasittelija, validoija));
         tuntematon = new TuntematonToiminto(io, kasittelija, validoija);
     }
     
