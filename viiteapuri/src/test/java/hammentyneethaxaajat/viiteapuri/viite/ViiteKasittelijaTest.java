@@ -3,6 +3,7 @@ package hammentyneethaxaajat.viiteapuri.viite;
 import java.util.Collection;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Matchers.anyString;
@@ -20,26 +21,120 @@ public class ViiteKasittelijaTest {
 
     @Test
     public void lisaaViiteLisaaViitteenKasittelijanTuntemiinViitteisiin() {
-        lisaaViite();
+        lisaaViite("viite");
         assertTrue(kasittelija.getViitteet().size() == 1);
     }
-
+    
     @Test
-    public void haeViitePalauttaaHalutunViitteen() {
-        lisaaViite();
-        Viite viite = new Viite();
-        viite.setBibtexAvain("viite 2");
-        kasittelija.lisaaViite(viite);
-
-        assertEquals(viite, kasittelija.haeViite("viite 2"));
+    public void lisaaViiteLisaaViitteenSilleAnnetullaNimella() {
+        lisaaViite("viite");
+        assertTrue(kasittelija.getViitteet().stream().anyMatch(v -> v.getBibtexAvain().equals("viite")));
     }
-
-    private Viite lisaaViite() {
+    
+    @Test
+    public void lisaaViiteGeneroiNimenViitteelleJollaEiNimea() {
+        setUp();
+        Viite viite = lisaaViite("");
+        
+        assertFalse(viite.getBibtexAvain().isEmpty());
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEiEditoriaEiYearia() {
+        setUp();
         Viite viite = new Viite();
-        viite.setBibtexAvain("viite 1");
+        
+        assertEquals("a", kasittelija.generoiAvain(viite));
+        lisaaViite("");
+        assertEquals("b", kasittelija.generoiAvain(viite));
+        lisaaViite("");
+        assertEquals("c", kasittelija.generoiAvain(viite));
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEiEditoriaYear() {
+        setUp();
+        Viite viite = new Viite();
+        viite.setAttribuutti(AttrTyyppi.year.name(), "1234");
+        
+        testaaGenerointi(viite, "1234");
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEditorEiYearia() {
+        setUp();
+        Viite viite = new Viite();
+        viite.setAttribuutti(AttrTyyppi.editor.name(), "markku");
+        
+        testaaGenerointi(viite, "markku");
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEditorYear() {
+        setUp();
+        Viite viite = new Viite();
+        viite.setAttribuutti(AttrTyyppi.editor.name(), "markku");
+        viite.setAttribuutti(AttrTyyppi.year.name(), "2007");
+        
+        testaaGenerointi(viite, "markku2007");
+    }
+    
+    @Test
+    public void generoiAvainAuthorEditorEiYearia() {
+        setUp();
+        
+        Viite viite = new Viite();
+        viite.setAttribuutti(AttrTyyppi.author.name(), "erkki");
+        viite.setAttribuutti(AttrTyyppi.editor.name(), "jorma");
+        
+        testaaGenerointi(viite, "erkki");
+    }
+    
+    @Test
+    public void generoiAvainAuthorEiEditoriaEiYearia() {
+        setUp();
+        
+        Viite viite = new Viite();
+        viite.setAttribuutti(AttrTyyppi.author.name(), "erkki");
+        
+        testaaGenerointi(viite, "erkki");
+    }
+    
+    @Test
+    public void generoiAvainAuthorYear() {
+        setUp();
+        
+        Viite viite = new Viite();
+        viite.setAttribuutti(AttrTyyppi.author.name(), "erkki");
+        viite.setAttribuutti(AttrTyyppi.year.name(), "5666");
+        
+        testaaGenerointi(viite, "erkki5666");
+    }
+    
+    private Viite lisaaViite(String avain) {
+        Viite viite = new Viite();
+        viite.setBibtexAvain(avain);
         kasittelija.lisaaViite(viite);
         
         return viite;
+    }
+    
+    private void testaaGenerointi(Viite viite, String avain) {
+        assertEquals(avain, kasittelija.generoiAvain(viite));
+        lisaaViite(avain);
+        
+        assertEquals(avain + "a", kasittelija.generoiAvain(viite));
+        lisaaViite(avain + "a");
+        
+        assertEquals(avain + "b", kasittelija.generoiAvain(viite)); 
+    }
+    
+    @Test
+    public void haeViitePalauttaaHalutunViitteen() {
+        lisaaViite("viite 1");
+        
+        Viite viite = lisaaViite("viite 2");
+        assertEquals(viite, kasittelija.haeViite("viite 2"));
     }
 
     @Test
