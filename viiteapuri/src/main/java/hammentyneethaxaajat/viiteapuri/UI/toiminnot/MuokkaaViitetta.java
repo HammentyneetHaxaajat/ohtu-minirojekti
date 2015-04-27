@@ -19,7 +19,7 @@ class MuokkaaViitetta extends Toiminto {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            listaaViitteet("Muokattavissa olevat viitteet: ");
+            listaaViitteet(MUOKATTAVISSA_OLEVAT_VIITTEET);
 
             Viite viite = haeViiteKayttajanSyotteenPerusteella();
             tulostaViitteenTiedot(viite);
@@ -44,7 +44,7 @@ class MuokkaaViitetta extends Toiminto {
                 viite.setAttribuutti(attribuutti, uusiArvo);
             }
             tulostaViitteenTiedot(viite);
-            io.tulosta("Kentän arvo päivitetty onnistuneesti.\n");
+            io.tulosta(KENTTA_PAIVITETTY);
         }
     }
     

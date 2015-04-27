@@ -16,10 +16,12 @@ public class Tekstikayttoliittyma implements Runnable {
 
     private Toimintotehdas toiminnot;
     private IO io;
+    private boolean kaynnissa;
 
     public Tekstikayttoliittyma(ViiteKasittelija viiteKasittelija, Validoija validaattori, IO io) {
         this.io = io;
-        toiminnot = new Toimintotehdas(io, viiteKasittelija, validaattori, new BibtexIO());
+        toiminnot = new Toimintotehdas(this, io, viiteKasittelija, validaattori, new BibtexIO());
+        kaynnissa = true;
     }
 
     /**
@@ -28,8 +30,7 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     @Override
     public void run() {
-
-        while (true) {
+        while (kaynnissa) {
             listaaKomennot();
             String komento = kysyKomento();
             suoritaToiminto(komento);
@@ -69,5 +70,9 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     protected void listaaKomennot() {
         io.tulosta(toiminnot.ohjeet());
+    }
+    
+    public void abort() {
+        kaynnissa = false;
     }
 }

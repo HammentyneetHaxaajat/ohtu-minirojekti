@@ -32,7 +32,7 @@ def verifyContains(String vaatimus) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
 }
 
 //Testit alkaa täältä

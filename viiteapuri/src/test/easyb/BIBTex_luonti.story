@@ -33,7 +33,7 @@ def verifyContains(String vaatimus) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "bibtex", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LUO_BIBTEX, Tulosteet.KOMENTO_LOPETA)
     when(io.lueRivi(contains(Tulosteet.KYSY_TIEDOSTO_NIMI))).thenReturn("testi")
 
 }

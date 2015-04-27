@@ -27,7 +27,11 @@ def yleisKomento(String komento) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "muokkaa", "listaa", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(
+        Tulosteet.KOMENTO_UUSI,
+        Tulosteet.KOMENTO_MUOKKAA,
+        Tulosteet.KOMENTO_LISTAA,
+        Tulosteet.KOMENTO_LOPETA)
     when(io.lueRivi(contains(Tulosteet.VIITE))).thenReturn("bViite")
     when(io.lueRivi(contains(Tulosteet.ATTRIBUUTTI))).thenReturn("editor")
     when(io.lueRivi(contains("editor"))).thenReturn("Jeesus")
@@ -60,7 +64,7 @@ scenario "käyttäjän on nähtävä mahdolliset muokattavat viitteet", {
     }
 
     then 'viite on muokattu ohjelmasta', {
-        verifyContains("Muokattavissa olevat viitteet: bViite")
+        verifyContains(Tulosteet.MUOKATTAVISSA_OLEVAT_VIITTEET)
     }
 }
 
@@ -77,7 +81,7 @@ scenario "käyttäjä voi valita muokattavan kentän ilman että käydään joka
         app.run()
     }
     then 'viite on muokattu onnistuneesti', {
-        verifyContains("Kentän arvo päivitetty onnistuneesti.")
+        verifyContains(Tulosteet.KENTTA_PAIVITETTY)
     }
 }
 

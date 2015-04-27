@@ -29,7 +29,7 @@ def yleisKomento(String komento) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
 }
 
 def verifyContains(String vaatimus) {
@@ -64,8 +64,8 @@ scenario "jos annetaan vahingossa virheelliset syötteet kenttiin, antaa ohjelma
     
     when 'käyttäjä antaa väärän komennon ja viitetiedon', {
         //Korvaa lisaaViite() metodissa asetun perustilanteen
-        when(io.lueRivi(contains("tyyppi"))).thenReturn("particle", "article")
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("aasi", "uusi", "lopeta")
+        when(io.lueRivi(contains(Tulosteet.TYYPPI))).thenReturn("particle", "article")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("aasi", Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
         app.run()
     }
     
@@ -148,6 +148,6 @@ scenario "lisäyksen jälkeen ohjelma listaa lisätyn viitteen", {
     }
 
     then 'ohjelma listaa viitteen', {
-        verifyContains("Viitteen tiedot:")
+        verifyContains(Tulosteet.VIITTEEN_TIEDOT)
     }
 }

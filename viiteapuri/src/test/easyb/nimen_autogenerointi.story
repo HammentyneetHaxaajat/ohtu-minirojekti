@@ -33,7 +33,7 @@ def verifyContains(String vaatimus) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
 }
 
 description 'nimen autogenerointi'
@@ -115,7 +115,7 @@ scenario 'Nimi on uniikki(ilman bibtexavainta)', {
     }
     
     when 'Käyttäjä syöttää tiedot ilman bibtexavainta', {
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "lopeta")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
         app.run()
     }
     
@@ -130,11 +130,11 @@ scenario 'Nimi on uniikki(omalla bibtexavaimella)', {
     given 'Käyttäjä lisää uuden viitteen järjestelmään', {
         init()
         lisaaViite(omaNimi)
-        when(io.lueRivi(contains("bibtexavain"))).thenReturn("avain", "avain", "avain1")
+        when(io.lueRivi(contains(Tulosteet.BIBTEXAVAIN))).thenReturn("avain", "avain", "avain1")
     }
     
     when 'Käyttäjä syöttää tiedot ilman bibtexavainta', {
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "lopeta")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
         app.run()
     }
     

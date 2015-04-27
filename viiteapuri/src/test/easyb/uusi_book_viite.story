@@ -32,7 +32,7 @@ def verifyContains(String vaatimus) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
 }
 
 //Testit alkaa täältä
@@ -66,8 +66,8 @@ scenario "jos annetaan vahingossa virheelliset syötteet kenttiin, antaa ohjelma
     
     when 'käyttäjä antaa väärän komennon ja viitetiedon', {
         //Korvaa lisaaViite() metodissa asetun perustilanteen
-        when(io.lueRivi(contains("tyyppi"))).thenReturn("böök", "book")
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("aasi", "uusi", "lopeta")
+        when(io.lueRivi(contains(Tulosteet.TYYPPI))).thenReturn("böök", "book")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("aasi", Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LOPETA)
         app.run()
     }
     

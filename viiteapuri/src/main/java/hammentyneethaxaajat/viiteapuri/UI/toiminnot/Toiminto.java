@@ -106,7 +106,7 @@ public abstract class Toiminto {
      * @param viite Viite jonka tiedot tulostetaan käyttäjän nähtäviksi.
      */
     protected void tulostaViitteenTiedot(Viite viite) {
-        io.tulosta("\nViitteen tiedot:\n" + viite.listaus());
+        io.tulosta(VIITTEEN_TIEDOT + viite.listaus());
     }
     
     /**

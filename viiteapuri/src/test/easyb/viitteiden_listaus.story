@@ -46,7 +46,13 @@ def verifyDoesNotContain(String vaatimus) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "uusi", "uusi", "listaa", "lopeta")    
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(
+    Tulosteet.KOMENTO_UUSI,
+    Tulosteet.KOMENTO_UUSI,
+    Tulosteet.KOMENTO_UUSI,
+    Tulosteet.KOMENTO_UUSI,
+    Tulosteet.KOMENTO_LISTAA,
+    Tulosteet.KOMENTO_LOPETA)    
 }
 
 //Testit alkaa täältä
@@ -150,7 +156,7 @@ scenario "edellisten sessioiden viitteitä ei listata", {
     }
 
     when 'käyttäjä syöttää listaa komennon', {
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "listaa", "lopeta")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(Tulosteet.KOMENTO_UUSI, Tulosteet.KOMENTO_LISTAA, Tulosteet.KOMENTO_LOPETA)
         app.run()
     }
 

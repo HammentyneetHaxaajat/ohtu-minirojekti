@@ -9,6 +9,7 @@ public abstract class Tulosteet {
     public static final String TUNTEMATON_VIITETYYPPI = "Tuntematon viitteen tyyppi. ";
     public static final String NIMI_VARATTU = "Nimi varattu. Valitse toinen nimi.\n";
     public static final String NIMI_EI_VASTAA_SEN_SYNTAKSIA = "Nimi ei vastaa sille määrätyä syntaksia.\n";
+    public static final String KENTTA_PAIVITETTY = "Kentän arvo päivitetty onnistuneesti.\n";
     public static final String VIRHE_VIITETTA_EI_OLE = " nimistä viitettä ei löydetty.\n";
     public static final String TIEDOSTONLUONTI_EI_ONNISTUNUT = "Bibtex tiedoston kirjoitus epäonnistui\n";
     public static final String TIEDOSTONLUONTI_ONNISTUI = "Tiedosto luotiin ohjelman juureen nimellä: ";
@@ -54,11 +55,14 @@ public abstract class Tulosteet {
 
     public static final String UUDEN_VIITTEEN_LUONTI = "Luodaan uusi viite.\nTähdellä(*) merkityt kentät ovat pakollisia.\n";
     public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + OHJE_UUSI + "\n" + OHJE_MUOKKAA + "\n" + OHJE_POISTA + "\n" + OHJE_LISTAA + "\n" + OHJE_LUO_BIBTEX + "\n" + OHJE_TUO_BIBTEX + "\n" + OHJE_LOPETA + "\n";
+    public static final String OHJEET = "\nVoit kirjoittaa komennon numeron tai nimen\n";
     public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
     public static final String VARMISTA_POISTO = "poista";
     public static final String POISTETTAVA_VIITE = "poistettava viite";
     public static final String VIITE_LISATTY_ONNISTUNEESTI = "Viite lisätty onnistuneesti!\n";
     public static final String TIEDOSTONLUKU_EI_ONNISTUNUT = "Tiedoston luku ei onnistunut\n";
+    public static final String VIITTEEN_TIEDOT = "\nViitteen tiedot:\n";
+    public static final String MUOKATTAVISSA_OLEVAT_VIITTEET = "Muokattavissa olevat viitteet: ";
 
 }

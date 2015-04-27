@@ -46,7 +46,13 @@ def verifyDoesNotContain(String vaatimus) {
 }
 
 def perustilanne() {
-    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "uusi", "uusi", "poista", "lopeta")
+    when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(
+        Tulosteet.KOMENTO_UUSI,
+        Tulosteet.KOMENTO_UUSI,
+        Tulosteet.KOMENTO_UUSI,
+        Tulosteet.KOMENTO_UUSI,
+        Tulosteet.KOMENTO_POISTA,
+        Tulosteet.KOMENTO_LOPETA)
     when(io.lueRivi(contains(Tulosteet.VIITE))).thenReturn("bViite1")
     when(io.lueRivi(contains(Tulosteet.VARMISTA_POISTO))).thenReturn("poista")
 }
@@ -85,7 +91,14 @@ scenario "käyttäjä voi poistaa viitteen", {
     }
     
     when 'käyttäjä poistaa viitteen ohjelmasta', {
-        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn("uusi", "uusi", "uusi", "uusi", "poista", "poista", "lopeta")
+        when(io.lueRivi(contains(Tulosteet.SYOTA_KOMENTO))).thenReturn(
+            Tulosteet.KOMENTO_UUSI,
+            Tulosteet.KOMENTO_UUSI,
+            Tulosteet.KOMENTO_UUSI,
+            Tulosteet.KOMENTO_UUSI,
+            Tulosteet.KOMENTO_POISTA,
+            Tulosteet.KOMENTO_POISTA,
+            Tulosteet.KOMENTO_LOPETA)
         when(io.lueRivi(contains(Tulosteet.VIITE))).thenReturn("bViite1", "bViite1", "bViite2")
         when(io.lueRivi(contains(Tulosteet.VARMISTA_POISTO))).thenReturn("poista")
         app.run()
@@ -109,7 +122,7 @@ scenario "ohjelma tulostaa poistettavan viitteen tiedot", {
     }
     
     then 'viitteen tiedot listataan käyttäjälle', {
-        verifyContains("Viitteen tiedot:")
+        verifyContains(Tulosteet.VIITTEEN_TIEDOT)
     }
 }
 
