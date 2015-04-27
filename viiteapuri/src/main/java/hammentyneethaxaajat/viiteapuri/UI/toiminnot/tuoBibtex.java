@@ -27,6 +27,7 @@ public class tuoBibtex extends Toiminto{
             Collection<Viite> lisattavat = tiedostokasittelija.haeViitteetTiedostosta(polku);
             for (Viite lisattava : lisattavat) {
                 viiteKasittelija.lisaaViite(lisattava);
+                io.tulosta(Tulosteet.TIEDOSTONTUONTI_ONNISTUI);
             }
         } catch (IOException ex) {
             io.tulosta(Tulosteet.TIEDOSTONLUKU_EI_ONNISTUNUT);            

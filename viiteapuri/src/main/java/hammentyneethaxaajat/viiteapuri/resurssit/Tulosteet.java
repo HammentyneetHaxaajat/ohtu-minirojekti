@@ -12,6 +12,7 @@ public abstract class Tulosteet {
     public static final String VIRHE_VIITETTA_EI_OLE = " nimistä viitettä ei löydetty.\n";
     public static final String TIEDOSTONLUONTI_EI_ONNISTUNUT = "Bibtex tiedoston kirjoitus epäonnistui\n";
     public static final String TIEDOSTONLUONTI_ONNISTUI = "Tiedosto luotiin ohjelman juureen nimellä: ";
+    public static final String TIEDOSTONTUONTI_ONNISTUI = "Tiedosto tuotiin onnistuneesti\n";
     public static final String VIRHE_TIEDOSTONIMI = "Tiedoston nimi saa sisältää vain kirjaimia ja numeroita\n";
     public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki\n";
 
@@ -19,7 +20,7 @@ public abstract class Tulosteet {
     public static final String VIITE = "anna viite";
     public static final String ATTRIBUUTTI = "attribuutti";
     public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiedostolle";
-    public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio";
+    public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio: ";
     public static final String TYYPPI = "tyyppi";
     public static final String BIBTEXAVAIN = "bibtexavain";
     public static final String CROSSREF = "crossref";
