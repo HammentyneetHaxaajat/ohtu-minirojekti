@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -65,6 +64,8 @@ public class ViiteKasittelijaTest {
     @Test
     public void poistaViitePoistaaViitteenViiteKasittelijasta() {
         Viite viite = new Viite();
+        viite.setBibtexAvain("");
+        
         kasittelija.lisaaViite(viite);
         kasittelija.poistaViite(viite);
         
@@ -95,7 +96,8 @@ public class ViiteKasittelijaTest {
         
         Attribuutti viitattava = tyhja;
         Viite viittaaja = mock(Viite.class);
-        viittaaja.setBibtexAvain("kirja");
+        
+        when(viittaaja.getBibtexAvain()).thenReturn("kirja");
         when(viittaaja.getAttribuutti("crossref")).thenReturn(viitattava);
         when(viittaaja.getTyyppi()).thenReturn(ViiteTyyppi.book);
         kasittelija.lisaaViite(viittaaja);

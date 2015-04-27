@@ -16,6 +16,7 @@ public class Viite {
 
     public Viite() {
         attribuutit = new HashMap<>();
+        bibtexAvain = "";
     }
 
     public ViiteTyyppi getTyyppi() {

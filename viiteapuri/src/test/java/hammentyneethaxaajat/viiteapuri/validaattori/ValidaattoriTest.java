@@ -49,20 +49,20 @@ public class ValidaattoriTest {
     @Test
     public void validoiTyypin() {
         try {
-            validaattori.validoi("tyyppi", "book");
+            validaattori.validoi(TYYPPI, "book");
         } catch (Exception e) {
             fail("Tyypin validointi epäonnistui");
         }
     }
 
-//    @Test
-//    public void validoiNimen() {
-//        try {
-//            validaattori.validoi("nimi", "korvisten rouva");
-//        } catch (Exception e) {
-//            fail("Nimen validointi epäonnistui");
-//        }
-//    }
+    @Test
+    public void validoiNimen() {
+        try {
+            validaattori.validoi(BIBTEXAVAIN, "korvisten rouva");
+        } catch (Exception e) {
+            fail("Nimen validointi epäonnistui");
+        }
+    }
 
     @Test
     public void validoiRistiviite() {
@@ -121,20 +121,20 @@ public class ValidaattoriTest {
         }
     }
 
-//    @Test
-//    public void nimenValidointiOnnistuuJosSellaistaEiOleMuillaViitteillaJaSyntaksiOK() {
-//        validaattori.validoiNimi("asdas");
-//    }
+    @Test
+    public void nimenValidointiOnnistuuJosSellaistaEiOleMuillaViitteillaJaSyntaksiOK() {
+        validaattori.validoiBibtexAvain("asdas");
+    }
 
-//    @Test(expected = IllegalArgumentException.class)
-//    public void nimenValidointiEiOnnistuJosToisellaViitteellaOnSamaNimi() {
-//        Viite viite = when(mock(Viite.class).getBibtexAvain()).thenReturn("aapinen").getMock();
-//        List<Viite> viitteet = new ArrayList<Viite>();
-//        viitteet.add(viite);
-//
-//        when(kasittelija.getViitteet()).thenReturn(viitteet);
-//        validaattori.validoiNimi("aapinen");
-//    }
+    @Test(expected = IllegalArgumentException.class)
+    public void nimenValidointiEiOnnistuJosToisellaViitteellaOnSamaNimi() {
+        Viite viite = when(mock(Viite.class).getBibtexAvain()).thenReturn("aapinen").getMock();
+        List<Viite> viitteet = new ArrayList<Viite>();
+        viitteet.add(viite);
+
+        when(kasittelija.getViitteet()).thenReturn(viitteet);
+        validaattori.validoiBibtexAvain("aapinen");
+    }
 
     @Test
     public void attribuutinvalidointiOnnistuuJosAttribuuttiOnMaarattyaMuotoa() {
