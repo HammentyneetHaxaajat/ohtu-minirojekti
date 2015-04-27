@@ -38,8 +38,8 @@ public class Validaattori implements Validoija {
             case TYYPPI:
                 validoiViiteTyyppi(arvo);
                 break;
-            case NIMI:
-                validoiNimi(arvo);
+            case BIBTEXAVAIN:
+                validoiBibtexAvain(arvo);
                 break;
             case VIITE:
                 tarkistaTyhjyys(arvo);
@@ -66,8 +66,8 @@ public class Validaattori implements Validoija {
             case ATTRIBUUTTI:
                 validoiAttribuutinTyyppi(viite, arvo);
                 break;
-            case NIMI:
-                validoiNimi(arvo);
+            case BIBTEXAVAIN:
+                validoiBibtexAvain(arvo);
                 break;
             default:
                 validoiAttribuutti(viite, attr, arvo);
@@ -113,18 +113,19 @@ public class Validaattori implements Validoija {
     /**
      * Validoi viitteelle annettavan nimen.
      *
-     * @param nimi Validoitava nimi.
+     * @param avain Validoitava nimi.
      * @throws IllegalArgumentException jos nimi on jo käytössä tai se ei vastaa
      * syntaksia.
      */
-    protected void validoiNimi(String nimi) {
-        tarkistaTyhjyys(nimi);
+    protected void validoiBibtexAvain(String avain) {
         if (viiteKasittelija.getViitteet().stream()
-                .map(s -> s.getNimi())
-                .anyMatch(s -> s.equals(nimi))) {
+                .map(s -> s.getBibtexAvain())
+                .anyMatch(s -> s.equals(avain))) {
             heitaException(NIMI_VARATTU);
-            //TODO MÄÄRITÄ NIMEN SYNTAKSI. voi tehdä AttrTyyppi enumin sille niin voi määrittää samassa paikassa muiden kanssa.
-        } else if (!nimi.matches("[\\p{L}\\w\\s]*")) {
+        }
+        
+        //TODO MÄÄRITÄ NIMEN SYNTAKSI. voi tehdä AttrTyyppi enumin sille niin voi määrittää samassa paikassa muiden kanssa.
+        else if (!avain.matches("[\\p{L}\\w\\s]*")) {
             heitaException(NIMI_EI_VASTAA_SEN_SYNTAKSIA);
         }
     }
@@ -159,7 +160,7 @@ public class Validaattori implements Validoija {
      */
     protected void validoiViite(String arvo) {
         Boolean eiLoydy = viiteKasittelija.getViitteet().stream()
-                .map(s -> s.getNimi())
+                .map(s -> s.getBibtexAvain())
                 .noneMatch(s -> s.equals(arvo));
         if (!arvo.isEmpty() && eiLoydy) {
             heitaException(arvo + VIRHE_VIITETTA_EI_OLE);
@@ -197,7 +198,7 @@ public class Validaattori implements Validoija {
         if (tyyppi.equals(AttrTyyppi.crossref.name())) {
             //  TODO Kommentoi alempi rivi jos crossreffin muuttaminen sallitaan joskus. Crossreffin muuttamisen toiminnallisuus pitää myös korjata muualla koodissa jos sallitaan.
             heitaException("Crossref kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
-        } else if (tyyppi.equals(NIMI)) {
+        } else if (tyyppi.equals(BIBTEXAVAIN)) {
             //  TODO Kommentoi alempi rivi jos nimen vaihtaminen sallitaan.
 //            heitaException("Nimi kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
         } else if (viite.getTyyppi().getKaikki().stream().noneMatch(a -> a.name().equals(tyyppi))) {

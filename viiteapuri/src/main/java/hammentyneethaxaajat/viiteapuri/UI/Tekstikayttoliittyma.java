@@ -146,17 +146,20 @@ public class Tekstikayttoliittyma implements Runnable {
     /**
      * Kyselee kaikki uuden viitteen luomiseen tarvittavat arvot ja antaa uuden
      * viitteen viitteenkäsittelijälle.
+     * Nimi kysytään lopuksi ja jos se jätetään tyhjäksi, viitekäsittelijä
+     * generoi viitteelle nimen.
      */
     protected void uusiViite() {
         io.tulosta(UUDEN_VIITTEEN_LUONTI);
         Viite uusiViite = new Viite();
-
-        uusiViite.setNimi(hankiValidiSyote(NIMI, true));
+        
         uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyote(TYYPPI, true)));
         uusiViite.setAttribuutti(AttrTyyppi.crossref.name(), hankiValidiSyote(AttrTyyppi.crossref.name(), false));
 
         hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getPakolliset(), uusiViite);
         hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getValinnaiset(), uusiViite);
+        
+        uusiViite.setBibtexAvain(hankiValidiSyote(BIBTEXAVAIN, false));
 
         //Alempi toimii yksin kahden ylemmän sijaan. Rikkoo tosin testit koska ne antavat vastaukset kiinteässä järjestyksessä.
 //        hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getKaikki(), uusiViite);
@@ -236,11 +239,11 @@ public class Tekstikayttoliittyma implements Runnable {
             String uusiArvo = hankiValidiSyote(viite, attribuutti, attribuutinPakollisuus(viite, attribuutti));
 
             //Jos vaihdetaan nimi niin päivitetään viitaukset.
-            if (attribuutti.equals(NIMI)) {
+            if (attribuutti.equals(BIBTEXAVAIN)) {
                 //TODO tämä säädön voisi siirtää viitekäsittelijän metodiksi. paivitaNimi(Viite viite, String nimi).
                 viiteKasittelija.viittaavatViitteet(viite).stream().forEach(s -> s.setAttribuutti(AttrTyyppi.crossref.name(), uusiArvo));
                 viiteKasittelija.poistaViite(viite);
-                viite.setNimi(uusiArvo);
+                viite.setBibtexAvain(uusiArvo);
                 viiteKasittelija.lisaaViite(viite);
             } 
 //                else if(attribuutti.equals(CROSSREF)){
@@ -306,7 +309,7 @@ public class Tekstikayttoliittyma implements Runnable {
      */
     private void listaaViitteet(String viesti) {
         io.tulosta(viiteKasittelija.getViitteet().stream()
-                .map(s -> s.getNimi())
+                .map(s -> s.getBibtexAvain())
                 .collect(Collectors.joining(", ", viesti, "\n")));
     }
 

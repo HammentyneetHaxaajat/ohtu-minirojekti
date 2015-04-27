@@ -21,7 +21,7 @@ public abstract class Tulosteet {
     public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiedostolle";
     public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio";
     public static final String TYYPPI = "tyyppi";
-    public static final String NIMI = "nimi";
+    public static final String BIBTEXAVAIN = "bibtexavain";
     public static final String CROSSREF = "crossref";
 
     public static final String KOMENTO_UUSI = "uusi";

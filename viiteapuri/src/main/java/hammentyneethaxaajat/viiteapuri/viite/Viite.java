@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Viite {
 
     private ViiteTyyppi tyyppi;
-    private String nimi;
+    private String bibtexAvain;
     private Map<String, Attribuutti> attribuutit;
 
     public Viite() {
@@ -22,8 +22,8 @@ public class Viite {
         return tyyppi;
     }
 
-    public String getNimi() {
-        return nimi;
+    public String getBibtexAvain() {
+        return bibtexAvain;
     }
 
     public Attribuutti getAttribuutti(String attr) {
@@ -34,8 +34,8 @@ public class Viite {
         this.tyyppi = tyyppi;
     }
 
-    public void setNimi(String nimi) {
-        this.nimi = nimi;
+    public void setBibtexAvain(String avain) {
+        this.bibtexAvain = avain;
     }
     
     public Map<String, Attribuutti> getAttribuutit() {
@@ -68,7 +68,7 @@ public class Viite {
         return attribuutit.values().stream()
                 .sorted((a, b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
                 .map(a -> a.getTyyppi().name() + ": " + a.getArvo())
-                .collect(Collectors.joining("\n", "nimi: " + this.nimi + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
+                .collect(Collectors.joining("\n", "nimi: " + this.bibtexAvain + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
     }
 
 
@@ -94,6 +94,6 @@ public class Viite {
                 .filter(s -> !s.getArvo().equals(""))
                 .sorted((a,b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
                 .map(a -> a.toString())
-                .collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.nimi + ",\n", "\n}\n"));
+                .collect(Collectors.joining("\n", "@" + this.tyyppi.name() + "{" + this.bibtexAvain + ",\n", "\n}\n"));
     }
 }

@@ -13,6 +13,7 @@ public class ViiteKasittelija {
 
     private Map<String, Viite> viitteet;
 
+
     public ViiteKasittelija() {
         viitteet = new HashMap<>();
     }
@@ -44,19 +45,88 @@ public class ViiteKasittelija {
     }
     
     protected boolean tarkistaAttribuutinTyhjyys(Viite viite, String attribuutti) {
-        if (viite.getAttribuutti(attribuutti) != null && !viite.getAttribuutti(attribuutti).getArvo().isEmpty()) {
-            return false;
-        }
-        return true;
+        return viite.getAttribuutti(attribuutti) == null ||
+               viite.getAttribuutti(attribuutti).getArvo().isEmpty();
     }
     
     /**
      * Viitteen lisääminen lisää viitteen viitelistaan
      *
-     * @param uusi lisättävä viite
+     * @param viite lisättävä viite
      */
-    public void lisaaViite(Viite uusi) {
-        viitteet.put(uusi.getNimi(), uusi);
+    public void lisaaViite(Viite viite) {
+        if (viite.getBibtexAvain().isEmpty()) {
+            viite.setBibtexAvain(generoiAvain(viite));
+        }
+        
+        viitteet.put(viite.getBibtexAvain(), viite);
+    }
+    
+    /**
+     * Erottele sukuNimi siten että ainoastaan yhden authorin sukunimi tulee avaimen osaksi.
+     * @param viite
+     * @return 
+     */
+    
+    protected String generoiAvain(Viite viite) {
+        Attribuutti sukuNimi = viite.getAttribuutti(AttrTyyppi.author.name());
+        if (sukuNimi == null) {
+            sukuNimi = viite.getAttribuutti(AttrTyyppi.editor.name());
+        }
+        
+        Attribuutti vuosi = viite.getAttribuutti(AttrTyyppi.year.name());
+        
+        String avain = luoAvain(sukuNimi, vuosi);
+        return avain + tunniste(avain);
+    }
+    
+    protected String luoAvain(Attribuutti sukuNimi, Attribuutti year) {
+        String yhdiste = "";
+        
+        if (sukuNimi != null) {
+            yhdiste = sukuNimi.getArvo();
+        }
+        
+        if (year != null) {
+            yhdiste += year.getArvo();
+        }
+        return yhdiste;
+    }
+    
+    /**
+     * Luo avaimelle tunnisteen.
+     * Tunniste on tyhjä jos avain on yksiselitteinen.
+     * 
+     * Jos samanalkuisia viitteitä on olemassa jo tai avain on tyhjä,
+     * palautetaan tunniste, joka lisätään avaimen perään.
+     * @param avain
+     * @return 
+     */
+    protected String tunniste(String avain) {
+        char tunniste = 'a';
+        char samanAlkuisia;
+        
+        if (avain.isEmpty()) {
+            samanAlkuisia = (char) yhdenCharinAvaimet();
+        }
+        else {
+            samanAlkuisia = (char) sanallaAlkavatAvaimet(avain);
+            if (samanAlkuisia == 0) {
+                return "";
+            }
+            
+            samanAlkuisia--;    // vähennetään yksi joka on "alkuperäinen" ilman tunnistetta
+        }
+        
+        return ((char) (tunniste + samanAlkuisia)) + "";
+    }
+
+    protected int yhdenCharinAvaimet() {
+        return viitteet.values().stream().filter(v -> v.getBibtexAvain().length() == 1).toArray().length;
+    }
+    
+    protected int sanallaAlkavatAvaimet(String sana) {
+        return viitteet.values().stream().filter(v -> v.getBibtexAvain().matches(sana + "(.*)")).toArray().length;
     }
 
     /**
@@ -65,7 +135,7 @@ public class ViiteKasittelija {
      * @param viite Poistettava viite.
      */
     public void poistaViite(Viite viite) {
-        viitteet.remove(viite.getNimi());
+        viitteet.remove(viite.getBibtexAvain());
     }
 
     /**
@@ -141,7 +211,7 @@ public class ViiteKasittelija {
     public Collection<Viite> viittaavatViitteet(Viite viite) {
         return this.getViitteet()
                 .stream()
-                .filter((v) -> (v.getAttribuutti(CROSSREF).getArvo().equals(viite.getNimi())))
+                .filter((v) -> (v.getAttribuutti(CROSSREF).getArvo().equals(viite.getBibtexAvain())))
                 .collect(Collectors.toSet());
     }
 }

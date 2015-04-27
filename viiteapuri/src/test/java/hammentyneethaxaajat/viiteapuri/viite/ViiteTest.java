@@ -41,7 +41,7 @@ public class ViiteTest {
     @Test
     public void listausListaaViitteetSelkokielisessaMuodossa() {
         viite = new Viite();
-        viite.setNimi("Viite #1");
+        viite.setBibtexAvain("Viite #1");
         viite.setTyyppi(ViiteTyyppi.book);
         viite.setAttribuutti("year", "2345");
         viite.setAttribuutti("month", "tammikuu");

@@ -29,7 +29,7 @@ public class ViiteKasittelijaTest {
     public void haeViitePalauttaaHalutunViitteen() {
         lisaaViite();
         Viite viite = new Viite();
-        viite.setNimi("viite 2");
+        viite.setBibtexAvain("viite 2");
         kasittelija.lisaaViite(viite);
 
         assertEquals(viite, kasittelija.haeViite("viite 2"));
@@ -37,7 +37,7 @@ public class ViiteKasittelijaTest {
 
     private Viite lisaaViite() {
         Viite viite = new Viite();
-        viite.setNimi("viite 1");
+        viite.setBibtexAvain("viite 1");
         kasittelija.lisaaViite(viite);
         
         return viite;
@@ -46,7 +46,7 @@ public class ViiteKasittelijaTest {
     @Test
     public void viitteetListauksenaPalauttaaViitteetSelkokielisenaListana() {
         Viite viite = new Viite();
-        viite.setNimi("viite1");
+        viite.setBibtexAvain("viite1");
         viite.setTyyppi(ViiteTyyppi.book);
         viite.setAttribuutti("author", "Juuso");
         viite.setAttribuutti("title", "Testaamisen iloa");
@@ -74,7 +74,7 @@ public class ViiteKasittelijaTest {
     @Test
     public void bibTexStringSisältääViitteenArvot() {
         Viite viite = new Viite();
-        viite.setNimi("viite1");
+        viite.setBibtexAvain("viite1");
         viite.setTyyppi(ViiteTyyppi.book);
         viite.setAttribuutti("author", "Juuso");
         viite.setAttribuutti("title", "Testaamisen iloa");
@@ -95,7 +95,7 @@ public class ViiteKasittelijaTest {
         
         Attribuutti viitattava = tyhja;
         Viite viittaaja = mock(Viite.class);
-        viittaaja.setNimi("kirja");
+        viittaaja.setBibtexAvain("kirja");
         when(viittaaja.getAttribuutti("crossref")).thenReturn(viitattava);
         when(viittaaja.getTyyppi()).thenReturn(ViiteTyyppi.book);
         kasittelija.lisaaViite(viittaaja);
@@ -112,7 +112,7 @@ public class ViiteKasittelijaTest {
     @Test
     public void attribuuttiEiOlePakollinenJosCrossrefMaaritteleeSen() {
         Viite kohde = mock(Viite.class);
-        when(kohde.getNimi()).thenReturn("isi");
+        when(kohde.getBibtexAvain()).thenReturn("isi");
         kasittelija.lisaaViite(kohde);
         Attribuutti year = when(mock(Attribuutti.class).getArvo()).thenReturn("1337").getMock();
         when(kohde.getAttribuutti(anyString())).thenReturn(year);
