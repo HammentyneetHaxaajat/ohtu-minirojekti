@@ -68,6 +68,6 @@ public class Tekstikayttoliittyma implements Runnable {
      * Listaa ohjelmassa tuetut komennot.
      */
     protected void listaaKomennot() {
-        io.tulosta(TUETUT_KOMENNOT);
+        io.tulosta(toiminnot.ohjeet());
     }
 }

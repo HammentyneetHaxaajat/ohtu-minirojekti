@@ -15,5 +15,10 @@ class TuntematonToiminto extends Toiminto {
     public void suorita() {
         io.tulosta(TUNTEMATON_KOMENTO);
     }
+
+    @Override
+    public String toString() {
+        return TUNTEMATON_KOMENTO;
+    }
     
 }

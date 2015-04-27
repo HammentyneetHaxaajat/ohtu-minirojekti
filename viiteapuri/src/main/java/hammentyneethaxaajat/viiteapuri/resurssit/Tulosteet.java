@@ -25,19 +25,35 @@ public abstract class Tulosteet {
     public static final String BIBTEXAVAIN = "bibtexavain";
     public static final String CROSSREF = "crossref";
 
-    public static final String KOMENTO_UUSI = "1. uusi\n";
-    public static final String KOMENTO_MUOKKAA = "2. muokkaa\n";
-    public static final String KOMENTO_POISTA = "3. poista\n";
-    public static final String KOMENTO_LISTAA = "4. listaa\n";
-    public static final String KOMENTO_BIBTEX = "5. bibtex\n";
-    public static final String KOMENTO_TUO_BIBTEX = "6. tuo bibtex\n";
-    public static final String KOMENTO_LOPETA = "7.lopeta\n";    
+    public static final String KOMENTO_UUSI = "uusi";
+    public static final String KOMENTO_MUOKKAA = "muokkaa";
+    public static final String KOMENTO_POISTA = "poista";
+    public static final String KOMENTO_LISTAA = "listaa";
+    public static final String KOMENTO_LUO_BIBTEX = "luo bibtex";
+    public static final String KOMENTO_TUO_BIBTEX = "tuo bibtex";
+    public static final String KOMENTO_LOPETA = "lopeta";  
+    
+    public static final String KOMENTO_UUSI_NUMERO = "1";
+    public static final String KOMENTO_MUOKKAA_NUMERO = "2";
+    public static final String KOMENTO_POISTA_NUMERO = "3";
+    public static final String KOMENTO_LISTAA_NUMERO = "4";
+    public static final String KOMENTO_LUO_BIBTEX_NUMERO = "5";
+    public static final String KOMENTO_TUO_BIBTEX_NUMERO = "6";
+    public static final String KOMENTO_LOPETA_NUMERO = "7";
+    
+    public static final String OHJE_UUSI = KOMENTO_UUSI_NUMERO + ". " + KOMENTO_UUSI;
+    public static final String OHJE_MUOKKAA = KOMENTO_MUOKKAA_NUMERO + ". " + KOMENTO_MUOKKAA;
+    public static final String OHJE_POISTA = KOMENTO_POISTA_NUMERO + ". " + KOMENTO_POISTA;
+    public static final String OHJE_LISTAA = KOMENTO_LISTAA_NUMERO + ". " + KOMENTO_LISTAA;
+    public static final String OHJE_LUO_BIBTEX = KOMENTO_LUO_BIBTEX_NUMERO + ". " + KOMENTO_LUO_BIBTEX;
+    public static final String OHJE_TUO_BIBTEX = KOMENTO_TUO_BIBTEX_NUMERO + ". " + KOMENTO_TUO_BIBTEX;
+    public static final String OHJE_LOPETA = KOMENTO_LOPETA_NUMERO + ". " + KOMENTO_LOPETA;
 
     public static final String SYOTA_KOMENTO = "Syötä komento";
     public static final String TUNTEMATON_KOMENTO = "Tuntematon komento. ";
 
     public static final String UUDEN_VIITTEEN_LUONTI = "Luodaan uusi viite.\nTähdellä(*) merkityt kentät ovat pakollisia.\n";
-    public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + KOMENTO_UUSI + KOMENTO_MUOKKAA + KOMENTO_POISTA + KOMENTO_LISTAA + KOMENTO_BIBTEX + KOMENTO_TUO_BIBTEX + KOMENTO_LOPETA;
+    public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + OHJE_UUSI + "\n" + OHJE_MUOKKAA + "\n" + OHJE_POISTA + "\n" + OHJE_LISTAA + "\n" + OHJE_LUO_BIBTEX + "\n" + OHJE_TUO_BIBTEX + "\n" + OHJE_LOPETA + "\n";
     public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
     public static final String VARMISTA_POISTO = "poista";

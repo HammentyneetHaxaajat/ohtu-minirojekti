@@ -18,4 +18,8 @@ class Lopeta extends Toiminto {
         System.exit(0);       
     }
     
+    
+    public String toString() {
+        return Tulosteet.KOMENTO_LOPETA;
+    }
 }

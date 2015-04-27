@@ -37,5 +37,10 @@ public class UusiViite extends Toiminto{
         tulostaViitteenTiedot(uusiViite);
         io.tulosta('\n' + VIITE_LISATTY_ONNISTUNEESTI);
     }
+
+    @Override
+    public String toString() {
+        return KOMENTO_UUSI;
+    }
     
 }

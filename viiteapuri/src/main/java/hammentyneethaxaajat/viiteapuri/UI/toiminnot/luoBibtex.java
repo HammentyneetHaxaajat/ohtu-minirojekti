@@ -38,5 +38,10 @@ class luoBibtex extends Toiminto {
             io.tulosta("Huom! Luotu tiedosto ei sisällä yhtään viitettä.\n");
         }
     }
+
+    @Override
+    public String toString() {
+        return KOMENTO_LUO_BIBTEX;
+    }
     
 }

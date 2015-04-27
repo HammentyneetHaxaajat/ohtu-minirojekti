@@ -6,6 +6,7 @@
 package hammentyneethaxaajat.viiteapuri.UI.toiminnot;
 
 import hammentyneethaxaajat.viiteapuri.IO.IO;
+import hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet;
 import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
 import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
@@ -55,4 +56,8 @@ class PoistaViite extends Toiminto {
 
     }
     
+    
+    public String toString() {
+        return Tulosteet.KOMENTO_POISTA;
+    }
 }

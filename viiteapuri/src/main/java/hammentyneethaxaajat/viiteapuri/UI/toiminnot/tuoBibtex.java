@@ -33,5 +33,10 @@ public class tuoBibtex extends Toiminto{
             io.tulosta(Tulosteet.TIEDOSTONLUKU_EI_ONNISTUNUT);            
         }
     }
+
+    @Override
+    public String toString() {
+        return Tulosteet.KOMENTO_TUO_BIBTEX;
+    }
     
 }

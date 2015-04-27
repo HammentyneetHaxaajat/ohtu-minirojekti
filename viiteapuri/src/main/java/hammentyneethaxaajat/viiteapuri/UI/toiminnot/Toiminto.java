@@ -26,6 +26,8 @@ public abstract class Toiminto {
      * Suorittaa komennon.
      */
     public abstract void suorita();
+    @Override
+    public abstract String toString();
     
     /**
      * Hankkii käyttäjältä kullekin attribuutille kelvollisen arvon ja asettaa
