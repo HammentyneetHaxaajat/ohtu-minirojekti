@@ -22,6 +22,7 @@ class ListaaViitteet extends Toiminto {
     }
     
     
+    @Override
     public String toString() {
         return Tulosteet.KOMENTO_UUSI;
     }

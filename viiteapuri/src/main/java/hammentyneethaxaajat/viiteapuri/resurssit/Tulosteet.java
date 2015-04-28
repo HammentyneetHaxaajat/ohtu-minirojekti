@@ -13,16 +13,20 @@ public abstract class Tulosteet {
     public static final String VIRHE_VIITETTA_EI_OLE = " nimistä viitettä ei löydetty.\n";
     public static final String TIEDOSTONLUONTI_EI_ONNISTUNUT = "Bibtex tiedoston kirjoitus epäonnistui\n";
     public static final String TIEDOSTONLUONTI_ONNISTUI = "Tiedosto luotiin ohjelman juureen nimellä: ";
-    public static final String TIEDOSTONTUONTI_ONNISTUI = "Tiedosto tuotiin onnistuneesti\n";
-    public static final String VIRHE_TIEDOSTONIMI = "Tiedoston nimi saa sisältää vain kirjaimia ja numeroita\n";
-    public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki\n";
+    public static final String TIEDOSTONTUONTI_ONNISTUI = "Tiedosto tuotiin onnistuneesti.\n";
+    public static final String VIRHE_TIEDOSTONIMI = "Tiedoston nimi saa sisältää vain kirjaimia ja numeroita.\n";
+    public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki.\n";
+    public static final String VIRHE_OLEMATONTIEDOSTO = "Annettu polku ei ole kelvollinen.\n";
 
+    public static final String VIRHE_TIEDOSTOFORMAATTI = "Luettava tiedosto ei vastaa tuettua .bib formaattia\n";
+    public static final String VIESTI_TUODUT_VIITTEET = "Tiedostosta Luetut viitteet:\n";
+    public static final String VIRHE_VIITE_HYLATTIIN = "Epäkelpoja viitteitä hylättiin: ";
     public static final String VIRHE_EI_OLE_ATTRIBUUTTI = "Annettu syöte ei ole kelvollinen kentän nimi.\n";
     public static final String VIRHE_EIVIITTEITA = "Ohjelmassa ei ole yhtäkään viitettä.\n";
     public static final String VIITE = "anna viite";
     public static final String ATTRIBUUTTI = "Anna attribuutti";
     public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiedostolle";
-    public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio: ";
+    public static final String KYSY_TIEDOSTO_POLKU = "Anna tiedoston polku";
     public static final String TYYPPI = "tyyppi";
     public static final String BIBTEXAVAIN = "bibtexavain";
     public static final String CROSSREF = "crossref";
@@ -59,16 +63,15 @@ public abstract class Tulosteet {
 
     public static final String UUDEN_VIITTEEN_LUONTI = "Luodaan uusi viite.\nTähdellä(*) merkityt kentät ovat pakollisia.\n";
     public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + OHJE_UUSI + "\n" + OHJE_MUOKKAA + "\n" + OHJE_POISTA + "\n" + OHJE_LISTAA + "\n" + OHJE_HAE_VIITTEITA + "\n" + OHJE_LUO_BIBTEX + "\n" + OHJE_TUO_BIBTEX + "\n" + OHJE_LOPETA + "\n";
-    public static final String OHJEET = "\nVoit kirjoittaa komennon numeron tai nimen\n";
+    public static final String OHJEET = "\nVoit kirjoittaa komennon numeron tai nimen.\n";
     public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
     public static final String VARMISTA_POISTO = "poista";
     public static final String POISTETTAVA_VIITE = "poistettava viite";
     public static final String POISTETTAVISSA_OLEVAT_VIITTEET = "Poistettavissa olevat viitteet: ";
     public static final String VIITE_LISATTY_ONNISTUNEESTI = "Viite lisätty onnistuneesti!\n";
-    public static final String TIEDOSTONLUKU_EI_ONNISTUNUT = "Tiedoston luku ei onnistunut\n";
     public static final String VIITTEEN_TIEDOT = "\nViitteen tiedot:\n";
     public static final String MUOKATTAVISSA_OLEVAT_VIITTEET = "Muokattavissa olevat viitteet: ";
-    
-     public static final String VIIVA = "--------------------";
+
+    public static final String VIIVA = "--------------------";
 }

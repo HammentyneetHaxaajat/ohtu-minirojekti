@@ -194,7 +194,7 @@ public class ViiteKasittelija {
      */
     public String viitteetListauksena() {
         return viitteet.values().stream()
-                .map(s -> s.listaus())
+                .map(s -> s.listaus(false))
                 .collect(Collectors.joining("----------------------------------------\n", "--------------------Listataan viitteet--------------------\n", "--------------------END--------------------\n"));
     }
 

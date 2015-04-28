@@ -1,5 +1,6 @@
 package hammentyneethaxaajat.viiteapuri.IO;
 
+import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
 import java.io.BufferedWriter;
@@ -43,33 +44,76 @@ public class BibtexIO {
      * @throws java.io.IOException Jos tiedoston lukeminen epäonnistuu.
      */
     public Collection<Viite> haeViitteetTiedostosta(String polku) throws IOException {
-        Path asdf = Paths.get(polku);
-        String sisalto = Files.readAllLines(asdf).stream().collect(Collectors.joining("\n"));
-        String viitteetStringeina[] = sisalto.split("@");
-        Collection<Viite> viitteet = new HashSet<>();
-        
-        for (int i = 1; i < viitteetStringeina.length; i++) {
-            String ViiteStringina = viitteetStringeina[i];
-            Viite viite = new Viite(ViiteTyyppi.valueOf(ViiteStringina.substring(0, ViiteStringina.indexOf("{"))));
-            String attribuutit[] = ViiteStringina.substring(ViiteStringina.indexOf("{") + 1).split(",\n");
-            
-            asetaAttribuutit(viite, attribuutit);
-            viitteet.add(viite);
-            //TODO Alempi rivi debugaukseen
-//            System.out.println(viite);
+        if (!polku.endsWith(".bib")) {
+            polku = polku + ".bib";
         }
-        return viitteet;
+        String sisalto = haeTiedostonSisalto(polku);
+        return luoViitteetStringista(sisalto);
     }
-    
+
     /**
-     * Asettaa viitteelle attribuutit.
-     * @param viite
-     * @param attribuutit 
+     * Luo annetusta Stringista vastaavat Viite oliot.
+     *
+     * @param sisalto String joka sisältää viitteet
+     * @return Collection joka sisälrää Stringin sisältäneet viitteet.
+     * @throws IOException Jos String ei vastaa odotettua formaattia.
      */
-    
+    private Collection<Viite> luoViitteetStringista(String sisalto) throws IOException {
+        try {
+            Collection<Viite> viitteet = new HashSet<>();
+            String viitteetStringeina[] = sisalto.split("@");
+            for (int i = 1; i < viitteetStringeina.length; i++) {
+                String ViiteStringina = viitteetStringeina[i];
+                Viite viite = luoViiteStringista(ViiteStringina);
+                viitteet.add(viite);
+            }
+            return viitteet;
+        } catch (Exception e) {
+            throw new IOException(VIRHE_TIEDOSTOFORMAATTI);
+        }
+    }
+
+    /**
+     * Hakee parametrina saadun Strining osoittamasta kohteesta tiedoston ja
+     * palauttaa sen sisällön Striginä
+     *
+     * @param polku Tiedostopolku josta tiedosto yritetään lukea.
+     * @return Tiedoston sisältö Stringinä.
+     * @throws IOException Jos polku ei osoita kelvolliseen tiedostoon.
+     */
+    private String haeTiedostonSisalto(String polku) throws IOException {
+        String sisalto = "";
+        try {
+            Path asdf = Paths.get(polku);
+            sisalto = Files.readAllLines(asdf).stream().collect(Collectors.joining("\n"));
+        } catch (IOException iOException) {
+            throw new IOException(VIRHE_OLEMATONTIEDOSTO);
+        }
+        return sisalto;
+    }
+
+    /**
+     * Luo Viitteen annetusta Stringistä
+     *
+     * @param viiteStringina String josta viite luodaan.
+     * @return Stringin sisältämä Viite.
+     */
+    private Viite luoViiteStringista(String viiteStringina) {
+        Viite viite = new Viite(ViiteTyyppi.valueOf(viiteStringina.substring(0, viiteStringina.indexOf("{"))));
+        String attribuutit[] = viiteStringina.substring(viiteStringina.indexOf("{") + 1).split(",\n");
+        asetaAttribuutit(viite, attribuutit);
+        return viite;
+    }
+
+    /**
+     * Asettaa viitteelle attribuutit attribuuttien String esityksistä.
+     *
+     * @param viite Viite jolle attribuutit asetetaan
+     * @param attribuutit Attribuuttien String esitykset sisältävä array.
+     */
     private void asetaAttribuutit(Viite viite, String[] attribuutit) {
         viite.setBibtexAvain(attribuutit[0]);
-        
+
         for (int j = 1; j < attribuutit.length - 1; j++) {
             String attribuutti = attribuutit[j];
             String avainArvoPari[] = attribuutti.split("=");
