@@ -66,7 +66,7 @@ public class ValidaattoriTest {
     @Test
     public void validoiRistiviite() {
         Viite viite = when(mock(Viite.class).getBibtexAvain()).thenReturn("aapinen").getMock();
-        List<Viite> viitteet = new ArrayList<Viite>();
+        List<Viite> viitteet = new ArrayList<>();
         viitteet.add(viite);
 
         when(kasittelija.getViitteet()).thenReturn(viitteet);
@@ -128,7 +128,7 @@ public class ValidaattoriTest {
     @Test(expected = IllegalArgumentException.class)
     public void nimenValidointiEiOnnistuJosToisellaViitteellaOnSamaNimi() {
         Viite viite = when(mock(Viite.class).getBibtexAvain()).thenReturn("aapinen").getMock();
-        List<Viite> viitteet = new ArrayList<Viite>();
+        List<Viite> viitteet = new ArrayList<>();
         viitteet.add(viite);
 
         when(kasittelija.getViitteet()).thenReturn(viitteet);

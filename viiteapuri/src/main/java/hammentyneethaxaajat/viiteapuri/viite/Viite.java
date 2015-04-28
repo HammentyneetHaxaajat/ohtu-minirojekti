@@ -61,6 +61,7 @@ public class Viite {
     /**
      * Palauttaa selkokielisen listan viitteen kenttien arvoista.
      *
+     * @param listaaTyhjat
      * @return String joka sisältää kaikki viitteen sisältämät arvot.
      */
     

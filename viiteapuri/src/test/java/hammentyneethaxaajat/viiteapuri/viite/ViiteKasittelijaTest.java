@@ -8,15 +8,22 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ViiteKasittelijaTest {
 
     ViiteKasittelija kasittelija;
-
+    Viite viite;
+    Attribuutti attr, attr2;
+    
     @Before
     public void setUp() {
         kasittelija = new ViiteKasittelija();
+        viite = mock(Viite.class);
+        attr = mock(Attribuutti.class);
+        attr2 = mock(Attribuutti.class);
     }
 
     @Test
@@ -33,85 +40,75 @@ public class ViiteKasittelijaTest {
     
     @Test
     public void lisaaViiteGeneroiNimenViitteelleJollaEiNimea() {
-        setUp();
-        Viite viite = lisaaViite("");
-        
+        viite = lisaaViite("");
         assertFalse(viite.getBibtexAvain().isEmpty());
     }
     
-//    @Test
-//    public void generoiAvainEiAuthoriaEiEditoriaEiYearia() {
-//        Viite viite = new Viite();
-//        
-//        assertEquals("a", kasittelija.generoiAvain(viite));
-//        lisaaViite("");
-//        assertEquals("b", kasittelija.generoiAvain(viite));
-//        lisaaViite("");
-//        assertEquals("c", kasittelija.generoiAvain(viite));
-//    }
-//    
-//    @Test
-//    public void generoiAvainEiAuthoriaEiEditoriaYear() {
-//        setUp();
-//        Viite viite = new Viite();
-//        viite.setAttribuutti(AttrTyyppi.year.name(), "1234");
-//        
-//        testaaGenerointi(viite, "1234");
-//    }
-//    
-//    @Test
-//    public void generoiAvainEiAuthoriaEditorEiYearia() {
-//        setUp();
-//        Viite viite = new Viite();
-//        viite.setAttribuutti(AttrTyyppi.editor.name(), "markku");
-//        
-//        testaaGenerointi(viite, "markku");
-//    }
-//    
-//    @Test
-//    public void generoiAvainEiAuthoriaEditorYear() {
-//        setUp();
-//        Viite viite = new Viite();
-//        viite.setAttribuutti(AttrTyyppi.editor.name(), "markku");
-//        viite.setAttribuutti(AttrTyyppi.year.name(), "2007");
-//        
-//        testaaGenerointi(viite, "markku2007");
-//    }
-//    
-//    @Test
-//    public void generoiAvainAuthorEditorEiYearia() {
-//        setUp();
-//        
-//        Viite viite = new Viite();
-//        viite.setAttribuutti(AttrTyyppi.author.name(), "erkki");
-//        viite.setAttribuutti(AttrTyyppi.editor.name(), "jorma");
-//        
-//        testaaGenerointi(viite, "erkki");
-//    }
-//    
-//    @Test
-//    public void generoiAvainAuthorEiEditoriaEiYearia() {
-//        setUp();
-//        
-//        Viite viite = new Viite();
-//        viite.setAttribuutti(AttrTyyppi.author.name(), "erkki");
-//        
-//        testaaGenerointi(viite, "erkki");
-//    }
-//    
-//    @Test
-//    public void generoiAvainAuthorYear() {
-//        setUp();
-//        
-//        Viite viite = new Viite();
-//        viite.setAttribuutti(AttrTyyppi.author.name(), "erkki");
-//        viite.setAttribuutti(AttrTyyppi.year.name(), "5666");
-//        
-//        testaaGenerointi(viite, "erkki5666");
-//    }
-//    
+    @Test
+    public void generoiAvainEiAuthoriaEiEditoriaEiYearia() {
+        assertEquals("a", kasittelija.generoiAvain(viite));
+        lisaaViite("");
+        assertEquals("b", kasittelija.generoiAvain(viite));
+        lisaaViite("");
+        assertEquals("c", kasittelija.generoiAvain(viite));
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEiEditoriaYear() {
+        when(attr.getArvo()).thenReturn("1234");
+        when(viite.getAttribuutti(AttrTyyppi.year.name())).thenReturn(attr);
+        
+        testaaGenerointi(viite, "1234");
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEditorEiYearia() {
+        when(attr.getArvo()).thenReturn("markku");
+        when(viite.getAttribuutti(AttrTyyppi.editor.name())).thenReturn(attr);
+
+        testaaGenerointi(viite, "markku");
+    }
+    
+    @Test
+    public void generoiAvainEiAuthoriaEditorYear() {
+        when(attr.getArvo()).thenReturn("markku");
+        when(attr2.getArvo()).thenReturn("2007");
+        when(viite.getAttribuutti(AttrTyyppi.editor.name())).thenReturn(attr);
+        when(viite.getAttribuutti(AttrTyyppi.year.name())).thenReturn(attr2);
+        
+        testaaGenerointi(viite, "markku2007");
+    }
+    
+    @Test
+    public void generoiAvainAuthorEditorEiYearia() {
+        when(attr.getArvo()).thenReturn("erkki");
+        when(attr2.getArvo()).thenReturn("jorma");
+        when(viite.getAttribuutti(AttrTyyppi.author.name())).thenReturn(attr);
+        when(viite.getAttribuutti(AttrTyyppi.editor.name())).thenReturn(attr2);
+        
+        testaaGenerointi(viite, "erkki");
+    }
+    
+    @Test
+    public void generoiAvainAuthorEiEditoriaEiYearia() {
+        when(attr.getArvo()).thenReturn("erkki");
+        when(viite.getAttribuutti(AttrTyyppi.author.name())).thenReturn(attr);
+        
+        testaaGenerointi(viite, "erkki");
+    }
+    
+    @Test
+    public void generoiAvainAuthorYear() {
+        when(attr.getArvo()).thenReturn("erkki");
+        when(attr2.getArvo()).thenReturn("5666");
+        when(viite.getAttribuutti(AttrTyyppi.author.name())).thenReturn(attr);
+        when(viite.getAttribuutti(AttrTyyppi.year.name())).thenReturn(attr2);
+        
+        testaaGenerointi(viite, "erkki5666");
+    }
+    
     private Viite lisaaViite(String avain) {
-        Viite viite = new Viite(ViiteTyyppi.book);
+        viite = new Viite(ViiteTyyppi.book);
         viite.setBibtexAvain(avain);
         kasittelija.lisaaViite(viite);
         
@@ -132,43 +129,61 @@ public class ViiteKasittelijaTest {
     public void haeViitePalauttaaHalutunViitteen() {
         lisaaViite("viite 1");
         
-        Viite viite = lisaaViite("viite 2");
+        viite = lisaaViite("viite 2");
         assertEquals(viite, kasittelija.haeViite("viite 2"));
     }
 
-//    @Test
-//    public void viitteetListauksenaPalauttaaViitteetSelkokielisenaListana() {
-//        Viite viite = new Viite();
-//        viite.setBibtexAvain("viite1");
-//        viite.setTyyppi(ViiteTyyppi.book);
-//        viite.setAttribuutti("author", "Juuso");
-//        viite.setAttribuutti("title", "Testaamisen iloa");
-//        viite.setAttribuutti("publisher", "Mitä ihmettä kustantamo");
+    @Test
+    public void viitteetListauksenaKutsuuListausMetodiaViitteille() {
+        Viite viite2 = mock(Viite.class);
+        when(viite.getBibtexAvain()).thenReturn("viite");
+        when(viite2.getBibtexAvain()).thenReturn("abc");
+       
+        kasittelija.lisaaViite(viite);
+        kasittelija.lisaaViite(viite2);
+        
+        kasittelija.viitteetListauksena();
+        
+        verify(viite, times(1)).listaus();
+        verify(viite2, times(1)).listaus();
+        
+//        when(viite.getBibtexAvain()).thenReturn("viite1");
+//        when(viite.getTyyppi()).thenReturn(ViiteTyyppi.book);
+//        
+//        attr = when(mock(Attribuutti.class).getArvo()).thenReturn("Juuso").getMock();
+//        when(viite.getAttribuutti("author")).thenReturn(attr);
+//        
+//        attr2 = when(mock(Attribuutti.class).getArvo()).thenReturn("Testaamisen iloa").getMock();
+//        when(viite.getAttribuutti("title")).thenReturn(attr2);
+//        
+//        Attribuutti attr3 = when(mock(Attribuutti.class).getArvo()).thenReturn("Mitä ihmettä kustantamo").getMock();
+//        when(viite.getAttribuutti("publisher")).thenReturn(attr3);
+//        
 //        kasittelija.lisaaViite(viite);
 //
 //        String listaus = kasittelija.viitteetListauksena();
+//        System.out.println(listaus);
 //
 //        assertTrue(listaus.contains("nimi: viite1"));
 //        assertTrue(listaus.contains("tyyppi: book"));
 //        assertTrue(listaus.contains("author: Juuso"));
 //        assertTrue(listaus.contains("publisher: Mitä ihmettä kustantamo"));
 //        assertTrue(listaus.contains("title: Testaamisen iloa"));
-//    }
-//    
-//    @Test
-//    public void poistaViitePoistaaViitteenViiteKasittelijasta() {
-//        Viite viite = ;
-//        viite.setBibtexAvain("");
-//        
-//        kasittelija.lisaaViite(viite);
-//        kasittelija.poistaViite(viite);
-//        
-//        assertTrue(kasittelija.getViitteet().isEmpty());
-//    }
+    }
+    
+    @Test
+    public void poistaViitePoistaaViitteenViiteKasittelijasta() {
+        when(viite.getBibtexAvain()).thenReturn("v");
+        
+        kasittelija.lisaaViite(viite);
+        kasittelija.poistaViite(viite);
+        
+        assertTrue(kasittelija.getViitteet().isEmpty());
+    }
     
     @Test
     public void bibTexStringSisältääViitteenArvot() {
-        Viite viite = lisaaViite("viite1");
+        viite = lisaaViite("viite1");
         viite.setAttribuutti("author", "Juuso");
         viite.setAttribuutti("title", "Testaamisen iloa");
         viite.setAttribuutti("publisher", "Mita ihmetta kustantamo");

@@ -1,12 +1,14 @@
 package hammentyneethaxaajat.viiteapuri.validaattori;
 
-import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
-import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
-import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
+import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.Viite;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
+import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * Luokka, joka validoi viitteen kenttiin tulevia arvoja.
@@ -14,11 +16,25 @@ import hammentyneethaxaajat.viiteapuri.viite.Viite;
 public class Validaattori implements Validoija {
 
     private ViiteKasittelija viiteKasittelija;
+    private HashMap<String, Consumer<String>> komennot;
 
     public Validaattori(ViiteKasittelija viiteKasittelija) {
         this.viiteKasittelija = viiteKasittelija;
+        this.komennot = new HashMap<>();
+        luoKomennot();
     }
 
+    private void luoKomennot() {
+        komennot.put(KYSY_TIEDOSTO_NIMI, nimi -> validoiTiedostoNimi(nimi));
+        komennot.put(KYSY_TIEDOSTO_POLKU, polku -> validoiTiedostoPolku(polku));   //TODO IMPLEMENTOI tarkistus hyväksyttävälle polulle
+        komennot.put(TYYPPI, tyyppi -> validoiViiteTyyppi(tyyppi));
+        komennot.put(BIBTEXAVAIN, avain -> validoiBibtexAvain(avain));
+        komennot.put(VIITE, arvo -> {tarkistaTyhjyys(arvo); validoiViite(arvo); });
+        komennot.put(POISTETTAVA_VIITE, arvo -> {tarkistaTyhjyys(arvo); validoiViite(arvo); });
+        komennot.put(CROSSREF, arvo -> validoiViite(arvo));
+        komennot.put(ATTRIBUUTTI, attr -> validoiOnAttribuutti(attr));
+    }
+    
     /**
      * Validoi annetun arvon sitä vastaavan tunnisteen mukaan.
      *
@@ -27,33 +43,12 @@ public class Validaattori implements Validoija {
      */
     @Override
     public void validoi(String tyyppi, String arvo) {
-        switch (tyyppi) {
-            case KYSY_TIEDOSTO_NIMI:
-                validoiTiedostoNimi(arvo);
-                break;
-            case KYSY_TIEDOSTO_POLKU:
-                //TODO IMPLEMENTOI tarkistus hyväksyttävälle polulle
-                validoiTiedostoPolku(arvo);
-                break;
-            case TYYPPI:
-                validoiViiteTyyppi(arvo);
-                break;
-            case BIBTEXAVAIN:
-                validoiBibtexAvain(arvo);
-                break;
-            case VIITE:
-                tarkistaTyhjyys(arvo);
-            case POISTETTAVA_VIITE:
-                tarkistaTyhjyys(arvo);
-            case CROSSREF:
-                validoiViite(arvo);
-                break;
-            case ATTRIBUUTTI:
-                validoiOnAttribuutti(arvo);
-                break;
-            default:
-                heitaException("Tuntematon validoitava.\n");
+        Consumer komento = komennot.get(tyyppi);
+        if (komento == null) {
+            heitaException("Tuntematon validoitava.\n");
         }
+        
+        komento.accept(arvo);
     }
     
     /**
@@ -65,15 +60,14 @@ public class Validaattori implements Validoija {
      */
     @Override
     public void validoi(Viite viite, String attr, String arvo) {
-        switch (attr) {
-            case ATTRIBUUTTI:
-                validoiMuokattavanAttribuutinTyyppi(viite, arvo);
-                break;
-            case BIBTEXAVAIN:
-                validoiBibtexAvain(arvo);
-                break;
-            default:
-                validoiViitteenAttribuutti(viite, attr, arvo);
+        if (attr.equals(ATTRIBUUTTI)) {
+            validoiMuokattavanAttribuutinTyyppi(viite, arvo);
+        }
+        else if (attr.equals(BIBTEXAVAIN)) {
+            validoiBibtexAvain(arvo);
+        }
+        else {
+            validoiViitteenAttribuutti(viite, attr, arvo);
         }
     }
 

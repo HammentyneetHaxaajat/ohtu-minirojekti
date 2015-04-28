@@ -47,20 +47,33 @@ public class BibtexIO {
         String sisalto = Files.readAllLines(asdf).stream().collect(Collectors.joining("\n"));
         String viitteetStringeina[] = sisalto.split("@");
         Collection<Viite> viitteet = new HashSet<>();
+        
         for (int i = 1; i < viitteetStringeina.length; i++) {
             String ViiteStringina = viitteetStringeina[i];
             Viite viite = new Viite(ViiteTyyppi.valueOf(ViiteStringina.substring(0, ViiteStringina.indexOf("{"))));
             String attribuutit[] = ViiteStringina.substring(ViiteStringina.indexOf("{") + 1).split(",\n");
-            viite.setBibtexAvain(attribuutit[0]);
-            for (int j = 1; j < attribuutit.length - 1; j++) {
-                String attribuutti = attribuutit[j];
-                String avainArvoPari[] = attribuutti.split("=");
-                viite.setAttribuutti(avainArvoPari[0].trim(), avainArvoPari[1].substring(avainArvoPari[1].indexOf("{") + 1, avainArvoPari[1].lastIndexOf("}")));
-            }
+            
+            asetaAttribuutit(viite, attribuutit);
             viitteet.add(viite);
             //TODO Alempi rivi debugaukseen
 //            System.out.println(viite);
         }
         return viitteet;
+    }
+    
+    /**
+     * Asettaa viitteelle attribuutit.
+     * @param viite
+     * @param attribuutit 
+     */
+    
+    private void asetaAttribuutit(Viite viite, String[] attribuutit) {
+        viite.setBibtexAvain(attribuutit[0]);
+        
+        for (int j = 1; j < attribuutit.length - 1; j++) {
+            String attribuutti = attribuutit[j];
+            String avainArvoPari[] = attribuutti.split("=");
+            viite.setAttribuutti(avainArvoPari[0].trim(), avainArvoPari[1].substring(avainArvoPari[1].indexOf("{") + 1, avainArvoPari[1].lastIndexOf("}")));
+        }
     }
 }
