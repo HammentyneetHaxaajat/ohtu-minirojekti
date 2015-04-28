@@ -44,14 +44,14 @@ public class BibtexIO {
      */
     public Collection<Viite> haeViitteetTiedostosta(String polku) throws IOException {
         Path asdf = Paths.get(polku);
-        String sisalto = Files.readAllLines(asdf).stream().collect(Collectors.joining());
+        String sisalto = Files.readAllLines(asdf).stream().collect(Collectors.joining("\n"));
         String viitteetStringeina[] = sisalto.split("@");
         Collection<Viite> viitteet = new HashSet<>();
         for (int i = 1; i < viitteetStringeina.length; i++) {
             Viite viite = new Viite();
             String ViiteStringina = viitteetStringeina[i];
             viite.setTyyppi(ViiteTyyppi.valueOf(ViiteStringina.substring(0, ViiteStringina.indexOf("{"))));
-            String attribuutit[] = ViiteStringina.substring(ViiteStringina.indexOf("{") + 1).split(",");
+            String attribuutit[] = ViiteStringina.substring(ViiteStringina.indexOf("{") + 1).split(",\n");
             viite.setBibtexAvain(attribuutit[0]);
             for (int j = 1; j < attribuutit.length - 1; j++) {
                 String attribuutti = attribuutit[j];
