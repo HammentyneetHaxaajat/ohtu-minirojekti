@@ -30,7 +30,7 @@ public class HaeViitteitaTest {
     @Test
     public void suoritaIlmoittaaJosOhjelmassaEiViitteita() {
         hakija.suorita();
-        verify(io, times(1)).tulosta(VIRHE_EIVIITTEITA);
+        verify(io, times(1)).tulosta(eq(VIRHE_EIVIITTEITA));
     }
     
     @Test
@@ -38,7 +38,7 @@ public class HaeViitteitaTest {
         Collection<Viite> tyhja = new ArrayList<>();
         
         hakija.tulostaHakuTulos(tyhja);
-        verify(io, times(1)).tulosta("Haulla ei löydetty yhtään viitettä.\n");
+        verify(io, times(1)).tulosta(eq("Haulla ei löydetty yhtään viitettä.\n"));
     }
     
     @Test
@@ -55,7 +55,7 @@ public class HaeViitteitaTest {
         epatyhja.add(viite2);
         
         hakija.tulostaHakuTulos(epatyhja);
-        verify(io, times(0)).tulosta("Haulla ei löydetty yhtään viitettä.\n");
+        verify(io, times(0)).tulosta(eq("Haulla ei löydetty yhtään viitettä.\n"));
         verify(io, times(1)).tulosta(anyString());
     }
 }
