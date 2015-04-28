@@ -33,15 +33,7 @@ class PoistaViite extends Toiminto {
                 viiteKasittelija.poistaViite(viite);
                 io.tulosta("Viite poistettiin onnistuneesti.\n");
                 //Tekee tarvittavat muutokset viitteisiin joiden crossref oli poistettu viite. 
-                if (!viiteKasittelija.viittaavatViitteet(viite).isEmpty()) {
-                    viiteKasittelija.viittaavatViitteet(viite).stream()
-                            .forEach(s -> {
-                                viite.getAttribuutit().values().stream()
-                                .filter(a -> s.getTyyppi().getPakolliset().contains(a.getTyyppi())
-                                        && s.getAttribuutti(a.getTyyppi().name()).getArvo().equals(""))
-                                .forEach(a -> s.setAttribuutti(a.getTyyppi().name(), a.getArvo()));
-                                s.setAttribuutti(AttrTyyppi.crossref.name(), "");
-                            });
+                if (viiteKasittelija.kopioiTiedotViittaajiin(viite)) {
                     io.tulosta("Ohjelman teki muutoksia viiteisiin, joiden crossref kenttä viittasi poistettuun viitteeseen.\n");
                 }
             } else {

@@ -292,4 +292,25 @@ public class ViiteKasittelija {
             viite.setAttribuutti(attribuutti, uusiArvo);
         }
     }
+
+    /**
+     * Kopioi parametrina saatavaan viitteen tiedot kaikkiin siihen viittaaviin
+     * viitteisiin ja tyhjentää niiden crossref kentät. Vain tyhjät kentät
+     * saavat arvonsa tältä viitteeltä. jos arvo on asetettu sitä ei kopioida.
+     *
+     * @param viite Viite jonka tiedot kopioidaan viittajiin.
+     * @return  True jos tietoja kopioitiin, muulloin false.
+     */
+    public boolean kopioiTiedotViittaajiin(Viite viite) {
+        Boolean onViitaajia = !viittaavatViitteet(viite).isEmpty();
+        viittaavatViitteet(viite).stream()
+                .forEach(s -> {
+                    viite.getAttribuutit().values().stream()
+                    .filter(a -> s.getTyyppi().getPakolliset().contains(a.getTyyppi())
+                            && s.getAttribuutti(a.getTyyppi().name()).getArvo().equals(""))
+                    .forEach(a -> s.setAttribuutti(a.getTyyppi().name(), a.getArvo()));
+                    s.setAttribuutti(AttrTyyppi.crossref.name(), "");
+                });
+        return onViitaajia;
+    }
 }

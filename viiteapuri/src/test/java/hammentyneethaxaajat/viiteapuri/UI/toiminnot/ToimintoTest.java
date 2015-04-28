@@ -1,6 +1,5 @@
 package hammentyneethaxaajat.viiteapuri.UI.toiminnot;
 
-import com.sun.tools.corba.se.idl.InvalidArgument;
 import hammentyneethaxaajat.viiteapuri.IO.IO;
 import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
 import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
