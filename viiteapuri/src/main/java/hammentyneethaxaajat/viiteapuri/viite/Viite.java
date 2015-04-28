@@ -17,6 +17,7 @@ public class Viite {
     public Viite(ViiteTyyppi tyyppi) {
         this.tyyppi = tyyppi;
         attribuutit = new HashMap<>();
+        setAttribuutti(AttrTyyppi.crossref.name(), "");
         this.tyyppi.getKaikki().stream().forEach(attribuutti -> setAttribuutti(attribuutti.name(), ""));
     }
 

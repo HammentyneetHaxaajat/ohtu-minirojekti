@@ -8,7 +8,7 @@ public enum AttrTyyppi {
 
     //TODO Määrittäkää sanalliset kuvaukset syntaksille jos se on monimutkainen. Silloin sen voi tulostaa "virheellisen syntaksi" ilmoituksen kanssa.
     //TODO Määrittäkää kunnolliset regexit
-    author("(\\p{L}|\\s|\\p{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"),
+    bibtexkey(""), author("(\\p{L}|\\s|\\p{Punct})*"), title("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     editor("(\\p{L}|\\d|\\s|\\p{Punct})*"), publisher("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     year("([\\d]{4})?"), volume("(\\p{L}|\\d|\\s|\\p{Punct})*"),
     number("(\\p{L}|\\d|\\s|\\p{Punct})*"),
