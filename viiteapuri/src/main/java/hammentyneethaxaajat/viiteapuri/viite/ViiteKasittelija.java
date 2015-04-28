@@ -237,4 +237,26 @@ public class ViiteKasittelija {
                 .filter((v) -> v.getAttribuutit().containsKey(CROSSREF) && v.getAttribuutti(CROSSREF).getArvo().equals(viite.getBibtexAvain()))
                 .collect(Collectors.toSet());
     }
+
+    /**
+     * Päivittää Viitteen attribuutin arvon.
+     *
+     * @param viite Viite jonka attribuutin arvo päivitetään.
+     * @param attribuutti Attribuutti jonka arvo päivitetään.
+     * @param uusiArvo Attribuutin uusi arvo.
+     */
+    public void paivitaArvo(Viite viite, String attribuutti, String uusiArvo) {
+        if (attribuutti.equals(BIBTEXAVAIN)) {
+            //TODO tämä säädön voisi siirtää viitekäsittelijän metodiksi. paivitaNimi(Viite viite, String nimi).
+            viittaavatViitteet(viite).stream().forEach(s -> s.setAttribuutti(AttrTyyppi.crossref.name(), uusiArvo));
+            poistaViite(viite);
+            viite.setBibtexAvain(uusiArvo);
+            lisaaViite(viite);
+        } //                else if(attribuutti.equals(CROSSREF)){
+        //                //TODO Tähän voi määrittää toiminnan kun/jos crossref muutetaan. Muista päivittää myös validaattorin vastaava toiminta.
+        //            } 
+        else {
+            viite.setAttribuutti(attribuutti, uusiArvo);
+        }
+    }
 }

@@ -26,13 +26,19 @@ public class HaeViitteita extends Toiminto {
             String attribuutti = hankiValidiSyote(KYSY_HAKUSANA, false);
             String arvo = kysele("Haettava arvo");
             Collection<Viite> viitteet = viiteKasittelija.haeViitteet(attribuutti, arvo);
-            if (viitteet.isEmpty()) {
-                io.tulosta("Haulla ei löydetty yhtään viitettä.\n");
-            } else {
-                io.tulosta(viitteet.stream()
-                .map(viite -> viite.listaus(false))
-                .collect(Collectors.joining(VIIVA + "\n", "Ehdon toteuttavat viitteet:\n", VIIVA + "\n")));
-            }
+            
+            tulostaHakuTulos(viitteet);
+        }
+    }
+    
+    protected void tulostaHakuTulos(Collection<Viite> viitteet) {
+        
+        if (viitteet.isEmpty()) {
+            io.tulosta("Haulla ei löydetty yhtään viitettä.\n");
+        } else {
+            io.tulosta(viitteet.stream()
+             .map(viite -> viite.listaus(false))
+             .collect(Collectors.joining(VIIVA + "\n", "Ehdon toteuttavat viitteet:\n", VIIVA + "\n")));
         }
     }
 

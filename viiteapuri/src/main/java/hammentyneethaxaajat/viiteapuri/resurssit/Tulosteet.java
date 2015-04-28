@@ -17,7 +17,8 @@ public abstract class Tulosteet {
     public static final String VIRHE_TIEDOSTONIMI = "Tiedoston nimi saa sisältää vain kirjaimia ja numeroita.\n";
     public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki.\n";
     public static final String VIRHE_OLEMATONTIEDOSTO = "Annettu polku ei ole kelvollinen.\n";
-
+    public static final String KYSY_UUSIARVO = "Uusi arvo attribuutille ";
+    
     public static final String VIRHE_TIEDOSTOFORMAATTI = "Luettava tiedosto ei vastaa tuettua .bib formaattia\n";
     public static final String VIESTI_TUODUT_VIITTEET = "Tiedostosta Luetut viitteet:\n";
     public static final String VIRHE_VIITE_HYLATTIIN = "Epäkelpoja viitteitä hylättiin: ";
