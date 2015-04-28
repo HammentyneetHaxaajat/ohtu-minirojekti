@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -144,8 +145,8 @@ public class ViiteKasittelijaTest {
         
         kasittelija.viitteetListauksena();
         
-        verify(viite, times(1)).listaus();
-        verify(viite2, times(1)).listaus();
+        verify(viite, times(1)).listaus(eq(false));
+        verify(viite2, times(1)).listaus(eq(false));
         
 //        when(viite.getBibtexAvain()).thenReturn("viite1");
 //        when(viite.getTyyppi()).thenReturn(ViiteTyyppi.book);
