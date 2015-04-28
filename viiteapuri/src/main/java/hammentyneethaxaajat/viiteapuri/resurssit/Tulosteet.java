@@ -30,6 +30,7 @@ public abstract class Tulosteet {
     public static final String TYYPPI = "tyyppi";
     public static final String BIBTEXAVAIN = "bibtexavain";
     public static final String CROSSREF = "crossref";
+    public static final String KYSY_HAKUSANA = "Anna attribuutti jolla haetaan";
 
     public static final String KOMENTO_UUSI = "uusi";
     public static final String KOMENTO_MUOKKAA = "muokkaa";

@@ -4,6 +4,7 @@ import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -174,14 +175,22 @@ public class ViiteKasittelija {
      * Palauttaa kaikki ohjelman sisältämät viitteet jotka totettavat hakuehdon.
      *
      * @param attribuutti Attribuutti jonka arvolla haku toteutetaan.
-     * @param arvo Arvo joka attribuutilla halutaan olevan. 
-    * @return Collectoin, joka sisältää kaikki ohjelmaan syötetyt hakuehdon
+     * @param arvo Arvo joka attribuutilla halutaan olevan.
+     * @return Collectoin, joka sisältää kaikki ohjelmaan syötetyt hakuehdon
      * toteuttavat viitteet.
      */
     public Collection<Viite> haeViitteet(String attribuutti, String arvo) {
+        Predicate<Viite> testi;
+        if (attribuutti.equals(AttrTyyppi.bibtexavain.name())) {
+            testi = viite -> viite.getBibtexAvain().contains(arvo);
+        } else if (attribuutti.equals("tyyppi")) {
+            testi = viite -> viite.getTyyppi().name().equals(arvo);
+        } else {
+            testi = viite -> viite.getAttribuutit().containsKey(attribuutti)
+                    && viite.getAttribuutti(attribuutti).getArvo().toLowerCase().contains(arvo.toLowerCase());
+        }
         return viitteet.values().stream()
-                .filter(viite -> viite.getAttribuutit().containsKey(attribuutti)
-                        && viite.getAttribuutti(attribuutti).getArvo().toLowerCase().contains(arvo.toLowerCase()))
+                .filter(testi)
                 .collect(Collectors.toList());
     }
 

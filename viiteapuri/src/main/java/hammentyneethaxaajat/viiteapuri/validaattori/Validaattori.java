@@ -26,13 +26,14 @@ public class Validaattori implements Validoija {
 
     private void luoKomennot() {
         komennot.put(KYSY_TIEDOSTO_NIMI, nimi -> validoiTiedostoNimi(nimi));
-        komennot.put(KYSY_TIEDOSTO_POLKU, polku -> validoiTiedostoPolku(polku));   //TODO IMPLEMENTOI tarkistus hyväksyttävälle polulle
+        komennot.put(KYSY_TIEDOSTO_POLKU, polku -> validoiTiedostoPolku(polku));  
         komennot.put(TYYPPI, tyyppi -> validoiViiteTyyppi(tyyppi));
         komennot.put(BIBTEXAVAIN, avain -> validoiBibtexAvain(avain));
         komennot.put(VIITE, arvo -> {tarkistaTyhjyys(arvo); validoiViite(arvo); });
         komennot.put(POISTETTAVA_VIITE, arvo -> {tarkistaTyhjyys(arvo); validoiViite(arvo); });
         komennot.put(CROSSREF, arvo -> validoiViite(arvo));
         komennot.put(ATTRIBUUTTI, attr -> validoiOnAttribuutti(attr));
+        komennot.put(KYSY_HAKUSANA, arvo -> validoiHakusana(arvo));
     }
     
     /**
@@ -208,7 +209,7 @@ public class Validaattori implements Validoija {
             //  TODO Kommentoi alempi rivi jos nimen vaihtaminen sallitaan.
 //            heitaException("Nimi kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");
         } else if (viite.getTyyppi().getKaikki().stream().noneMatch(a -> a.name().equals(tyyppi))) {
-            heitaException("Viitteellä ei ole " + tyyppi + " nimistä kenttää.\n");
+            heitaException("Viitteellä ei ole " + tyyppi + " nimistä attribuuttia.\n");
         }
     }
 
@@ -222,5 +223,9 @@ public class Validaattori implements Validoija {
         if (!arvo.matches("(.*/)*")) {
             heitaException(VIRHE_TIEDOSTOPOLKU);
         }
+    }
+    
+    private void validoiHakusana(String arvo){
+        if(Arrays.stream(AttrTyyppi.values()).map(attr -> attr.name()).noneMatch(attr -> attr.equals(arvo)) && !arvo.matches("tyyppi")) heitaException("Tuntematon attribuutti.\n");
     }
 }

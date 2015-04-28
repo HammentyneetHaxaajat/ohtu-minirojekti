@@ -23,7 +23,7 @@ public class HaeViitteita extends Toiminto {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            String attribuutti = hankiValidiSyote(ATTRIBUUTTI, false);
+            String attribuutti = hankiValidiSyote(KYSY_HAKUSANA, false);
             String arvo = kysele("Haettava arvo");
             Collection<Viite> viitteet = viiteKasittelija.haeViitteet(attribuutti, arvo);
             if (viitteet.isEmpty()) {
