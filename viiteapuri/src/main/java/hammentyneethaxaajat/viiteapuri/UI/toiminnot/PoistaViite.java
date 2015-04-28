@@ -18,6 +18,9 @@ class PoistaViite extends Toiminto {
         super(io, viitekasittelija, validaattori);
     }
 
+    /**
+     * Listaa poistettavat viitteet käyttäjälle ja poistaa käyttäjän syötteen mukaisen viitteen.
+     */
     @Override
     public void suorita() {
         if (!ohjelmassaViitteita()) {
