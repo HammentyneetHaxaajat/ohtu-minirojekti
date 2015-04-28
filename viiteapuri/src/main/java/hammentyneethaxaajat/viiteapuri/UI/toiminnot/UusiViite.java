@@ -21,9 +21,7 @@ public class UusiViite extends Toiminto{
     @Override
     public void suorita() {
         io.tulosta(UUDEN_VIITTEEN_LUONTI);
-        Viite uusiViite = new Viite();
-        
-        uusiViite.setTyyppi(ViiteTyyppi.valueOf(hankiValidiSyote(TYYPPI, true)));
+        Viite uusiViite = new Viite(ViiteTyyppi.valueOf(hankiValidiSyote(TYYPPI, true)));      
         uusiViite.setAttribuutti(AttrTyyppi.crossref.name(), hankiValidiSyote(AttrTyyppi.crossref.name(), false));
 
         hankiJaAsetaAttribuuttienArvot(uusiViite.getTyyppi().getPakolliset(), uusiViite);

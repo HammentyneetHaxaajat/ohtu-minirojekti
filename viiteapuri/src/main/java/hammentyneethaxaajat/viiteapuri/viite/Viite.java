@@ -10,12 +10,14 @@ import java.util.stream.Collectors;
 
 public class Viite {
 
-    private ViiteTyyppi tyyppi;
+    private final ViiteTyyppi tyyppi;
     private String bibtexAvain;
     private Map<String, Attribuutti> attribuutit;
 
-    public Viite() {
+    public Viite(ViiteTyyppi tyyppi) {
+        this.tyyppi = tyyppi;
         attribuutit = new HashMap<>();
+        this.tyyppi.getKaikki().stream().forEach(attribuutti -> setAttribuutti(attribuutti.name(), ""));
     }
 
     public ViiteTyyppi getTyyppi() {
@@ -30,9 +32,6 @@ public class Viite {
         return attribuutit.get(attr);
     }
     
-    public void setTyyppi(ViiteTyyppi tyyppi) {
-        this.tyyppi = tyyppi;
-    }
 
     public void setBibtexAvain(String avain) {
         this.bibtexAvain = avain;
@@ -64,11 +63,16 @@ public class Viite {
      * @return String joka sisältää kaikki viitteen sisältämät arvot.
      */
     
-    public String listaus() {
+    public String listaus(boolean listaaTyhjat) {
         return attribuutit.values().stream()
+                .filter(attribuutti -> listaaTyhjat ? true : !attribuutti.getArvo().isEmpty())
                 .sorted((a, b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
                 .map(a -> a.getTyyppi().name() + ": " + a.getArvo())
-                .collect(Collectors.joining("\n", "nimi: " + this.bibtexAvain + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
+                .collect(Collectors.joining("\n", "bibtexkey: " + this.bibtexAvain + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
+    }
+    
+    public String listaus() {
+        return listaus(true);
     }
 
 

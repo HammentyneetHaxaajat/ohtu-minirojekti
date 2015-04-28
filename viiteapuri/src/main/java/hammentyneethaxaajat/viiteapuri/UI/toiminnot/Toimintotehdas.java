@@ -39,6 +39,7 @@ public class Toimintotehdas {
         toiminnotKirjain.put(Tulosteet.KOMENTO_MUOKKAA, new MuokkaaViitetta(io, kasittelija, validoija));
         toiminnotKirjain.put(Tulosteet.KOMENTO_POISTA, new PoistaViite(io, kasittelija, validoija));
         toiminnotKirjain.put(Tulosteet.KOMENTO_LISTAA, new ListaaViitteet(io, kasittelija, validoija));
+        toiminnotKirjain.put(Tulosteet.KOMENTO_HAE_VIITTEITA, new HaeViitteita(io, kasittelija, validoija));
         toiminnotKirjain.put(Tulosteet.KOMENTO_LUO_BIBTEX, new luoBibtex(io, kasittelija, validoija, tiedostokasittelija));
         toiminnotKirjain.put(Tulosteet.KOMENTO_TUO_BIBTEX, new tuoBibtex(io, kasittelija, validoija, tiedostokasittelija));
         toiminnotKirjain.put(Tulosteet.KOMENTO_LOPETA, new Lopeta(io, kasittelija, validoija, ui));
@@ -47,6 +48,7 @@ public class Toimintotehdas {
         toiminnotNumero.put(Tulosteet.KOMENTO_MUOKKAA_NUMERO, new MuokkaaViitetta(io, kasittelija, validoija));
         toiminnotNumero.put(Tulosteet.KOMENTO_POISTA_NUMERO, new PoistaViite(io, kasittelija, validoija));
         toiminnotNumero.put(Tulosteet.KOMENTO_LISTAA_NUMERO, new ListaaViitteet(io, kasittelija, validoija));
+        toiminnotNumero.put(Tulosteet.KOMENTO_HAE_VIITTEITA_NUMERO, new HaeViitteita(io, kasittelija, validoija));
         toiminnotNumero.put(Tulosteet.KOMENTO_LUO_BIBTEX_NUMERO, new luoBibtex(io, kasittelija, validoija, tiedostokasittelija));
         toiminnotNumero.put(Tulosteet.KOMENTO_TUO_BIBTEX_NUMERO, new tuoBibtex(io, kasittelija, validoija, tiedostokasittelija));
         toiminnotNumero.put(Tulosteet.KOMENTO_LOPETA_NUMERO, new Lopeta(io, kasittelija, validoija, ui));

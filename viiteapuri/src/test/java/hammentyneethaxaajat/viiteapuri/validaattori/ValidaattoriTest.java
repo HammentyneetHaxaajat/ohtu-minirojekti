@@ -23,8 +23,7 @@ public class ValidaattoriTest {
     public void setUp() {
         kasittelija = mock(ViiteKasittelija.class);
         validaattori = new Validaattori(kasittelija);
-        kirjaViite = new Viite();
-        kirjaViite.setTyyppi(ViiteTyyppi.book);
+        kirjaViite = new Viite(ViiteTyyppi.book);
         kirjaViite.setAttribuutti(AttrTyyppi.crossref.name(), "");
     }
     
@@ -183,34 +182,34 @@ public class ValidaattoriTest {
     
     @Test
     public void attribuutinTyypinValidointiOnnistuuJosValidoitavaAttribuuttiViitteellaJaSeEiOleCrossref() {
-        validaattori.validoiAttribuutinTyyppi(kirjaViite, AttrTyyppi.publisher.name());
-        validaattori.validoiAttribuutinTyyppi(kirjaViite, AttrTyyppi.series.name());
+        validaattori.validoiMuokattavanAttribuutinTyyppi(kirjaViite, AttrTyyppi.publisher.name());
+        validaattori.validoiMuokattavanAttribuutinTyyppi(kirjaViite, AttrTyyppi.series.name());
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void attribuutinTyypinValidointiEiOnnistuJosValidoitavaAttribuuttiCrossref() {
-        validaattori.validoiAttribuutinTyyppi(kirjaViite, AttrTyyppi.crossref.name());
+        validaattori.validoiMuokattavanAttribuutinTyyppi(kirjaViite, AttrTyyppi.crossref.name());
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void attribuutinTyypinValidointiEiOnnistuJosViitteellaEiValidoitavaaAttribuuttiTyyppia() {
-        validaattori.validoiAttribuutinTyyppi(kirjaViite, AttrTyyppi.edition.name());
+        validaattori.validoiMuokattavanAttribuutinTyyppi(kirjaViite, AttrTyyppi.edition.name());
     }
     
     @Test
     public void attribuutinValidointiOnnistuuJosTyyppiValinnainenJaArvoValidi() {
-        validaattori.validoiAttribuutti(kirjaViite, AttrTyyppi.address.name(), "");
+        validaattori.validoiViitteenAttribuutti(kirjaViite, AttrTyyppi.address.name(), "");
     }
     
     @Test
     public void attribuutinValidointiOnnistuuJosTyyppiPakollinenJaArvoValidi() {
-        validaattori.validoiAttribuutti(kirjaViite, AttrTyyppi.title.name(), "joku kirja");
+        validaattori.validoiViitteenAttribuutti(kirjaViite, AttrTyyppi.title.name(), "joku kirja");
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void attribuutinValidointiEiOnnistuJosTyyppiPakollinenJaArvoTyhja() {
         validaattori = new Validaattori(new ViiteKasittelija());
-        validaattori.validoiAttribuutti(kirjaViite, AttrTyyppi.title.name(), "");
+        validaattori.validoiViitteenAttribuutti(kirjaViite, AttrTyyppi.title.name(), "");
     }
     
 }

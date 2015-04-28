@@ -48,11 +48,14 @@ public class Validaattori implements Validoija {
             case CROSSREF:
                 validoiViite(arvo);
                 break;
+            case ATTRIBUUTTI:
+                validoiOnAttribuutti(arvo);
+                break;
             default:
                 heitaException("Tuntematon validoitava.\n");
         }
     }
-
+    
     /**
      * Validoi viitteelle asetettavia attribuutteja sekä niiden arvoja.
      *
@@ -64,13 +67,13 @@ public class Validaattori implements Validoija {
     public void validoi(Viite viite, String attr, String arvo) {
         switch (attr) {
             case ATTRIBUUTTI:
-                validoiAttribuutinTyyppi(viite, arvo);
+                validoiMuokattavanAttribuutinTyyppi(viite, arvo);
                 break;
             case BIBTEXAVAIN:
                 validoiBibtexAvain(arvo);
                 break;
             default:
-                validoiAttribuutti(viite, attr, arvo);
+                validoiViitteenAttribuutti(viite, attr, arvo);
         }
     }
 
@@ -83,13 +86,22 @@ public class Validaattori implements Validoija {
      * @throws IllegalArgumentException Jos Arvo ei täytä attribuutin ja
      * viitteen sille asettamia vaatimuksia.
      */
-    protected void validoiAttribuutti(Viite viite, String attr, String arvo) {
+    protected void validoiViitteenAttribuutti(Viite viite, String attr, String arvo) {
         if (viiteKasittelija.pakollisetAttribuutit(viite).stream()
                 .anyMatch(s -> s.name().equals(attr))) {
             tarkistaTyhjyys(arvo);
         }
         validoiAttribuutinArvo(attr, arvo);
     }
+    
+    protected void validoiOnAttribuutti(String attribuutti){
+        try {
+            AttrTyyppi.valueOf(attribuutti);
+        } catch (Exception e){
+            heitaException(VIRHE_EI_OLE_ATTRIBUUTTI);
+        }
+    }
+    
 
     /**
      * Validoi viitteen tyypin.
@@ -194,7 +206,7 @@ public class Validaattori implements Validoija {
      * @param viite Viite jolle attribuuti kuuluu
      * @param tyyppi Attribuutin tyyppi
      */
-    protected void validoiAttribuutinTyyppi(Viite viite, String tyyppi) {
+    protected void validoiMuokattavanAttribuutinTyyppi(Viite viite, String tyyppi) {
         if (tyyppi.equals(AttrTyyppi.crossref.name())) {
             //  TODO Kommentoi alempi rivi jos crossreffin muuttaminen sallitaan joskus. Crossreffin muuttamisen toiminnallisuus pitää myös korjata muualla koodissa jos sallitaan.
             heitaException("Crossref kentän arvoa ei voi muuttaa asettamisen jälkeen.\n");

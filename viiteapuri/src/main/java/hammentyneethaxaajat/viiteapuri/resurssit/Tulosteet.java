@@ -17,9 +17,10 @@ public abstract class Tulosteet {
     public static final String VIRHE_TIEDOSTONIMI = "Tiedoston nimi saa sisältää vain kirjaimia ja numeroita\n";
     public static final String VIRHE_TIEDOSTOPOLKU = "Tiedoston on oltava olemassa ja tiedostopolun lopussa on oltava kauttamerkki\n";
 
+    public static final String VIRHE_EI_OLE_ATTRIBUUTTI = "Annettu syöte ei ole kelvollinen kentän nimi.\n";
     public static final String VIRHE_EIVIITTEITA = "Ohjelmassa ei ole yhtäkään viitettä.\n";
     public static final String VIITE = "anna viite";
-    public static final String ATTRIBUUTTI = "attribuutti";
+    public static final String ATTRIBUUTTI = "Anna attribuutti";
     public static final String KYSY_TIEDOSTO_NIMI = "Anna nimi tiedostolle";
     public static final String KYSY_TIEDOSTO_POLKU = "Anna kohdekansio: ";
     public static final String TYYPPI = "tyyppi";
@@ -32,29 +33,32 @@ public abstract class Tulosteet {
     public static final String KOMENTO_LISTAA = "listaa";
     public static final String KOMENTO_LUO_BIBTEX = "luo bibtex";
     public static final String KOMENTO_TUO_BIBTEX = "tuo bibtex";
-    public static final String KOMENTO_LOPETA = "lopeta";  
-    
+    public static final String KOMENTO_HAE_VIITTEITA = "Hae viitteitä";
+    public static final String KOMENTO_LOPETA = "lopeta";
+
     public static final String KOMENTO_UUSI_NUMERO = "1";
     public static final String KOMENTO_MUOKKAA_NUMERO = "2";
     public static final String KOMENTO_POISTA_NUMERO = "3";
     public static final String KOMENTO_LISTAA_NUMERO = "4";
-    public static final String KOMENTO_LUO_BIBTEX_NUMERO = "5";
-    public static final String KOMENTO_TUO_BIBTEX_NUMERO = "6";
-    public static final String KOMENTO_LOPETA_NUMERO = "7";
-    
+    public static final String KOMENTO_HAE_VIITTEITA_NUMERO = "5";
+    public static final String KOMENTO_LUO_BIBTEX_NUMERO = "6";
+    public static final String KOMENTO_TUO_BIBTEX_NUMERO = "7";
+    public static final String KOMENTO_LOPETA_NUMERO = "8";
+
     public static final String OHJE_UUSI = KOMENTO_UUSI_NUMERO + ". " + KOMENTO_UUSI;
     public static final String OHJE_MUOKKAA = KOMENTO_MUOKKAA_NUMERO + ". " + KOMENTO_MUOKKAA;
     public static final String OHJE_POISTA = KOMENTO_POISTA_NUMERO + ". " + KOMENTO_POISTA;
     public static final String OHJE_LISTAA = KOMENTO_LISTAA_NUMERO + ". " + KOMENTO_LISTAA;
     public static final String OHJE_LUO_BIBTEX = KOMENTO_LUO_BIBTEX_NUMERO + ". " + KOMENTO_LUO_BIBTEX;
     public static final String OHJE_TUO_BIBTEX = KOMENTO_TUO_BIBTEX_NUMERO + ". " + KOMENTO_TUO_BIBTEX;
+    public static final String OHJE_HAE_VIITTEITA = KOMENTO_HAE_VIITTEITA_NUMERO + ". " + KOMENTO_HAE_VIITTEITA;
     public static final String OHJE_LOPETA = KOMENTO_LOPETA_NUMERO + ". " + KOMENTO_LOPETA;
 
     public static final String SYOTA_KOMENTO = "Syötä komento";
     public static final String TUNTEMATON_KOMENTO = "Tuntematon komento. ";
 
     public static final String UUDEN_VIITTEEN_LUONTI = "Luodaan uusi viite.\nTähdellä(*) merkityt kentät ovat pakollisia.\n";
-    public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + OHJE_UUSI + "\n" + OHJE_MUOKKAA + "\n" + OHJE_POISTA + "\n" + OHJE_LISTAA + "\n" + OHJE_LUO_BIBTEX + "\n" + OHJE_TUO_BIBTEX + "\n" + OHJE_LOPETA + "\n";
+    public static final String TUETUT_KOMENNOT = "Tuetut komennot:\n" + OHJE_UUSI + "\n" + OHJE_MUOKKAA + "\n" + OHJE_POISTA + "\n" + OHJE_LISTAA + "\n" + OHJE_HAE_VIITTEITA + "\n" + OHJE_LUO_BIBTEX + "\n" + OHJE_TUO_BIBTEX + "\n" + OHJE_LOPETA + "\n";
     public static final String OHJEET = "\nVoit kirjoittaa komennon numeron tai nimen\n";
     public static final String VIESTI_HEIHEI = "Ohjelma suljetaan.\n";
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
@@ -64,5 +68,6 @@ public abstract class Tulosteet {
     public static final String TIEDOSTONLUKU_EI_ONNISTUNUT = "Tiedoston luku ei onnistunut\n";
     public static final String VIITTEEN_TIEDOT = "\nViitteen tiedot:\n";
     public static final String MUOKATTAVISSA_OLEVAT_VIITTEET = "Muokattavissa olevat viitteet: ";
-
+    
+     public static final String VIIVA = "--------------------";
 }

@@ -10,44 +10,33 @@ public class ViiteTest {
     
     @Before
     public void setUp() {
-        viite = new Viite();
     }
     
     @Test
     public void ViitetyypinenAsettaminenJaHakeminenToimii() {
-        viite = new Viite();
-        viite.setTyyppi(ViiteTyyppi.book);
+        viite = new Viite(ViiteTyyppi.book);
         
         assertEquals(ViiteTyyppi.book, viite.getTyyppi());
     }
     
-    @Test
-    public void setAttribuuttiLuoViitteelleUudenAttribuutinJosSellaistaEiOle() {
-        viite.setAttribuutti("number", "1243");
-        assertEquals(1, viite.getAttribuutit().size());
-    }
     
     @Test
     public void setAttribuuttiMuokkaaViitteenAttribuuttiaJosSellainenViitteellaOn() {
-        viite = new Viite();
-        viite.setAttribuutti("number", "1243");
-        assertEquals(1, viite.getAttribuutit().size());
-        
+        viite = new Viite(ViiteTyyppi.book); 
+        assertTrue(viite.getAttribuutti("number").getArvo().isEmpty());
         viite.setAttribuutti("number", "abc");
-        assertEquals(1, viite.getAttribuutit().size());
-        assertTrue(viite.getAttribuutti("number").toString().contains("abc"));
+        assertTrue(viite.getAttribuutti("number").getArvo().contains("abc"));
     }
     
     @Test
     public void listausListaaViitteetSelkokielisessaMuodossa() {
-        viite = new Viite();
+        viite = new Viite(ViiteTyyppi.book);
         viite.setBibtexAvain("Viite #1");
-        viite.setTyyppi(ViiteTyyppi.book);
         viite.setAttribuutti("year", "2345");
         viite.setAttribuutti("month", "tammikuu");
         viite.setAttribuutti("author", "erkki");
         
-        assertTrue(viite.listaus().contains("nimi: Viite #1"));
+        assertTrue(viite.listaus().contains("bibtexkey: Viite #1"));
         assertTrue(viite.listaus().contains("tyyppi: book"));
         assertTrue(viite.listaus().contains("author: erkki"));
         assertTrue(viite.listaus().contains("month: tammikuu"));

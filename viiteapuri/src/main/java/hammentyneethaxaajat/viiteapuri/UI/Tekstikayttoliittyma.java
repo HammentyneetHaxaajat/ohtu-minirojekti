@@ -59,10 +59,10 @@ public class Tekstikayttoliittyma implements Runnable {
     /**
      * Valitseen suoritettavan komennon parametrin perusteella.
      *
-     * @param komennonNumero Haluttu komento.
+     * @param komennonTunniste Halutun komennon nimi tai numero.
      */
-    protected void suoritaToiminto(String komennonNumero) {
-        toiminnot.suorita(komennonNumero);
+    protected void suoritaToiminto(String komennonTunniste) {
+        toiminnot.suorita(komennonTunniste);
     }
 
     /**
