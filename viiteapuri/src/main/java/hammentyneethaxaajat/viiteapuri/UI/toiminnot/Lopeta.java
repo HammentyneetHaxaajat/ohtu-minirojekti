@@ -6,7 +6,9 @@ import hammentyneethaxaajat.viiteapuri.UI.Tekstikayttoliittyma;
 import hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet;
 import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
-
+/**
+ * Sulkee ohjelman
+ */
 class Lopeta extends Toiminto {
     Tekstikayttoliittyma ui;
 
@@ -15,6 +17,9 @@ class Lopeta extends Toiminto {
         this.ui = ui;
     }
 
+    /**
+     * Suorittaa tekstikäyttöliittymän sulkemistoiminnon.
+     */
     @Override
     public void suorita() {
         io.tulosta(Tulosteet.VIESTI_HEIHEI);

@@ -10,14 +10,18 @@ import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteTyyppi;
 
 
-
+/**
+ * Toiminto uuden viitteen luonnille
+ */
 public class UusiViite extends Toiminto{
 
     public UusiViite(IO io, ViiteKasittelija viiteKasittelija, Validoija validaattori) {
         super(io, viiteKasittelija, validaattori);
     }
     
-    
+    /**
+     * Luo käyttäjän syötteiden perusteella uuden viitteen ohjelmaan
+     */
     @Override
     public void suorita() {
         io.tulosta(UUDEN_VIITTEEN_LUONTI);

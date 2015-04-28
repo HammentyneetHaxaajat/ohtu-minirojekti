@@ -18,6 +18,13 @@ public class ViiteKasittelija {
         viitteet = new HashMap<>();
     }
 
+    /**
+     * Metodi viitteiden järjestämiseen.
+     * 
+     * @param viiteA vertailtava viite.
+     * @param viiteB vertailtava viite.
+     * @return Järjestysarvo
+     */
     protected int bibtexJarjestys(Viite viiteA, Viite viiteB) {
         if (tarkistaAttribuutinTyhjyys(viiteA, "crossref") & !tarkistaAttribuutinTyhjyys(viiteB, "crossref")) {
             return -1;
@@ -25,13 +32,18 @@ public class ViiteKasittelija {
             return 1;
         }
 
-        String a = tarkistaVartailtavaAttribuutti(viiteA);
-        String b = tarkistaVartailtavaAttribuutti(viiteB);
+        String a = tarkistaVertailtavaAttribuutti(viiteA);
+        String b = tarkistaVertailtavaAttribuutti(viiteB);
 
         return a.compareTo(b);
     }
 
-    protected String tarkistaVartailtavaAttribuutti(Viite viite) {
+    /**
+     * Tarkistaa attribuutin tyhjyyden eri kenttien perusteella.
+     * @param viite Taristettava viite
+     * @return Palautettava attribuutti tarkistuksen jälkeen.
+     */
+    protected String tarkistaVertailtavaAttribuutti(Viite viite) {
         String a = "";
         if (!tarkistaAttribuutinTyhjyys(viite, "author")) {
             a = viite.getAttribuutti("author").getArvo();
@@ -44,6 +56,12 @@ public class ViiteKasittelija {
         return a;
     }
 
+    /**
+     * Tarkistaa attribuutin tyhjyyden.
+     * @param viite Tarkistettava viite.
+     * @param attribuutti Tarkistettava atribuutti.
+     * @return Onko atribuutti tyhjä.
+     */
     protected boolean tarkistaAttribuutinTyhjyys(Viite viite, String attribuutti) {
         return viite.getAttribuutti(attribuutti) == null
                 || viite.getAttribuutti(attribuutti).getArvo().isEmpty();
@@ -66,8 +84,8 @@ public class ViiteKasittelija {
      * Erottele sukuNimi siten että ainoastaan yhden authorin sukunimi tulee
      * avaimen osaksi.
      *
-     * @param viite
-     * @return
+     * @param viite Viitte jolle avain generoidaan
+     * @return generoitu avain
      */
     protected String generoiAvain(Viite viite) {
         Attribuutti sukuNimi = viite.getAttribuutti(AttrTyyppi.author.name());
@@ -81,6 +99,12 @@ public class ViiteKasittelija {
         return avain + tunniste(avain);
     }
 
+    /**
+     * Luo avaimen yhdistämällä sukunimen vuoteen.
+     * @param sukuNimi Authroin sukunimi.
+     * @param year Julkaisuvuosi, joka yhdistetään nimeen..
+     * @return Sukunimen ja vuoden yhdiste.
+     */
     protected String luoAvain(Attribuutti sukuNimi, Attribuutti year) {
         String yhdiste = "";
 
@@ -100,8 +124,8 @@ public class ViiteKasittelija {
      * Jos samanalkuisia viitteitä on olemassa jo tai avain on tyhjä,
      * palautetaan tunniste, joka lisätään avaimen perään.
      *
-     * @param avain
-     * @return
+     * @param avain Avain, jolle luodaan tunniste.
+     * @return Tunniste.
      */
     protected String tunniste(String avain) {
         char tunniste = 'a';
@@ -121,10 +145,19 @@ public class ViiteKasittelija {
         return ((char) (tunniste + samanAlkuisia)) + "";
     }
 
+    /**
+     * Yhden merkin avaimet.
+     * @return määrä.
+     */
     protected int yhdenCharinAvaimet() {
         return viitteet.values().stream().filter(v -> v.getBibtexAvain().length() == 1).toArray().length;
     }
 
+    /**
+     * Sanalla alkavat avaimet.
+     * @param sana Avain
+     * @return määrä.
+     */
     protected int sanallaAlkavatAvaimet(String sana) {
         return viitteet.values().stream().filter(v -> v.getBibtexAvain().matches(sana + "(.*)")).toArray().length;
     }

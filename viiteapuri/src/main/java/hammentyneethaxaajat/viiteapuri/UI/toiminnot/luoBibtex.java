@@ -7,6 +7,9 @@ import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 import java.io.IOException;
 
+/**
+ * Toiminto bibtex-tiedoston luontiin.
+ */
 class luoBibtex extends Toiminto {
     private BibtexIO tiedostokasittelija;
 
@@ -15,6 +18,10 @@ class luoBibtex extends Toiminto {
         this.tiedostokasittelija = tiedostokasittelija;
     }
 
+    /**
+     * Lue ohjelmassa olevien viitteiden perusteella BIBTeX-tiedoston.
+     * Pyytää käyttäjää nimeämään tiedoston
+     */
     @Override
     public void suorita() {
         //TODO Vaihtakaa polun yms. kysely johonkin järkevään. 

@@ -9,7 +9,8 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Viitteiden hakua suorittava toiminto
+ * 
  * @author Markus
  */
 public class HaeViitteita extends Toiminto {
@@ -18,6 +19,11 @@ public class HaeViitteita extends Toiminto {
         super(io, viitekasittelija, validaattori);
     }
 
+    /**
+     * Tarkistaa onko ohjelmassa viitteitä. Pyytää käyttäjältä syötteen ja
+     * antaa filtteröintiperusteet viitekäsittelijälle
+     * 
+     */
     @Override
     public void suorita() {
         if (!ohjelmassaViitteita()) {
@@ -31,6 +37,11 @@ public class HaeViitteita extends Toiminto {
         }
     }
     
+    /**
+     * Tulostaa Kaikki parametrissa annetut viitteet.
+     * 
+     * @param viitteet Suorita toiminnossa kerätyt viitteet.
+     */
     protected void tulostaHakuTulos(Collection<Viite> viitteet) {
         
         if (viitteet.isEmpty()) {

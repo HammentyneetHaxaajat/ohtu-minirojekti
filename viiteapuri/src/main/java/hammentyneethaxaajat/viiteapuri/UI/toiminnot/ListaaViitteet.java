@@ -5,13 +5,18 @@ import hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet;
 import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
-
+/**
+ * Viitteiden listaus komento.
+ */
 class ListaaViitteet extends Toiminto {
 
     public ListaaViitteet(IO io, ViiteKasittelija viitekasittelija, Validoija validaattori) {
         super(io, viitekasittelija, validaattori);
     }
 
+    /**
+     * Listaa kaikki ohjemaan lisätyt viitteet
+     */
     @Override
     public void suorita() {
         if (!ohjelmassaViitteita()) {

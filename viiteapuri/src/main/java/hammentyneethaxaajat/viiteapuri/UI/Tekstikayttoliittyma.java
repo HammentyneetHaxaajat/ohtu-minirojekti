@@ -72,6 +72,9 @@ public class Tekstikayttoliittyma implements Runnable {
         io.tulosta(toiminnot.ohjeet());
     }
     
+    /**
+     * Sulkee ohjelman.
+     */
     public void abort() {
         kaynnissa = false;
     }

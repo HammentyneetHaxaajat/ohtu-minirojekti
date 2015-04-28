@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Tehdas luokka toiminnoille.
+ * Pitää käyttöliittymään kuuluvien toimintoja omissa luokissaan mapissa.
+ */
 public class Toimintotehdas {
 
     private Map<String, Toiminto> toiminnotKirjain;
@@ -24,6 +28,10 @@ public class Toimintotehdas {
         tuntematon = new TuntematonToiminto(io, kasittelija, validoija);
     }
 
+    /**
+     * Hakee mapista halutun toiminnon ja suorittaa sen.
+     * @param toiminto Toiminnon nimi.
+     */
     public void suorita(String toiminto) {
         if (toiminnotKirjain.containsKey(toiminto)) {
             toiminnotKirjain.get(toiminto).suorita();
@@ -34,6 +42,14 @@ public class Toimintotehdas {
         }
     }
 
+    /**
+     * Alustaa jokaisen toiminnon luomalla toiminto-olion ja laittaa ne mappiin
+     * @param io Input output luokka.
+     * @param kasittelija Viitteiden käsittelijä
+     * @param validoija Validointitoiminnot
+     * @param tiedostokasittelija Luokka.
+     * @param ui Ohjelman tekstikäyttöliittymä.
+     */
     private void alusta(IO io, ViiteKasittelija kasittelija, Validoija validoija, BibtexIO tiedostokasittelija, Tekstikayttoliittyma ui) {
         toiminnotKirjain.put(Tulosteet.KOMENTO_UUSI, new UusiViite(io, kasittelija, validoija));
         toiminnotKirjain.put(Tulosteet.KOMENTO_MUOKKAA, new MuokkaaViitetta(io, kasittelija, validoija));
@@ -54,6 +70,10 @@ public class Toimintotehdas {
         toiminnotNumero.put(Tulosteet.KOMENTO_LOPETA_NUMERO, new Lopeta(io, kasittelija, validoija, ui));
     }
 
+    /**
+     * Palauttaa ohjelman toiminnot ja niiden käyttöohjeet.
+     * @return komennot ja ohjeet stringinä.
+     */
     public String ohjeet() {
 
         return TUETUT_KOMENNOT + OHJEET;

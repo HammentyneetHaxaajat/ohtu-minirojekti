@@ -8,12 +8,18 @@ import hammentyneethaxaajat.viiteapuri.viite.AttrTyyppi;
 import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 
+/**
+ * Toiminto viitteen muokkaamiseen
+ */
 class MuokkaaViitetta extends Toiminto {
 
     public MuokkaaViitetta(IO io, ViiteKasittelija viitekasittelija, Validoija validaattori) {
         super(io, viitekasittelija, validaattori);
     }
 
+    /**
+     * Listaa muokattavissa olevat viitteet ja suorittaa muokkaustoiminnot.
+     */
     @Override
     public void suorita() {
         if (!ohjelmassaViitteita()) {

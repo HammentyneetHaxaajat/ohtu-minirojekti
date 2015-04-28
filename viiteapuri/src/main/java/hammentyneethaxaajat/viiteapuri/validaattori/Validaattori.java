@@ -24,18 +24,27 @@ public class Validaattori implements Validoija {
         luoKomennot();
     }
 
+    /**
+     * Luo ohjelmassa käyttäjälle tulostettavat komennot
+     */
     private void luoKomennot() {
         komennot.put(KYSY_TIEDOSTO_NIMI, nimi -> validoiTiedostoNimi(nimi));
-        komennot.put(KYSY_TIEDOSTO_POLKU, polku -> validoiTiedostoPolku(polku));  
+        komennot.put(KYSY_TIEDOSTO_POLKU, polku -> validoiTiedostoPolku(polku));
         komennot.put(TYYPPI, tyyppi -> validoiViiteTyyppi(tyyppi));
         komennot.put(BIBTEXAVAIN, avain -> validoiBibtexAvain(avain));
-        komennot.put(VIITE, arvo -> {tarkistaTyhjyys(arvo); validoiViite(arvo); });
-        komennot.put(POISTETTAVA_VIITE, arvo -> {tarkistaTyhjyys(arvo); validoiViite(arvo); });
+        komennot.put(VIITE, arvo -> {
+            tarkistaTyhjyys(arvo);
+            validoiViite(arvo);
+        });
+        komennot.put(POISTETTAVA_VIITE, arvo -> {
+            tarkistaTyhjyys(arvo);
+            validoiViite(arvo);
+        });
         komennot.put(CROSSREF, arvo -> validoiViite(arvo));
         komennot.put(ATTRIBUUTTI, attr -> validoiOnAttribuutti(attr));
         komennot.put(KYSY_HAKUSANA, arvo -> validoiHakusana(arvo));
     }
-    
+
     /**
      * Validoi annetun arvon sitä vastaavan tunnisteen mukaan.
      *
@@ -48,10 +57,10 @@ public class Validaattori implements Validoija {
         if (komento == null) {
             heitaException("Tuntematon validoitava.\n");
         }
-        
+
         komento.accept(arvo);
     }
-    
+
     /**
      * Validoi viitteelle asetettavia attribuutteja sekä niiden arvoja.
      *
@@ -63,11 +72,9 @@ public class Validaattori implements Validoija {
     public void validoi(Viite viite, String attr, String arvo) {
         if (attr.equals(ATTRIBUUTTI)) {
             validoiMuokattavanAttribuutinTyyppi(viite, arvo);
-        }
-        else if (attr.equals(BIBTEXAVAIN)) {
+        } else if (attr.equals(BIBTEXAVAIN)) {
             validoiBibtexAvain(arvo);
-        }
-        else {
+        } else {
             validoiViitteenAttribuutti(viite, attr, arvo);
         }
     }
@@ -88,15 +95,19 @@ public class Validaattori implements Validoija {
         }
         validoiAttribuutinArvo(attr, arvo);
     }
-    
-    protected void validoiOnAttribuutti(String attribuutti){
+
+    /**
+     * Tarkistaa vastaako string yhtään ohjelman tunnistamaa attribuuttia
+     *
+     * @param attribuutti Validoitava attribuutti
+     */
+    protected void validoiOnAttribuutti(String attribuutti) {
         try {
             AttrTyyppi.valueOf(attribuutti);
-        } catch (Exception e){
+        } catch (Exception e) {
             heitaException(VIRHE_EI_OLE_ATTRIBUUTTI);
         }
     }
-    
 
     /**
      * Validoi viitteen tyypin.
@@ -129,9 +140,7 @@ public class Validaattori implements Validoija {
                 .map(s -> s.getBibtexAvain())
                 .anyMatch(s -> s.equals(avain))) {
             heitaException(NIMI_VARATTU);
-        }
-        
-        //TODO MÄÄRITÄ NIMEN SYNTAKSI. voi tehdä AttrTyyppi enumin sille niin voi määrittää samassa paikassa muiden kanssa.
+        } //TODO MÄÄRITÄ NIMEN SYNTAKSI. voi tehdä AttrTyyppi enumin sille niin voi määrittää samassa paikassa muiden kanssa.
         else if (!avain.matches("[\\p{L}\\w\\s]*")) {
             heitaException(NIMI_EI_VASTAA_SEN_SYNTAKSIA);
         }
@@ -213,19 +222,31 @@ public class Validaattori implements Validoija {
         }
     }
 
+    /**
+     * Validoi tiedostonimen.
+     */
     private void validoiTiedostoNimi(String arvo) {
         if (arvo.matches(".*\\W.*")) {
             heitaException(VIRHE_TIEDOSTONIMI);
         }
     }
-
+    
+    /**
+     * Tarkistaa että tiedostopolku on annettu oikeassa muodossa.
+     */
     private void validoiTiedostoPolku(String arvo) {
         if (!arvo.matches("(.*/)*")) {
             heitaException(VIRHE_TIEDOSTOPOLKU);
         }
     }
-    
-    private void validoiHakusana(String arvo){
-        if(Arrays.stream(AttrTyyppi.values()).map(attr -> attr.name()).noneMatch(attr -> attr.equals(arvo)) && !arvo.matches("tyyppi")) heitaException("Tuntematon attribuutti.\n");
+
+    /**
+     * Varmistaa, että annettu hakusana vastaa ohjelmassa olevia attribuutteja.
+     * @param Käyttäjän syöttämä hakusana. 
+     */
+    private void validoiHakusana(String arvo) {
+        if (Arrays.stream(AttrTyyppi.values()).map(attr -> attr.name()).noneMatch(attr -> attr.equals(arvo)) && !arvo.matches("tyyppi")) {
+            heitaException("Tuntematon attribuutti.\n");
+        }
     }
 }

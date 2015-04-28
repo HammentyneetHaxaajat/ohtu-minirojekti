@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package hammentyneethaxaajat.viiteapuri.UI.toiminnot;
 
 import hammentyneethaxaajat.viiteapuri.IO.IO;
@@ -14,7 +9,7 @@ import hammentyneethaxaajat.viiteapuri.viite.Viite;
 import hammentyneethaxaajat.viiteapuri.viite.ViiteKasittelija;
 
 /**
- *
+ * Toiminto viitteen poistamiseen.
  * @author matti
  */
 class PoistaViite extends Toiminto {

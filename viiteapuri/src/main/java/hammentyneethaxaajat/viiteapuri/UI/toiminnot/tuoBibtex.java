@@ -11,6 +11,9 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Toiminto viitteiden tuontinn BIBTeX-tiedostosta.
+ */
 public class tuoBibtex extends Toiminto {
 
     private BibtexIO tiedostokasittelija;
@@ -20,6 +23,9 @@ public class tuoBibtex extends Toiminto {
         this.tiedostokasittelija = tiedostokasittelija;
     }
 
+    /**
+     * Tuo bib-tiedostosta viitteet ohjelmaan ja antaa tarvittaessa virheilmoitukset.
+     */
     @Override
     public void suorita() {
         String polku = kysele(KYSY_TIEDOSTO_POLKU);
@@ -41,6 +47,11 @@ public class tuoBibtex extends Toiminto {
         }
     }
 
+    /**
+     * Varmistaa, että tuodut viitteet täyttävät validaattorin kriteerit
+     * @param viite validoitava viite.
+     * @return Viitteen validisuus.
+     */
     private boolean ValidoiViitteenAttribuutit(Viite viite) {
         try {
             viite.getAttribuutit().values().stream().forEach(attribuutti -> validaattori.validoi(viite, attribuutti.getTyyppi().name(), attribuutti.getArvo()));

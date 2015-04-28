@@ -8,6 +8,9 @@ import static hammentyneethaxaajat.viiteapuri.resurssit.Tulosteet.*;
 import hammentyneethaxaajat.viiteapuri.validaattori.Validoija;
 import java.util.stream.Collectors;
 
+/**
+ * Toimintojen abstrakti yliluokka.
+ */
 public abstract class Toiminto {
     protected IO io;
     protected ViiteKasittelija viiteKasittelija;
