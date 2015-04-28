@@ -124,7 +124,7 @@ scenario "viitteistä tulee kaikki tieto listaan", {
         //yhdistetään listat
         def attribuutit = val.plus(pak)
 
-        verifyContains("nimi")
+        verifyContains("bibtexavain")
         verifyContains(Tulosteet.TYYPPI)
         verifyContains(Tulosteet.CROSSREF)
         for(AttrTyyppi atribuutti: attribuutit) {

@@ -36,7 +36,7 @@ public class ViiteTest {
         viite.setAttribuutti("month", "tammikuu");
         viite.setAttribuutti("author", "erkki");
         
-        assertTrue(viite.listaus().contains("bibtexkey: Viite #1"));
+        assertTrue(viite.listaus().contains("bibtexavain: Viite #1"));
         assertTrue(viite.listaus().contains("tyyppi: book"));
         assertTrue(viite.listaus().contains("author: erkki"));
         assertTrue(viite.listaus().contains("month: tammikuu"));

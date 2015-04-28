@@ -28,7 +28,7 @@ class PoistaViite extends Toiminto {
         if (!ohjelmassaViitteita()) {
             io.tulosta(VIRHE_EIVIITTEITA);
         } else {
-            listaaViitteet("Poistettavissa olevat viitteet: ");
+            listaaViitteet(POISTETTAVISSA_OLEVAT_VIITTEET);
 
             Viite viite = haeViiteKayttajanSyotteenPerusteella();
             tulostaViitteenTiedot(viite);

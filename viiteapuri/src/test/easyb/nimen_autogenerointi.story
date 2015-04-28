@@ -85,8 +85,8 @@ scenario 'Nimestä löytyy ensimmäisen authorin (suku)nimi', {
         app.run()
     }
     
-    then 'Viitteen nimi(bibtexavain) sisältää authorin sukunimen', {
-        verifyContains("nimi: juri, Puri")
+    then 'Viitteen bibtexavain sisältää authorin sukunimen', {
+        verifyContains("bibtexavain: juri, Puri")
     }
 
 }
@@ -102,8 +102,8 @@ scenario 'Nimestä löytyy vuosi', {
         app.run()
     }
     
-    then 'Viitteen nimi(bibtexavain) sisältää authorin sukunimen', {
-        verifyContains("nimi: juri, Puri1995")
+    then 'Viitteen bibtexavain sisältää authorin sukunimen', {
+        verifyContains("bibtexavain: juri, Puri1995")
     }
 }
 
@@ -121,7 +121,7 @@ scenario 'Nimi on uniikki(ilman bibtexavainta)', {
     
     then 'Ohjelmaan ei luo kahta viitettä samalla bibtexavaimella', {
 
-        verifyContains("nimi: juri, Puri1995a")
+        verifyContains("bibtexavain: juri, Puri1995a")
     }
 }
 

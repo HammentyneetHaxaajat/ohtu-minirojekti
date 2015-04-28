@@ -70,7 +70,7 @@ public class Viite {
                 .filter(attribuutti -> listaaTyhjat ? true : !attribuutti.getArvo().isEmpty())
                 .sorted((a, b) -> a.getTyyppi().name().compareTo(b.getTyyppi().name()))
                 .map(a -> a.getTyyppi().name() + ": " + a.getArvo())
-                .collect(Collectors.joining("\n", "bibtexkey: " + this.bibtexAvain + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
+                .collect(Collectors.joining("\n", "bibtexavain: " + this.bibtexAvain + "\ntyyppi: " + this.tyyppi.name() + "\n", "\n"));
     }
     
     public String listaus() {

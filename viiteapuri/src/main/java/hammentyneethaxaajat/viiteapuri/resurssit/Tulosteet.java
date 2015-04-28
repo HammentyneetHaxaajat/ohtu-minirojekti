@@ -64,6 +64,7 @@ public abstract class Tulosteet {
     public static final String KYSY_VARMISTUS = "Varmista toiminto kirjoittamalla ";
     public static final String VARMISTA_POISTO = "poista";
     public static final String POISTETTAVA_VIITE = "poistettava viite";
+    public static final String POISTETTAVISSA_OLEVAT_VIITTEET = "Poistettavissa olevat viitteet: ";
     public static final String VIITE_LISATTY_ONNISTUNEESTI = "Viite lisätty onnistuneesti!\n";
     public static final String TIEDOSTONLUKU_EI_ONNISTUNUT = "Tiedoston luku ei onnistunut\n";
     public static final String VIITTEEN_TIEDOT = "\nViitteen tiedot:\n";
