@@ -73,14 +73,18 @@
                             <exclude>hammentyneethaxaajat/viiteapuri/validaattori/Validoija.class</exclude>
                             <!-- domain -->
                             <exclude>hammentyneethaxaajat/viiteapuri/viite/Attribuutti.class</exclude>
+                            <!-- UI Toiminnot -->
+                            <exclude>hammentyneethaxaajat/viiteapuri/UI/toiminnot/Toimintotehdas.class</exclude>
+                            <exclude>hammentyneethaxaajat/viiteapuri/UI/toiminnot/TuntematonToiminto.class</exclude>
+                            <exclude>hammentyneethaxaajat/viiteapuri/UI/toiminnot/UusiViite.class</exclude>
+                            <exclude>hammentyneethaxaajat/viiteapuri/UI/toiminnot/tuoBibtex.class</exclude>
                             <!-- muut -->
                             <exclude>hammentyneethaxaajat/viiteapuri/Main.class</exclude>
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/KomentoriviIO.class</exclude>
                             <exclude>hammentyneethaxaajat/viiteapuri/IO/StubIO.class</exclude>         
-                             <exclude>hammentyneethaxaajat/viiteapuri/IO/BibtexIO.class</exclude>                   
+                            <exclude>hammentyneethaxaajat/viiteapuri/IO/BibtexIO.class</exclude>                   
                             <exclude>hammentyneethaxaajat/viiteapuri/resurssit/Tulosteet.class</exclude>
-                            <exclude>hammentyneethaxaajat/viiteapuri/UI/Tekstikayttoliittyma.class</exclude>
-                            
+                            <exclude>hammentyneethaxaajat/viiteapuri/UI/Tekstikayttoliittyma.class</exclude>                            
                         </excludes>
                     </instrumentation>
                     <check>

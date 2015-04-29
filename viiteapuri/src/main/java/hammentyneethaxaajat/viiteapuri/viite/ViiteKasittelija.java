@@ -109,7 +109,8 @@ public class ViiteKasittelija {
         String yhdiste = "";
 
         if (sukuNimi != null) {
-            yhdiste = sukuNimi.getArvo();
+            
+            yhdiste = sukuNimi.getArvo().split(" ")[0].replace(",", "");
         }
 
         if (year != null) {

@@ -5,7 +5,7 @@ import hammentyneethaxaajat.viiteapuri.IO.*
 import hammentyneethaxaajat.viiteapuri.resurssit.*
 import static org.mockito.Mockito.*
 
-def perusviite = [tyyppi : "book", author : "juri, Puri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
+def perusviite = [tyyppi : "book", author : "Puri, Juri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
 def omaNimi = [bibtexavain : "ParasNimiOnOmaNimi", tyyppi : "book", author : "juri", editor : "juritus", publisher : "juri pub", title : "testaamisen iloa", year : "1995"]
 
 
@@ -86,7 +86,7 @@ scenario 'Nimestä löytyy ensimmäisen authorin (suku)nimi', {
     }
     
     then 'Viitteen bibtexavain sisältää authorin sukunimen', {
-        verifyContains("bibtexavain: juri, Puri")
+        verifyContains("bibtexavain: Puri1995")
     }
 
 }
@@ -103,7 +103,7 @@ scenario 'Nimestä löytyy vuosi', {
     }
     
     then 'Viitteen bibtexavain sisältää authorin sukunimen', {
-        verifyContains("bibtexavain: juri, Puri1995")
+        verifyContains("bibtexavain: Puri1995")
     }
 }
 
@@ -121,7 +121,7 @@ scenario 'Nimi on uniikki(ilman bibtexavainta)', {
     
     then 'Ohjelmaan ei luo kahta viitettä samalla bibtexavaimella', {
 
-        verifyContains("bibtexavain: juri, Puri1995a")
+        verifyContains("bibtexavain: Puri1995a")
     }
 }
 
