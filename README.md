@@ -9,3 +9,5 @@
 [Sprint tasks] (https://docs.google.com/spreadsheets/d/1f976PaIMiuXwH140JsGzt7Jln-8e-G_t5dm6cDQVHTE/edit?usp=sharing)
 
 [Jenkins] (http://ohtu.jamo.io/view/k2015-ohtu-miniprojektit/job/minirojekti-k2015/)
+
+[Loppuraportti] (https://docs.google.com/document/d/1o5wTCw-BQv9ZtzIHL4lTVFikZEW1_jmqEoo224RQJ4k/edit?usp=sharing)
